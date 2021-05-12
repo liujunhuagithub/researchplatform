@@ -5,5 +5,5 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class Area {
+public class People {
 }

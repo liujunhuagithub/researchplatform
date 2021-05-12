@@ -20,7 +20,7 @@ public class JWT {
     //引入 <groupId>io.jsonwebtoken</groupId>
     //            <artifactId>jjwt</artifactId>
     private static final String SECRET = "nerlngkerngl56666666666666";
-    private static final long EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; //毫秒
+    private static final long EXPIRE_TIME = 1000 * 60 * 60 * 24 * 15; //毫秒
     private static final String ISSUER = "软件提供商";
 
     //Subject 用户唯一ID  Audience 可重复的昵称或姓名 ExpireTime 过期时间   Claims  自定义的负载，非官方提供，必须先设置

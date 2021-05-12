@@ -74,7 +74,6 @@ spring:
       thread-name-prefix: 定时任务
 mybatis:
   configuration:
-    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
     local-cache-scope: statement
 ---
 spring:
