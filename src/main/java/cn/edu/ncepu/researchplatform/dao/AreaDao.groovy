@@ -1,4 +1,7 @@
 package cn.edu.ncepu.researchplatform.dao
 
-class AreaDao {
+import org.springframework.stereotype.Repository
+
+@Repository
+interface AreaDao {
 }
