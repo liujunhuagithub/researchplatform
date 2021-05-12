@@ -2,11 +2,12 @@ package cn.edu.ncepu.researchplatform.controller;
 
 import cn.edu.ncepu.researchplatform.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AreaController {
+@RequestMapping("/admin")
+public class AdminController {
     @Autowired
     private AreaService areaService;
-
 }

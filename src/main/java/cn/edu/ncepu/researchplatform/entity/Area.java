@@ -6,4 +6,8 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Area {
+    private Integer id;
+    private String name;
+    private Integer parentId;
+    private Boolean disabled;
 }

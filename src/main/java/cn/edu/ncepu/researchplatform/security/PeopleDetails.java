@@ -1,13 +1,12 @@
 package cn.edu.ncepu.researchplatform.security;
 
-import cn.edu.ncepu.researchplatform.entity.People;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class PeopleDetails extends People implements UserDetails {
+public class PeopleDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.commaSeparatedStringToAuthorityList("");
