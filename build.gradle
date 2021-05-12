@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'groovy'
 }
 
 group = 'cn.edu.ncepu'
@@ -9,11 +10,12 @@ version = '0.0.1'
 sourceCompatibility = '1.8'
 
 repositories {
+    mavenLocal()
+    maven { url 'https://maven.aliyun.com/repository/public/' }
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.codehaus.groovy:groovy'
     implementation 'cn.hutool:hutool-all:5.6.5'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
     implementation 'org.springframework.boot:spring-boot-actuator'
