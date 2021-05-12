@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AreaMapper {
-    @Insert('insert into `area` values(#{param1.name},#{param1.parentId})')
+    @Insert('insert into ``area`(`name`,`parent_id`) values(#{param1.name},#{param1.parentId})')
     Area insertArea(Area area);
 
     @Update('update `area` set active')
