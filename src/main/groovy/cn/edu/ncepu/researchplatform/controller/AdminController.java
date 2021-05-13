@@ -1,5 +1,6 @@
 package cn.edu.ncepu.researchplatform.controller;
 
+import cn.edu.ncepu.researchplatform.common.R;
 import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,6 @@ public class AdminController {
 
     @PostMapping("/area")
     public Area insertArea(@RequestBody Area area) {
-        return areaService.insertArea(area);
+            return areaService.insertArea(area);
     }
 }

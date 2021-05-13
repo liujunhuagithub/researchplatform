@@ -76,6 +76,7 @@ mybatis:
   configuration:
     local-cache-scope: statement
     map-underscore-to-camel-case: true
+
 ---
 spring:
   config:

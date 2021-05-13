@@ -10,7 +10,7 @@ public class AreaService {
     @Autowired
     private AreaMapper areaMapper;
 
-    public Area insertArea(Area area){
-        return areaMapper.insertArea(area);
+    public Area insertArea(Area area) {
+        return areaMapper.findById(areaMapper.insertArea(area));
     }
 }
