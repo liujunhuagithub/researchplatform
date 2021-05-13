@@ -5,12 +5,17 @@ import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AreaService {
     @Autowired
     private AreaMapper areaMapper;
 
-    public Area insertArea(Area area) {
-        return areaMapper.findById(areaMapper.insertArea(area));
+    public void insertArea(Area area) {
+       areaMapper.insertArea(area);
+    }
+    public List<Area> findAllArea(){
+return areaMapper.findAllArea();
     }
 }

@@ -5,16 +5,16 @@
 <mapper namespace="cn.edu.ncepu.researchplatform.mapper.ArticleMapper">
 
     <resultMap id="BaseResultMap" type="cn.edu.ncepu.researchplatform.entity.Article">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="author" column="author" jdbcType="INTEGER"/>
-            <result property="title" column="title" jdbcType="VARCHAR"/>
-            <result property="ref" column="ref" jdbcType="VARCHAR"/>
-            <result property="content" column="content" jdbcType="VARCHAR"/>
-            <result property="weight" column="weight" jdbcType="DOUBLE"/>
-            <result property="score" column="score" jdbcType="DOUBLE"/>
-            <result property="flag" column="flag" jdbcType="TINYINT"/>
-            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-            <result property="gmtDelete" column="gmt_delete" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="authorId" column="author_id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="ref" column="ref" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="weight" column="weight" jdbcType="DOUBLE"/>
+        <result property="score" column="score" jdbcType="DOUBLE"/>
+        <result property="flag" column="flag" jdbcType="TINYINT"/>
+        <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+        <result property="gmtDelete" column="gmt_delete" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -23,4 +23,39 @@
         score,flag,gmt_create,
         gmt_delete
     </sql>
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT
+        article.id AS id,
+        author,
+        title,
+        `ref`,
+        content,
+        gmt_create,
+        gmt_delete,
+        area.id AS area_id,
+        area.name AS area_name,
+        FROM
+        article_area
+        INNER JOIN
+        article
+        ON
+        article_area.article_id = article.id
+        INNER JOIN
+        area
+        ON
+        article_area.area_id = area.id
+
+        <where>
+            <if test="gmtDelete==null">
+                and gmt_delete is NULL
+            </if>
+            <if test="name !=null and name !=''">
+                and `name`=#{name}
+            </if>
+            <if test=" author !=null ">
+                author=#{author}
+            </if>
+        </where>
+    </select>
+
 </mapper>

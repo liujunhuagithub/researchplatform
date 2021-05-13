@@ -12,7 +12,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,name,parent_id,
+        id,`name`,parent_id,
         disabled
     </sql>
 </mapper>

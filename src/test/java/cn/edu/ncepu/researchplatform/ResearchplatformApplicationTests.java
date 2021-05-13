@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.List;
+
 @SpringBootTest
 class ResearchplatformApplicationTests {
 @Autowired
@@ -14,10 +16,7 @@ class ResearchplatformApplicationTests {
     @Test
     @Rollback(value = false)
     void contextLoads() {
-        Area area = new Area();
-        area.setName("1");
-        area.setParentId(0);
-        System.out.println(areaMapper.insertArea(area));
+
     }
 
 }
