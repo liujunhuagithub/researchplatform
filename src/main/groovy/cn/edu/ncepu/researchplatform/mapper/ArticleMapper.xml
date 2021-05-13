@@ -19,7 +19,7 @@
 
     <sql id="Base_Column_List">
         id,author,title,
-        ref,content,weight,
+        `ref`,content,weight,
         score,flag,gmt_create,
         gmt_delete
     </sql>
