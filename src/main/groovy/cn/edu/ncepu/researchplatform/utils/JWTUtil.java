@@ -43,8 +43,7 @@ public class JWTUtil {
     }
 
     public static String parseAuthorization() {
-        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.getRequestAttributes())).getRequest();
-        String authorization = request.getHeader("Authorization");
+        String authorization = Utils.getRequest().getHeader("Authorization");
         if (!StringUtils.hasText(authorization)) {
             throw new RuntimeException();
         }

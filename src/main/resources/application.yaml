@@ -1,5 +1,8 @@
 server:
   port: 8085
+  servlet:
+    session:
+      timeout: 1
 spring:
   profiles:
     active: dev
