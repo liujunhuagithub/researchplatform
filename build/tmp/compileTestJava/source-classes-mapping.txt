@@ -1,2 +1,0 @@
-cn/edu/ncepu/researchplatform/ResearchplatformApplicationTests.java
- cn.edu.ncepu.researchplatform.ResearchplatformApplicationTests
