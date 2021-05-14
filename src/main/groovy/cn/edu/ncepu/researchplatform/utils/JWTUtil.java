@@ -5,7 +5,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -24,13 +26,12 @@ public class JWTUtil {
     private static final String ISSUER = "软件提供商";
 
     //Subject 用户唯一ID  Audience 可重复的昵称或姓名 ExpireTime 过期时间   Claims  自定义的负载，非官方提供，必须先设置
-    public static String createjwt(PeopleDetails details) {
+    public static String createjwt(Authentication details) {
         Map<String, Object> claims = new HashMap<>();
         //自定义的负载部分
-//        claims.put("auth", details.getAuths());
-//        claims.put("gmtupdate",details.getGmtupdate().format(DateTimeFormatter.ISO_DATE_TIME));
+        claims.put("auth", details.getAuthorities());
         return Jwts.builder().setClaims(claims).setIssuer(ISSUER)
-                .setAudience(null).setSubject(details.getUsername())
+                .setAudience(null).setSubject(details.getName())
                 .setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + EXPIRE_TIME))
                 .setId(UUID.randomUUID().toString()).signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
@@ -41,20 +42,18 @@ public class JWTUtil {
         return jwtParser.setSigningKey(SECRET).parseClaimsJws(jwt).getBody();
     }
 
-    public static Claims getWebJwt() {
+    public static String parseAuthorization() {
         HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.getRequestAttributes())).getRequest();
+        String authorization = request.getHeader("Authorization");
+        if (!StringUtils.hasText(authorization)) {
+            throw new RuntimeException();
+        }
         try {
-            return getJwt(request.getHeader("Authorization").split(" ")[1]);
+            return getJwt(authorization.split(" ")[1]).getSubject();
         } catch (Exception e) {
             //校验Bearer Token
-            return getJwt(request.getHeader("Authorization"));
+            return getJwt(authorization).getSubject();
         }
 
     }
-
-    //获取用户主键ID
-    public static String getId() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
-    }
-
 }

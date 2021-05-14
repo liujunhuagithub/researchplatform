@@ -20,7 +20,7 @@ public class PeopleDetails extends People implements UserDetails {
 
     @Override
     public String getUsername() {
-        return getUsername();
+        return super.getUsername();
     }
 
     @Override

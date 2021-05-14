@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository
 interface PeopleMapper {
 
     //0未认证1已认证2已封号3管理员
-    @Select('''select id,CONCAT(username,''),password,
+    @Select('''
+    <script>
+    select id,CONCAT(username,''),password,CONCAT(phone,''),
     CASE auth
     WHEN 0 THEN "guest"
     WHEN 1 THEN "vip"
@@ -17,6 +19,15 @@ interface PeopleMapper {
     WHEN 3 THEN "vip,admin"
     END
     FROM `people`
- where username =#{username} ''')
-    PeopleDetails findByUsername(String username);
+<where>
+<if test="!@cn.hutool.core.util.PhoneUtil@isMobile(username+'')">
+username =#{username}
+</if>
+<if test="@cn.hutool.core.util.PhoneUtil@isMobile(username+'')">
+and phone =#{username}
+</if>
+</where>
+
+ </script> ''')
+    PeopleDetails findByUsername(Integer username);
 }

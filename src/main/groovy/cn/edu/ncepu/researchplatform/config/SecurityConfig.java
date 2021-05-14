@@ -45,12 +45,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier("customUserDetailsService")
     private UserDetailsService userDetailsService;
+    @Autowired
+    private JWTFilter jwtFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        自定义Provider
         CustomizerProvider customizerProvider = new CustomizerProvider();
-        customizerProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+        customizerProvider.setPasswordEncoder(new BCryptPasswordEncoder(12));
         customizerProvider.setUserDetailsService(userDetailsService);
         auth.authenticationProvider(customizerProvider);
     }
@@ -75,27 +76,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             response.setStatus(200);
             response.getWriter().write(om().writeValueAsString(R.fail(CustomException.AUTH_ERROR_Exception)));
         });
-        http.csrf().disable();
+
+
         http.formLogin().successHandler((request, response, authentication) -> {
-//            登陆成功处理器
-            response.setContentType("application/json;charset=utf-8");
-//            获取用户名username对应的人物ID
-            response.getWriter().write(JWTUtil.createjwt((PeopleDetails) (authentication.getPrincipal())));
+            response.setContentType("text/plain;charset=utf-8");
+            response.setStatus(200);
+            response.getWriter().write(om().writeValueAsString(R.success(JWTUtil.createjwt(authentication))));
         }).failureHandler((request, response, exception) -> {
-//            认证失败处理器
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(200);
             response.getWriter().write(om().writeValueAsString(R.fail(401, "登录失败")));
         }).permitAll();
-        http.cors();
-        http.addFilterAfter(new JWTFilter(), LogoutFilter.class);
+
+
+        http.addFilterAfter(jwtFilter, LogoutFilter.class);
+
+
         http.authorizeRequests()
-                .anyRequest().permitAll()
-                .antMatchers("/admin/**").hasAuthority("admin")
-                .anyRequest().anonymous();
+                .antMatchers("/login").permitAll()
+//                .antMatchers("/admin/**").hasAuthority("admin")
+                .anyRequest().permitAll();
+
+        http.cors();
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
     }
 
     @Bean
