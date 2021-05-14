@@ -9,7 +9,6 @@ public class Area {
     private Integer id;
     private String name;
     private Integer parentId;
-    private Boolean disabled;
 
     public Integer getId() {
         return id;
@@ -33,13 +32,5 @@ public class Area {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
-    }
-
-    public Boolean getDisabled() {
-        return disabled;
-    }
-
-    public void setDisabled(Boolean disabled) {
-        this.disabled = disabled;
     }
 }
