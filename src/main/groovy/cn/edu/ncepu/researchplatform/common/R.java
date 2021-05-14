@@ -2,6 +2,10 @@ package cn.edu.ncepu.researchplatform.common;
 
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.nio.charset.StandardCharsets;
+
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class R {
     private int code;

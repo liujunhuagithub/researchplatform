@@ -15,7 +15,7 @@ public class PeopleDetails extends People implements UserDetails {
 
     @Override
     public String getPassword() {
-        return getPassword();
+        return super.getPassword();
     }
 
     @Override

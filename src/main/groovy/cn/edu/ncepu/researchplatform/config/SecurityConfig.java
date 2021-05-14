@@ -58,7 +58,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/**/*.css", "/**/*.jpg", "/**/*.js", "/**/*.png");
+        web.httpFirewall(null);
+//        web.ignoring().antMatchers("/**/*.css", "/**/*.jpg", "/**/*.js", "/**/*.png");
+        web.ignoring().antMatchers("/v2/api-docs",//swagger api json
+                "/swagger-resources/configuration/ui",//用来获取支持的动作
+                "/swagger-resources",//用来获取api-docs的URI
+                "/swagger-resources/configuration/security",//安全选项
+                "/swagger-ui.html");
     }
 
     @Override
@@ -85,7 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }).failureHandler((request, response, exception) -> {
             response.setContentType("application/json; charset=utf-8");
             response.setStatus(200);
-            response.getWriter().write(om().writeValueAsString(R.fail(401, "登录失败!")));
+            response.getWriter().write(om().writeValueAsString(R.fail(401, "登陆失败!")));
         }).permitAll();
 
 
@@ -93,7 +99,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http.authorizeRequests()
-                .antMatchers("/login").permitAll()
+//                .antMatchers("/login").permitAll()
 //                .antMatchers("/admin/**").hasAuthority("admin")
                 .anyRequest().permitAll();
 
