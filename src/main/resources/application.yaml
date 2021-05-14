@@ -91,7 +91,7 @@ logging:
       edu:
         ncepu:
           researchplatform:
-            dao: debug
+            mapper: debug
 ---
 spring:
   config:
