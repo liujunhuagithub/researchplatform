@@ -12,7 +12,7 @@ import java.io.IOException;
 @RestController
 public class PeopleController {
     @GetMapping("/verfyCode")
-    public void captcha(HttpSession session, HttpServletResponse response) throws IOException {
+    public void 验证码(HttpSession session, HttpServletResponse response) throws IOException {
         LineCaptcha captcha = CaptchaUtil.createLineCaptcha(200, 100);
         session.setAttribute("verfyCode", captcha);
         response.setContentType("image/png");
