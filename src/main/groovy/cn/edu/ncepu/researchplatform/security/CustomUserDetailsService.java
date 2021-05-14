@@ -16,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         PeopleDetails details = peopleMapper.findByUsername(username);
-        if ("black".equals(details.getAuth())) throw new CustomException(CustomExceptionType.AUTH_ERROR);
+        if ("black".equals(details.getAuth())) throw CustomException.AUTH_ERROR_Exception;
         return details;
     }
 }

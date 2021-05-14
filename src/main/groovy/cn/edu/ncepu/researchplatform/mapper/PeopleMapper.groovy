@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository
 interface PeopleMapper {
 
     //0未认证1已认证2已封号3管理员
-    @Select('''select id,username,password,
+    @Select('''select id,CONCAT(username,''),password,
     CASE auth
     WHEN 0 THEN "guest"
     WHEN 1 THEN "vip"
