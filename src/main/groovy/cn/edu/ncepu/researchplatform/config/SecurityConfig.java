@@ -4,6 +4,7 @@ import cn.edu.ncepu.researchplatform.common.R;
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
 import cn.edu.ncepu.researchplatform.security.CustomizerProvider;
+import cn.edu.ncepu.researchplatform.security.JWTFilter;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
 import cn.edu.ncepu.researchplatform.utils.JWTUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +12,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -60,19 +62,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        ObjectMapper om = new ObjectMapper();
 //AuthenticationEntryPoint 用来解决匿名用户访问无权限资源时的异常
         //AccessDeineHandler 用来解决认证过的用户访问无权限资源时的异常
         http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
 //          匿名访问失败处理
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(200);
-            response.getWriter().write(om.writeValueAsString(R.fail(CustomExceptionType.AUTH_ERROR)));
+            response.getWriter().write(om().writeValueAsString(R.fail(CustomException.AUTH_ERROR_Exception)));
         }).accessDeniedHandler((request, response, accessDeniedException) -> {
 //            鉴权失败处理器
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(200);
-            response.getWriter().write(om.writeValueAsString(R.fail(CustomExceptionType.AUTH_ERROR)));
+            response.getWriter().write(om().writeValueAsString(R.fail(CustomException.AUTH_ERROR_Exception)));
         });
         http.csrf().disable();
         http.formLogin().successHandler((request, response, authentication) -> {
@@ -84,28 +85,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //            认证失败处理器
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(200);
-            response.getWriter().write(om.writeValueAsString(R.fail(401, "登录失败")));
+            response.getWriter().write(om().writeValueAsString(R.fail(401, "登录失败")));
         }).permitAll();
         http.cors();
-        http.addFilterAfter(new OncePerRequestFilter() {
-            @Override
-            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-                //              JWT验证
-                try {
-                    Claims jwt = JWTUtil.getWebJwt();
-                    String id = jwt.getSubject();
-                    List<GrantedAuthority> auth = AuthorityUtils.commaSeparatedStringToAuthorityList((String) (jwt.get("auth")));
-                    SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(new PeopleDetails(), null, auth));
-                    filterChain.doFilter(request, response);
-                } catch (ExpiredJwtException expire) {
-                    response.setContentType("application/json;charset=utf-8");
-                    response.setStatus(200);
-                    response.getWriter().write(om.writeValueAsString(""));
-                } catch (Exception e) {
-                    filterChain.doFilter(request, response);
-                }
-            }
-        }, LogoutFilter.class);
+        http.addFilterAfter(new JWTFilter(), LogoutFilter.class);
         http.authorizeRequests()
                 .anyRequest().permitAll()
                 .antMatchers("/admin/**").hasAuthority("admin")
@@ -113,5 +96,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+    }
+
+    @Bean
+    public ObjectMapper om() {
+        return new ObjectMapper();
     }
 }

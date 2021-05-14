@@ -16,11 +16,6 @@ public class R {
         return new R(200, null, data);
     }
 
-    public static R fail(CustomExceptionType type) {
-        CustomException exception = new CustomException(type);
-        return new R(exception.getCode(), exception.getMessage(), null);
-    }
-
     public static R fail(CustomException exception) {
         return new R(exception.getCode(), exception.getMessage(), null);
     }

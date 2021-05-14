@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.ncepu.researchplatform.mapper.EvaluateMapper">
+
+    <resultMap id="BaseResultMap" type="cn.edu.ncepu.researchplatform.entity.Evaluate">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="peopleId" column="people_id" jdbcType="INTEGER"/>
+            <result property="articleId" column="article_id" jdbcType="INTEGER"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="weight" column="weight" jdbcType="DOUBLE"/>
+            <result property="scoreItem" column="score_item" jdbcType="DOUBLE"/>
+            <result property="star" column="star" jdbcType="INTEGER"/>
+            <result property="oppose" column="oppose" jdbcType="INTEGER"/>
+            <result property="flag" column="flag" jdbcType="INTEGER"/>
+            <result property="summaryId" column="summary_id" jdbcType="INTEGER"/>
+            <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+            <result property="niming" column="niming" jdbcType="INTEGER"/>
+            <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
+            <result property="gmtDelete" column="gmt_delete" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,people_id,article_id,
+        content,weight,score_item,
+        star,oppose,flag,
+        summary_id,parent_id,niming,
+        gmt_create,gmt_delete
+    </sql>
+</mapper>
