@@ -1,6 +1,7 @@
 package cn.edu.ncepu.researchplatform.common;
 
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
+import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
 
 public class R {
     private int code;
@@ -8,11 +9,16 @@ public class R {
     private Object data;
 
     public static R fail(int code, String meaasge) {
-        return new R(code, meaasge,null);
+        return new R(code, meaasge, null);
     }
 
     public static R success(Object data) {
         return new R(200, null, data);
+    }
+
+    public static R fail(CustomExceptionType type) {
+        CustomException exception = new CustomException(type);
+        return new R(exception.getCode(), exception.getMessage(), null);
     }
 
     public static R fail(CustomException exception) {

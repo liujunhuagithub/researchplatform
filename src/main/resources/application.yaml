@@ -72,7 +72,7 @@ spring:
         await-termination: true
         await-termination-period: 60s
       pool:
-        size: 3
+        size: 2
       thread-name-prefix: 定时任务
 mybatis:
   configuration:

@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class JWT {
+public class JWTUtil {
     //引入 <groupId>io.jsonwebtoken</groupId>
     //            <artifactId>jjwt</artifactId>
     private static final String SECRET = "nerlngkerngl56666666666666";

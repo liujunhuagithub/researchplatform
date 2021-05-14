@@ -43,17 +43,17 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
     }
     @ExceptionHandler({IllegalArgumentException.class, ConversionFailedException.class})
     public R inputError(Exception exception) {
-        return R.fail(new CustomException(CustomExceptionType.INPUT_ERROE));
+        return R.fail(CustomExceptionType.INPUT_ERROE);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public R accessDeniedHandler(AccessDeniedException exception) {
-        return R.fail(new CustomException(CustomExceptionType.AUTH_ERROR));
+        return R.fail(CustomExceptionType.AUTH_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
     public R error(Exception exception) {
-        return R.fail(new CustomException(CustomExceptionType.SYSTEM_ERROR));
+        return R.fail(CustomExceptionType.SYSTEM_ERROR);
     }
 
 }

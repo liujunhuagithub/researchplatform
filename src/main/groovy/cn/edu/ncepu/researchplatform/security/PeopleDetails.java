@@ -1,25 +1,26 @@
 package cn.edu.ncepu.researchplatform.security;
 
+import cn.edu.ncepu.researchplatform.entity.People;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class PeopleDetails implements UserDetails {
+public class PeopleDetails extends People implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList("");
+        return AuthorityUtils.commaSeparatedStringToAuthorityList(getAuth());
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return getPassword();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return getUsername();
     }
 
     @Override
