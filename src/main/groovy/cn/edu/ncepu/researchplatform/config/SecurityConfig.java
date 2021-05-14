@@ -83,9 +83,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             response.setStatus(200);
             response.getWriter().write(om().writeValueAsString(R.success(JWTUtil.createjwt(authentication))));
         }).failureHandler((request, response, exception) -> {
-            response.setContentType("application/json;charset=utf-8");
+            response.setContentType("application/json; charset=utf-8");
             response.setStatus(200);
-            response.getWriter().write(om().writeValueAsString(R.fail(401, "登录失败")));
+            response.getWriter().write(om().writeValueAsString(R.fail(401, "登录失败!")));
         }).permitAll();
 
 

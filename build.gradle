@@ -34,7 +34,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }
-sourceSets.main.resources.srcDirs = ["src/main/groovy","src/main/resources"]
+sourceSets.main.resources.srcDirs = ["src/main/groovy", "src/main/resources"]
 test {
     useJUnitPlatform()
 }

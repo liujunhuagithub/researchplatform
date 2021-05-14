@@ -11,13 +11,13 @@ interface PeopleMapper {
     //0未认证1已认证2已封号3管理员
     @Select('''
     <script>
-    select id,CONCAT(username,''),password,CONCAT(phone,''),
+    select id,CONCAT(username,'') AS username,password,CONCAT(phone,'') AS phone,
     CASE auth
     WHEN 0 THEN "guest"
     WHEN 1 THEN "vip"
     WHEN 2 THEN "black"
     WHEN 3 THEN "vip,admin"
-    END
+    END AS auth
     FROM `people`
 <where>
 <if test="!@cn.hutool.core.util.PhoneUtil@isMobile(username+'')">
@@ -27,7 +27,6 @@ username =#{username}
 and phone =#{username}
 </if>
 </where>
-
  </script> ''')
     PeopleDetails findByUsername(Integer username);
 }

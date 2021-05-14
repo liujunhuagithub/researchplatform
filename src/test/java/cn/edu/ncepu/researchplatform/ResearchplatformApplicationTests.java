@@ -22,7 +22,6 @@ class ResearchplatformApplicationTests {
     @Test
     @Rollback(value = false)
     void contextLoads() {
-        PeopleDetails obj = peopleMapper.findByUsername(1234);
-        System.out.println(obj);    }
+        System.out.println("好久哦i复苏仍将红丝额");    }
 
 }

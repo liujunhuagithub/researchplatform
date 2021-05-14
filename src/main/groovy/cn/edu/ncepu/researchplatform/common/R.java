@@ -2,7 +2,7 @@ package cn.edu.ncepu.researchplatform.common;
 
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
-
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class R {
     private int code;
     private String message;
