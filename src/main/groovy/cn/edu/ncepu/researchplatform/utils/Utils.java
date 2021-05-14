@@ -1,6 +1,7 @@
 package cn.edu.ncepu.researchplatform.utils;
 
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -14,6 +15,6 @@ public class Utils {
     }
 
     public static boolean isAdmin(){
-         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().containsAll(AuthorityUtils.commaSeparatedStringToAuthorityList("admin,vip"));
+         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("admin"));
     }
 }
