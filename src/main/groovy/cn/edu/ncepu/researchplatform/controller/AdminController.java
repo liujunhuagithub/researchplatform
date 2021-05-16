@@ -16,7 +16,7 @@ public class AdminController {
     private AreaService areaService;
 
     @PostMapping("/area")
-    public boolean insertArea(@RequestBody Area area) {
+    public boolean 新增Area(@RequestBody Area area) {
         areaService.insertArea(area);
         return true;
     }
