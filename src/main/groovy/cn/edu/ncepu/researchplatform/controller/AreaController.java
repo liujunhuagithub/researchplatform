@@ -12,7 +12,7 @@ public class AreaController {
     @Autowired
     private AreaService areaService;
 
-    public List<Area> 所有Area(){
+    public List<Area> 获取所有Area(){
         return areaService.findAllArea();
     }
 
