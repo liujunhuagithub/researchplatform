@@ -105,7 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE).authenticated()
                 .antMatchers(HttpMethod.PUT).authenticated()
                 .antMatchers(HttpMethod.POST).authenticated()
-
+.antMatchers("/area").hasAuthority("admin")
                 .anyRequest().permitAll();
 
         http.cors();
