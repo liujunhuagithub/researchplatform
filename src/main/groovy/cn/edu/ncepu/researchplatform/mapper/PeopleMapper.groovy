@@ -30,4 +30,6 @@ and phone =#{username}
  </script> ''')
     PeopleDetails findByUsername(Integer username);
 
+    @Select('select * from people where id=(select author_id from article where id=#{articleId})')
+    People findAuthorById(Integer articleId);
 }

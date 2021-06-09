@@ -3,6 +3,8 @@ package cn.edu.ncepu.researchplatform.service;
 import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +18,13 @@ public class AreaService {
         Integer newId = areaMapper.insertArea(area);
     }
 
+    @Cacheable(value = "area", key = "'areas'")
     public List<Area> findAllArea() {
+        System.out.println("执行------------------");
         return areaMapper.findAllArea();
     }
 
+    @CacheEvict(value = "area", key = "'areas'")
     public boolean updateName(String name, Integer id) {
         return areaMapper.updateName(name, id);
     }

@@ -9,8 +9,12 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AreaMapper {
-    List<Area> findAllArea();
 
+    @Select('select * from `area` where id=(select author_id from `article` where id=#{param1})')
+    List<Area> findArticleAreas(Integer articleId);
+
+    @Select('select * from `area`')
+    List<Area> findAllArea();
     @Insert('insert into `area`(`name`,`parent_id`) values(#{name},#{parentId})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertArea(Area area);
