@@ -34,9 +34,6 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 sourceSets.main.resources.srcDirs = ["src/main/groovy", "src/main/resources"]
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
 test {
     useJUnitPlatform()
 }

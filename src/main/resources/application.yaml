@@ -66,6 +66,9 @@ spring:
   #      remove-abandoned: true
   jackson:
     time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss

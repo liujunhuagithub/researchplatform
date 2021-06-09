@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface AreaMapper {
 
-    @Select('select * from `area` where id=(select author_id from `article` where id=#{param1})')
+    @Select('select * from `area` where id in (select area_id from `article_area` where article_id=#{param1})')
     List<Area> findArticleAreas(Integer articleId);
 
     @Select('select * from `area`')

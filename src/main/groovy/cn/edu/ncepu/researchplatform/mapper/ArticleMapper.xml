@@ -23,39 +23,18 @@
         score,flag,gmt_create,
         gmt_delete
     </sql>
-    <select id="findById" resultMap="BaseResultMap">
-        SELECT
-        article.id AS id,
-        author,
-        title,
-        `ref`,
-        content,
-        gmt_create,
-        gmt_delete,
-        area.id AS area_id,
-        area.name AS area_name,
-        FROM
-        article_area
-        INNER JOIN
-        article
-        ON
-        article_area.article_id = article.id
-        INNER JOIN
-        area
-        ON
-        article_area.area_id = area.id
 
-        <where>
-            <if test="gmtDelete==null">
-                and gmt_delete is NULL
-            </if>
-            <if test="name !=null and name !=''">
-                and `name`=#{name}
-            </if>
-            <if test=" author !=null ">
-                author=#{author}
-            </if>
-        </where>
-    </select>
+
+<!--        <where>-->
+<!--            <if test="gmtDelete==null">-->
+<!--                and gmt_delete is NULL-->
+<!--            </if>-->
+<!--            <if test="name !=null and name !=''">-->
+<!--                and `name`=#{name}-->
+<!--            </if>-->
+<!--            <if test=" author !=null ">-->
+<!--                author=#{author}-->
+<!--            </if>-->
+<!--        </where>-->
 
 </mapper>
