@@ -9,13 +9,12 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AreaMapper {
-    @Select('select * from where disabled=0')
     List<Area> findAllArea();
 
     @Insert('insert into `area`(`name`,`parent_id`) values(#{name},#{parentId})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertArea(Area area);
 
-    @Update('update `area` set active')
-    boolean disableArea(Integer id);
+    @Update('update `area` set `name`=#{param1} where id=#{param2}')
+    boolean updateName(String name,Integer id);
 }

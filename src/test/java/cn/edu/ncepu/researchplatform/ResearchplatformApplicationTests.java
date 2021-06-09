@@ -17,11 +17,13 @@ import java.util.List;
 class ResearchplatformApplicationTests {
     @Autowired
     AreaMapper areaMapper;
-@Autowired
+    @Autowired
     PeopleMapper peopleMapper;
+
     @Test
     @Rollback(value = false)
     void contextLoads() {
-        System.out.println("好久哦i复苏仍将红丝额");    }
+        areaMapper.updateName("fdsa", 1);
+    }
 
 }

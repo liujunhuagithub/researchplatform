@@ -29,4 +29,5 @@ and phone =#{username}
 </where>
  </script> ''')
     PeopleDetails findByUsername(Integer username);
+
 }

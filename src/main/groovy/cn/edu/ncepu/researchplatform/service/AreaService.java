@@ -13,9 +13,14 @@ public class AreaService {
     private AreaMapper areaMapper;
 
     public void insertArea(Area area) {
-       areaMapper.insertArea(area);
+        Integer newId = areaMapper.insertArea(area);
     }
-    public List<Area> findAllArea(){
-return areaMapper.findAllArea();
+
+    public List<Area> findAllArea() {
+        return areaMapper.findAllArea();
+    }
+
+    public boolean updateName(String name, Integer id) {
+        return areaMapper.updateName(name, id);
     }
 }
