@@ -24,7 +24,7 @@ public class AreaService {
         return areaMapper.findAllArea();
     }
 
-    @CacheEvict(value = "area", key = "'areas'")
+    @CacheEvict(value = "area",allEntries = true)
     public boolean updateName(String name, Integer id) {
         return areaMapper.updateName(name, id);
     }

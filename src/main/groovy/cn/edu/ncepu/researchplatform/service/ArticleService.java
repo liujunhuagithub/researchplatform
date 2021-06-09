@@ -5,6 +5,7 @@ import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
 import cn.edu.ncepu.researchplatform.mapper.ArticleMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,6 +28,7 @@ public class ArticleService {
         return articleMapper.deleteByIdAuthorId(id, peopleService.findByUsername(username).getId());
     }
 
+    @Cacheable(value = "article", key = "#articleId")
     public Article findArticleById(Integer articleId) {
         Article article = articleMapper.findById(articleId);
         article.setAuthorName(peopleMapper.findAuthorById(article.getAuthorId()).getNickname());
