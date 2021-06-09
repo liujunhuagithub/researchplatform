@@ -13,9 +13,9 @@ public class EvaluateController {
     @Autowired
     private EvaluateService evaluateService;
 
-    @PostAuthorize("#username==#authentication.name or hasAuthority('admin')")
+//    @PostAuthorize("#username==#authentication.name or hasAuthority('admin')")
     @DeleteMapping("/people/{username}/evaluate/{evaluateId}")
-    public boolean deleteById(@PathVariable String username, @PathVariable Integer evaluateId) {
+    public boolean 删除evaluate(@PathVariable String username, @PathVariable Integer evaluateId) {
         return evaluateService.deleteByIdPeopleId(evaluateId,username);
     }
 }
