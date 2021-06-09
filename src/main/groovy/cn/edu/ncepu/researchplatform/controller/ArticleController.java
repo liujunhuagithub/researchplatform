@@ -24,7 +24,7 @@ public class ArticleController {
     @GetMapping("article/{id}")
     public Article 查询某article(@PathVariable Integer id) {
         Article article = articleService.findArticleById(id);
-        if (article.getGmtDelete() != null && !Utils.isAdmin()) {
+        if (!Utils.isAdmin()&&(article.getGmtDelete() != null||!article.getFlag().equals(1))) {
             return null;
         }
         return article;
