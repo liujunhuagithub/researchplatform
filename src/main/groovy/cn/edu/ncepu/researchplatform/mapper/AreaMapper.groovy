@@ -13,6 +13,10 @@ interface AreaMapper {
     @Select('select * from `area` where id in (select area_id from `article_area` where article_id=#{param1})')
     List<Area> findArticleAreas(Integer articleId);
 
+
+    @Select('select * from `area` where id in (select area_id from `people_area` where people_id=#{param1})')
+    List<Area> findPeopleAreas(Integer peopleId);
+
     @Select('select * from `area`')
     List<Area> findAllArea();
 

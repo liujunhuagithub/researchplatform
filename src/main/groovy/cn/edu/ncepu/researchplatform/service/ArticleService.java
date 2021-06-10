@@ -7,6 +7,7 @@ import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ArticleService {
@@ -23,7 +24,7 @@ public class ArticleService {
     public boolean updateFlag(Integer flag, Integer articleId) {
         return articleMapper.updateFlag(flag, articleId);
     }
-
+    @Transactional(rollbackFor = Exception.class)
     public boolean deleteByIdAuthorId(Integer id, String username) {
         return articleMapper.deleteByIdAuthorId(id, peopleService.findByUsername(username).getId());
     }

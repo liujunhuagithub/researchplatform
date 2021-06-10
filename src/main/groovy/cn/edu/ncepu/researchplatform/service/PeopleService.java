@@ -1,5 +1,6 @@
 package cn.edu.ncepu.researchplatform.service;
 
+import cn.edu.ncepu.researchplatform.entity.People;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
 import cn.hutool.core.util.PhoneUtil;
@@ -17,5 +18,8 @@ public class PeopleService {
     @Cacheable(key = "#username")
     public PeopleDetails findByUsername(String username) {
         return peopleMapper.findByUsername(Integer.parseInt(username));
+    }
+    public boolean updateAuthById(Integer id, Integer auth) {
+        return peopleMapper.updateAuth(id, auth);
     }
 }

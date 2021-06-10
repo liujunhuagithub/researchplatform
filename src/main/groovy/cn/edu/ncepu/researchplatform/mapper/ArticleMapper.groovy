@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 interface ArticleMapper {
     @Select('select * from `article` where id=#{param1}' )
     Article findById(Integer id);
+@Select('select article_id from `evaluate` where id=#{param1}')
+    Integer findIdaboutEvaluate(Integer evaluateId);
 
     @Update('update `article` set `flag`=#{param1} where id=#{param2}')
     boolean updateFlag(Integer flag, Integer articleId);

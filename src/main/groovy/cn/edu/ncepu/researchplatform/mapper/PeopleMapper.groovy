@@ -3,6 +3,7 @@ package cn.edu.ncepu.researchplatform.mapper
 import cn.edu.ncepu.researchplatform.entity.People
 import cn.edu.ncepu.researchplatform.security.PeopleDetails
 import org.apache.ibatis.annotations.Select
+import org.apache.ibatis.annotations.Update
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -32,4 +33,8 @@ and phone =#{username}
 
     @Select('select * from people where id=(select author_id from article where id=#{articleId})')
     People findAuthorById(Integer articleId);
+
+    @Update('update `people` set auth=#{param2} where id=#{param1}')
+    boolean updateAuth(Integer id, Integer auth);
+
 }
