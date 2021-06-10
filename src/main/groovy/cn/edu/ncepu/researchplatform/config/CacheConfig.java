@@ -1,6 +1,7 @@
 package cn.edu.ncepu.researchplatform.config;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
@@ -29,9 +30,23 @@ public class CacheConfig {
         cacheManager.setCaffeine(Caffeine.newBuilder()
                 .initialCapacity(200)
                 .maximumSize(4 * 200)
-        .expireAfterWrite(1,TimeUnit.DAYS));
+                .expireAfterWrite(1, TimeUnit.DAYS));
         cacheManager.isAllowNullValues();
         return cacheManager;
     }
 
+    @Bean
+    public CacheManager captchaCacheManager() {
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager();
+        cacheManager.setCaffeine(Caffeine.newBuilder()
+                .initialCapacity(200)
+                .maximumSize(4 * 200)
+                .expireAfterWrite(3, TimeUnit.MINUTES));
+        cacheManager.isAllowNullValues();
+        return cacheManager;
+    }
+@Bean
+    public Cache captcha() {
+        return captchaCacheManager().getCache("captcha");
+    }
 }

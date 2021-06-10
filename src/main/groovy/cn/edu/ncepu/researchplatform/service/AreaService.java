@@ -20,7 +20,6 @@ public class AreaService {
 
     @Cacheable(cacheManager = "rankCacheManager",value = "area", key = "'areas'")
     public List<Area> findAllArea() {
-        System.out.println("执行------------------");
         return areaMapper.findAllArea();
     }
 

@@ -1,6 +1,7 @@
 package cn.edu.ncepu.researchplatform.mapper
 
 import cn.edu.ncepu.researchplatform.entity.Star
+import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Options
 import org.apache.ibatis.annotations.Select
@@ -17,6 +18,8 @@ interface StarMapper {
 
     @Select('select * from `star where evaluate_id=#{param1} and people_id =#{param2} ')
     Star findOne(Integer evaluateId, Integer peopleId);
+@Delete('delete from `star` where flag=0')
+    boolean deleteInvalidStar();
 }
 
 

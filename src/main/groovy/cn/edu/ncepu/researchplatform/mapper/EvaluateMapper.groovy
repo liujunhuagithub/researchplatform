@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
  boolean updateFlag(Integer id,Integer flag);
 @Select('select * from where id =#{param1}')
     Evaluate findById(Integer id);
+    @Update('update  `evaluate` set `gmt_delete`=CURRENT_TIMESTAMP  where article_id in (select id from `article` where gmt_delete is not null)')
+    Integer deleteArticleAboutEvaluate();
 }
 
 

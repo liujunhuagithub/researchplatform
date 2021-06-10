@@ -21,15 +21,15 @@ interface PeopleMapper {
     END AS auth
     FROM `people`
 <where>
-<if test="!@cn.hutool.core.util.PhoneUtil@isMobile(username+'')">
-username =#{username}
+<if test="!@cn.hutool.core.util.PhoneUtil@isMobile(username)">
+username =CONVERT(#{username} , SIGNED)
 </if>
-<if test="@cn.hutool.core.util.PhoneUtil@isMobile(username+'')">
+<if test="@cn.hutool.core.util.PhoneUtil@isMobile(username)">
 and phone =#{username}
 </if>
 </where>
  </script> ''')
-    PeopleDetails findByUsername(Integer username);
+    PeopleDetails findByUsername(String username);
 
     @Select('select * from people where id=(select author_id from article where id=#{articleId})')
     People findAuthorById(Integer articleId);
@@ -38,7 +38,7 @@ and phone =#{username}
     boolean updateAuth(Integer id, Integer auth);
 
     @Select('select icon from people where username=#{param1}')
-    String findIcon(Integer username);
+    String findIcon(Long username);
 
     @Select('''SELECT
 people.id AS id, 
@@ -62,5 +62,5 @@ people.info AS info,
 people.gmt_create AS gmt_create
 FROM
 `people` where username=#{param1}''')
-    People findALLInfo(Integer username);
+    People findALLInfo(Long username);
 }

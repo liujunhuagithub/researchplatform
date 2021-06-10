@@ -30,6 +30,7 @@ public class ArticleService {
     }
 
     @Cacheable(value = "article", key = "#articleId")
+    @Transactional(rollbackFor = Exception.class,readOnly = true)
     public Article findArticleById(Integer articleId) {
         Article article = articleMapper.findById(articleId);
         article.setAuthorName(peopleMapper.findAuthorById(article.getAuthorId()).getNickname());

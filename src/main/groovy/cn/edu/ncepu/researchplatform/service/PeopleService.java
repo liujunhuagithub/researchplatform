@@ -21,19 +21,19 @@ public class PeopleService {
 
     @Cacheable(key = "'jwt'+#username")
     public PeopleDetails findByUsername(String username) {
-        return peopleMapper.findByUsername(Integer.parseInt(username));
+        return peopleMapper.findByUsername(username);
     }
 
     public boolean updateAuthById(Integer id, Integer auth) {
         return peopleMapper.updateAuth(id, auth);
     }
 
-    public String findIcon(Integer username) {
+    public String findIcon(Long username) {
         return peopleMapper.findIcon(username);
     }
 
     @Cacheable(key = "#username")
-    public People findAllInfo(Integer username) {
+    public People findAllInfo(Long username) {
         People people = peopleMapper.findALLInfo(username);
         people.setAreas(areaMapper.findPeopleAreas(people.getId()));
         return people;

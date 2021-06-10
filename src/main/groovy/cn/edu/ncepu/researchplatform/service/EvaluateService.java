@@ -1,7 +1,6 @@
 package cn.edu.ncepu.researchplatform.service;
 
-import cn.edu.ncepu.researchplatform.entity.Article;
-import cn.edu.ncepu.researchplatform.entity.Evaluate;
+
 import cn.edu.ncepu.researchplatform.mapper.ArticleMapper;
 import cn.edu.ncepu.researchplatform.mapper.EvaluateMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
@@ -9,9 +8,6 @@ import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Random;
-
 
 @Service
 public class EvaluateService {
@@ -25,7 +21,6 @@ public class EvaluateService {
     private ArticleMapper articleMapper;
 
     @Transactional(rollbackFor = Exception.class)
-
     public boolean deleteByIdPeopleId(Integer id, String username) {
         return evaluateMapper.deleteByIdPeopleId(id, peopleService.findByUsername(username).getId());
     }
@@ -39,7 +34,7 @@ public class EvaluateService {
         //审核Evaluate，暂时95%通过率
         return Math.random() > 0.05;
     }
-
+    @Transactional(rollbackFor = Exception.class,readOnly = true)
     public boolean idAuthorAdpot(Integer evaluateId) {
         Integer article_id = articleMapper.findIdaboutEvaluate(evaluateId);
         return peopleMapper.findAuthorById(article_id).getUsername().equals(Utils.getCurrent());
