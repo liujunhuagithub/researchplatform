@@ -1,28 +1,16 @@
 package cn.edu.ncepu.researchplatform.service;
 
-import cn.edu.ncepu.researchplatform.entity.Article;
-import cn.edu.ncepu.researchplatform.entity.Evaluate;
-import cn.edu.ncepu.researchplatform.entity.People;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class ScheduleService {
+    @Autowired
+    private RankService rankService;
 
-    public List<People> peoples(){
-
-    }
-
-    public List<Evaluate> evaluate(){
-
-    }
-
-    public List<Article> evaluate(){
-
-    }
-
-    public List<People> author(){
-
+    @Scheduled(cron = "@weekly")
+    public void peoples() {
     }
 }
