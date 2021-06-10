@@ -28,12 +28,12 @@ public class PeopleService {
         return peopleMapper.updateAuth(id, auth);
     }
 
-    public String findIcon(Long username) {
+    public String findIcon(String username) {
         return peopleMapper.findIcon(username);
     }
 
     @Cacheable(key = "#username")
-    public People findAllInfo(Long username) {
+    public People findAllInfo(String username) {
         People people = peopleMapper.findALLInfo(username);
         people.setAreas(areaMapper.findPeopleAreas(people.getId()));
         return people;

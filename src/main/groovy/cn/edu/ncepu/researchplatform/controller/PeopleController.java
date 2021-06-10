@@ -17,7 +17,7 @@ public class PeopleController {
     private PeopleService peopleService;
 
     @GetMapping("/people/{username}")
-    public People 查询某个people(@PathVariable Long username) {
+    public People 查询某个people(@PathVariable String username) {
         People people = peopleService.findAllInfo(username);
         if (!Utils.isAdmin() && "black".equals(people.getAuth())) {
             return null;
@@ -29,7 +29,7 @@ public class PeopleController {
     }
 
     @GetMapping("/people/{username}/icon")
-    public String 查询某人icon(@PathVariable Long username) {
+    public String 查询某人icon(@PathVariable String username) {
         return peopleService.findIcon(username);
     }
 }

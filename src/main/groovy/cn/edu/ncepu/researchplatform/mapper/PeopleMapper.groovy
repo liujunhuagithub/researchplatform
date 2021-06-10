@@ -37,12 +37,12 @@ and phone =#{username}
     @Update('update `people` set auth=#{param2} where id=#{param1}')
     boolean updateAuth(Integer id, Integer auth);
 
-    @Select('select icon from people where username=#{param1}')
-    String findIcon(Long username);
+    @Select('select icon from people where username=CONVERT(#{param1} , SIGNED)')
+    String findIcon(String username);
 
     @Select('''SELECT
 people.id AS id, 
-people.username AS username, 
+ CONCAT(people.username,'') AS username, 
 CASE auth
     WHEN 0 THEN "guest"
     WHEN 1 THEN "vip"
@@ -61,6 +61,6 @@ people.email AS email,
 people.info AS info, 
 people.gmt_create AS gmt_create
 FROM
-`people` where username=#{param1}''')
-    People findALLInfo(Long username);
+`people` where username=CONVERT(#{param1} , SIGNED)''')
+    People findALLInfo(String username);
 }
