@@ -37,4 +37,30 @@ and phone =#{username}
     @Update('update `people` set auth=#{param2} where id=#{param1}')
     boolean updateAuth(Integer id, Integer auth);
 
+    @Select('select icon from people where id=#{param1}')
+    String findIcon(Integer id);
+
+    @Select('''SELECT
+people.id AS id, 
+people.username AS username, 
+CASE auth
+    WHEN 0 THEN "guest"
+    WHEN 1 THEN "vip"
+    WHEN 2 THEN "black"
+    WHEN 3 THEN "admin"
+    END AS auth, 
+people.phone AS phone, 
+people.nickname AS nickname, 
+people.weight AS weight, 
+people.exp AS exp, 
+people.`level` AS `level`, 
+people.id_card AS id_card, 
+people.realname AS realname, 
+people.organization AS organization, 
+people.email AS email, 
+people.info AS info, 
+people.gmt_create AS gmt_create
+FROM
+`people` where id=#{param1}''')
+    People findALLInfo(Integer id);
 }
