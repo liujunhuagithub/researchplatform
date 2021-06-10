@@ -18,7 +18,7 @@ public class AreaService {
         Integer newId = areaMapper.insertArea(area);
     }
 
-    @Cacheable(value = "area", key = "'areas'")
+    @Cacheable(cacheManager = "rankCacheManager",value = "area", key = "'areas'")
     public List<Area> findAllArea() {
         System.out.println("执行------------------");
         return areaMapper.findAllArea();

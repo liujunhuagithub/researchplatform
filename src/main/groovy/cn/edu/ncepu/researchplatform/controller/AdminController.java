@@ -1,8 +1,10 @@
 package cn.edu.ncepu.researchplatform.controller;
 
+import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.service.AreaService;
 import cn.edu.ncepu.researchplatform.service.ArticleService;
+import cn.edu.ncepu.researchplatform.service.EvaluateService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class AdminController {
     private ArticleService articleService;
     @Autowired
     private PeopleService peopleService;
+    @Autowired
+    private EvaluateService evaluateService;
 
     @PostMapping("/area")
     public boolean 新增Area(@RequestBody Area area) {
@@ -43,5 +47,14 @@ public class AdminController {
     public boolean 修改people权限身份(@PathVariable String username, @RequestBody Map<String, Integer> params) {
         Integer people_id = peopleService.findByUsername(username).getId();
         return peopleService.updateAuthById(people_id, params.get("auth"));
+    }
+
+    @PutMapping("/evaluate/{id}/illegal")
+    public boolean 封杀evaluate(@PathVariable Integer id, @RequestBody Map<String, Integer> params) {
+        Integer flag = params.get("flag");
+        if (!flag.equals(-1)) {
+            throw CustomException.INPUT_ERROE_Exception;
+        }
+        return evaluateService.updateFlag(id, params.get("flag"));
     }
 }
