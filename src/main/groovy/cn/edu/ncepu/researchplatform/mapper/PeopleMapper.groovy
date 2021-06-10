@@ -12,7 +12,7 @@ interface PeopleMapper {
     //0未认证1已认证2已封号3管理员
     @Select('''
     <script>
-    select id,CONCAT(username,'') AS username,password,CONCAT(phone,'') AS phone,
+    select id, username,password, phone,
     CASE auth
     WHEN 0 THEN "guest"
     WHEN 1 THEN "vip"
@@ -22,7 +22,7 @@ interface PeopleMapper {
     FROM `people`
 <where>
 <if test="!@cn.hutool.core.util.PhoneUtil@isMobile(username)">
-username =CONVERT(#{username} , SIGNED)
+username =#{username} 
 </if>
 <if test="@cn.hutool.core.util.PhoneUtil@isMobile(username)">
 and phone =#{username}
@@ -37,12 +37,12 @@ and phone =#{username}
     @Update('update `people` set auth=#{param2} where id=#{param1}')
     boolean updateAuth(Integer id, Integer auth);
 
-    @Select('select icon from people where username=CONVERT(#{param1} , SIGNED)')
+    @Select('select icon from people where username=#{param1} ')
     String findIcon(String username);
 
     @Select('''SELECT
 people.id AS id, 
- CONCAT(people.username,'') AS username, 
+ people.username AS username, 
 CASE auth
     WHEN 0 THEN "guest"
     WHEN 1 THEN "vip"
@@ -61,6 +61,6 @@ people.email AS email,
 people.info AS info, 
 people.gmt_create AS gmt_create
 FROM
-`people` where username=CONVERT(#{param1} , SIGNED)''')
+`people` where username=#{param1} ''')
     People findALLInfo(String username);
 }
