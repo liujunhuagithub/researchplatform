@@ -28,13 +28,13 @@ public class PeopleService {
         return peopleMapper.updateAuth(id, auth);
     }
 
-    public String findIcon(Integer id) {
-        return peopleMapper.findIcon(id);
+    public String findIcon(Integer username) {
+        return peopleMapper.findIcon(username);
     }
 
-    @Cacheable(key = "#id")
-    public People findAllInfo(Integer id) {
-        People people = peopleMapper.findALLInfo(id);
+    @Cacheable(key = "#username")
+    public People findAllInfo(Integer username) {
+        People people = peopleMapper.findALLInfo(username);
         people.setAreas(areaMapper.findPeopleAreas(people.getId()));
         return people;
     }

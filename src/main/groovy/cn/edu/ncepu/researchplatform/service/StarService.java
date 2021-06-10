@@ -7,6 +7,7 @@ import cn.edu.ncepu.researchplatform.mapper.ArticleMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import cn.edu.ncepu.researchplatform.mapper.StarMapper;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
+import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -45,7 +46,7 @@ public class StarService {
     public boolean isEqualArea(Integer evaluateId) {
         Integer article_id = articleMapper.findIdaboutEvaluate(evaluateId);
         List<Area> articleAreas = areaMapper.findArticleAreas(article_id);
-        PeopleDetails peopleDetails = peopleService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        PeopleDetails peopleDetails = peopleService.findByUsername(Utils.getCurrent());
         List<Area> peopleAreas = areaMapper.findPeopleAreas(peopleDetails.getId());
 
         articleAreas.retainAll(peopleAreas);
