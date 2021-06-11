@@ -47,7 +47,7 @@ public class AdminController {
     }
 
     @PutMapping("/evaluate/{id}/illegal")
-    public boolean 封杀evaluate(@PathVariable Integer id, @RequestBody Map<String, Integer> params) {
+    public boolean 封杀evaluate参数名flag只能是负一(@PathVariable Integer id, @RequestBody Map<String, Integer> params) {
         Integer flag = params.get("flag");
         if (!flag.equals(-1)) {
             throw CustomException.INPUT_ERROE_Exception;
