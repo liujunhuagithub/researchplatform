@@ -1,6 +1,8 @@
 package cn.edu.ncepu.researchplatform.service;
 
 
+import cn.edu.ncepu.researchplatform.entity.Evaluate;
+import cn.edu.ncepu.researchplatform.entity.People;
 import cn.edu.ncepu.researchplatform.mapper.ArticleMapper;
 import cn.edu.ncepu.researchplatform.mapper.EvaluateMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
@@ -35,8 +37,8 @@ public class EvaluateService {
         return Math.random() > 0.05;
     }
     @Transactional(rollbackFor = Exception.class,readOnly = true)
-    public boolean idAuthorAdpot(Integer evaluateId) {
+    public People getAuthor(Integer evaluateId) {
         Integer article_id = articleMapper.findIdaboutEvaluate(evaluateId);
-        return peopleMapper.findAuthorById(article_id).getUsername().equals(Utils.getCurrent());
+        return peopleMapper.findAuthorById(article_id);
     }
 }

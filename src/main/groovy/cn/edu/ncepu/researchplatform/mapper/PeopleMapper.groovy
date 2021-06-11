@@ -63,4 +63,6 @@ people.gmt_create AS gmt_create
 FROM
 `people` where username=#{param1} ''')
     People findALLInfo(String username);
+    @Update('update `people` set exp=exp-#{param1} ')
+    boolean cost(Integer value);
 }

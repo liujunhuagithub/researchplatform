@@ -18,6 +18,8 @@ public class PeopleService {
     private PeopleMapper peopleMapper;
     @Autowired
     private AreaMapper areaMapper;
+    @Autowired
+    private EvaluateService evaluateService;
 
     @Cacheable(key = "'jwt'+#username")
     public PeopleDetails findByUsername(String username) {
@@ -37,5 +39,10 @@ public class PeopleService {
         People people = peopleMapper.findALLInfo(username);
         people.setAreas(areaMapper.findPeopleAreas(people.getId()));
         return people;
+    }
+
+    public boolean cost(Integer evaluateId, Integer value) {
+        People author = evaluateService.getAuthor(evaluateId);
+        return peopleMapper.cost(value);
     }
 }
