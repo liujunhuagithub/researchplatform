@@ -18,8 +18,7 @@ public class StarController {
 
     @PostMapping("/star/{evaluateId}")
     @PostAuthorize("#starService.isEqualArea(#evaluateId)==true")
-    @ApiOperation(value = "请求体json，只有一项 参数名flag -1 0 1")
-    public boolean saveStar(@PathVariable Integer evaluateId, @RequestBody Map<String, Integer> params) {
+    public boolean 点赞反对取消tar(@PathVariable Integer evaluateId, @RequestBody Map<String, Integer> params) {
         boolean r = starService.saveStar(evaluateId, params.get("flag"));
         starService.notifyAuthorStar(evaluateId);
         return r;
