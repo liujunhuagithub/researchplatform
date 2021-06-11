@@ -40,6 +40,6 @@ public class PeopleDetails extends People implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return !"black".equals(getAuth());
     }
 }

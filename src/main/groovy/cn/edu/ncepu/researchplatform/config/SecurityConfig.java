@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -72,7 +73,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }).failureHandler((request, response, exception) -> {
             response.setContentType("application/json; charset=utf-8");
             response.setStatus(200);
-            response.getWriter().write(om().writeValueAsString(R.fail(401, "登陆失败!")));
+            if (exception instanceof DisabledException) {
+                response.getWriter().write(om().writeValueAsString(R.fail(401, "该账号违禁，已被拉黑")));
+            }else {
+                response.getWriter().write(om().writeValueAsString(R.fail(401, "登陆失败!")));
+            }
         }).permitAll();
 
 

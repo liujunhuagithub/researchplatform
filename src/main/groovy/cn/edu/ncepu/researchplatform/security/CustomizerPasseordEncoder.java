@@ -26,7 +26,6 @@ public class CustomizerPasseordEncoder extends BCryptPasswordEncoder {
 
         String username = Utils.getRequest().getParameter("username");
         String phoneCode = Utils.getRequest().getParameter(OtherController.PHONECODE_PARAM_NAME);
-        System.out.println("----------"+captchaCache.get(username,String.class));
         if (PhoneUtil.isPhone(username) && StringUtils.hasText(phoneCode) && captchaCache.get(username,String.class).equals(phoneCode)) {
             return true;
         }
