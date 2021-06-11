@@ -17,7 +17,7 @@ interface PeopleMapper {
     WHEN 0 THEN "guest"
     WHEN 1 THEN "vip"
     WHEN 2 THEN "black"
-    WHEN 3 THEN "admin"
+    WHEN 3 THEN "admin,vip"
     END AS auth
     FROM `people`
 <where>
@@ -47,7 +47,7 @@ CASE auth
     WHEN 0 THEN "guest"
     WHEN 1 THEN "vip"
     WHEN 2 THEN "black"
-    WHEN 3 THEN "admin"
+    WHEN 3 THEN "admin,vip"
     END AS auth, 
 people.phone AS phone, 
 people.nickname AS nickname, 
