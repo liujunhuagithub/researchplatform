@@ -57,7 +57,7 @@ public class AdminController {
     }
 
 
-    @PutMapping("/admin/material/{materialId}/flag")
+    @PutMapping("/material/{materialId}/flag")
     public boolean 全通过1或全部不通过负一(Integer materialId, boolean flag) throws JsonProcessingException {
 
         return materialService.throughBatchArea(materialId, flag ?1:-1);

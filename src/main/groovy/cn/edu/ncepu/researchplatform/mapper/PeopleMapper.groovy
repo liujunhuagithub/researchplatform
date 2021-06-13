@@ -34,7 +34,7 @@ and phone =#{username}
     PeopleDetails findByUsername(String username);
 
     @Select('select * from people where id=(select author_id from article where id=#{articleId})')
-    People findAuthorById(Integer articleId);
+    People findAuthorByArticleId(Integer articleId);
 
     @Update('update `people` set auth=#{param2} where id=#{param1}')
     boolean updateAuth(Integer id, Integer auth);

@@ -8,7 +8,6 @@ import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import cn.edu.ncepu.researchplatform.mapper.StarMapper;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
 import cn.edu.ncepu.researchplatform.utils.Utils;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,6 +57,6 @@ public class StarService {
 
     @Async
     public void notifyAuthorStar(Integer evaluateId) {
-        wsService.notifyAuthorStar(peopleMapper.findAuthorById(articleMapper.findIdaboutEvaluate(evaluateId)).getUsername());
+        wsService.notifyAuthorStar(peopleMapper.findAuthorByArticleId(articleMapper.findIdaboutEvaluate(evaluateId)).getUsername());
     }
 }

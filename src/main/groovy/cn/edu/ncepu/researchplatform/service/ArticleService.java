@@ -33,7 +33,7 @@ public class ArticleService {
     @Transactional(rollbackFor = Exception.class,readOnly = true)
     public Article findArticleById(Integer articleId) {
         Article article = articleMapper.findById(articleId);
-        article.setAuthorName(peopleMapper.findAuthorById(article.getAuthorId()).getNickname());
+        article.setAuthorName(peopleMapper.findAuthorByArticleId(article.getAuthorId()).getNickname());
         article.setAreas(areaMapper.findArticleAreas(article.getId()));
         return article;
     }

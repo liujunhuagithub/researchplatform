@@ -38,10 +38,15 @@ public class EvaluateService {
     @Transactional(rollbackFor = Exception.class, readOnly = true)
     public People getAuthor(Integer evaluateId) {
         Integer article_id = articleMapper.findIdaboutEvaluate(evaluateId);
-        return peopleMapper.findAuthorById(article_id);
+        return peopleMapper.findAuthorByArticleId(article_id);
     }
 
     public List<Integer> findBypeopleToArticle(Integer articleId, String  username) {
         return evaluateMapper.findBypeopleToArticle(articleId, peopleService.findByUsername(username).getId());
+    }
+
+    public List<Evaluate> findByArticleId(Integer articleId){
+        People author = peopleMapper.findAuthorByArticleId(articleId);
+       return evaluateMapper.findByArticleId(articleId,peopleService.findByUsername(Utils.getCurrent()).getId().equals(author.getId()));
     }
 }
