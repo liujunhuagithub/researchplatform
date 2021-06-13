@@ -2,6 +2,7 @@ package cn.edu.ncepu.researchplatform.controller;
 
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.People;
+import cn.edu.ncepu.researchplatform.entity.dto.PeopleDto;
 import cn.edu.ncepu.researchplatform.security.CustomizerPasseordEncoder;
 import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 public class PeopleController {
@@ -36,6 +38,15 @@ public class PeopleController {
     @GetMapping("/people/{username}/icon")
     public String 查询某人icon(@PathVariable String username) {
         return peopleService.findIcon(username);
+    }
+    @GetMapping("/people")
+    public List<People> 条件查询(PeopleDto dto) {
+        if (Utils.isAdmin()) {
+            dto.setIdCard(null);
+            dto.setId(null);
+            dto.setAuth(null);
+        }
+        return peopleService.findByCondition(dto);
     }
 
     @PutMapping("/password")
@@ -73,7 +84,7 @@ public class PeopleController {
     @PutMapping("/poeple/{username}/realname")
     @PostAuthorize("#username==#authentication.name or hasAuthority('admin')")
     public boolean 实名认证(String idCard, String realname, @PathVariable String username) {
-        if (!otherService.isReadName(idCard,realname)) {
+        if (!otherService.isReadName(idCard, realname)) {
             throw CustomException.INPUT_ERROE_Exception;
         }
         return peopleService.updateReal(realname, idCard, username);

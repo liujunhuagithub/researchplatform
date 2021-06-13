@@ -28,4 +28,12 @@ public class MaterialVo extends Material {
     public void setAreas(List<Area> areas) {
         this.areas = areas;
     }
+
+    public People getPeople() {
+        return people;
+    }
+
+    public void setPeople(People people) {
+        this.people = people;
+    }
 }

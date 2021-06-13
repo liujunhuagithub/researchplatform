@@ -10,4 +10,20 @@ public class EvaluateVo  {
         this.evaluate = evaluate;
         this.username = username;
     }
+
+    public Evaluate getEvaluate() {
+        return evaluate;
+    }
+
+    public void setEvaluate(Evaluate evaluate) {
+        this.evaluate = evaluate;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

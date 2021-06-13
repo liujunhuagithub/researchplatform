@@ -42,7 +42,7 @@ public class StarService {
     }
 
     @Transactional(rollbackFor = Exception.class, readOnly = true)
-    public boolean isEqualArea(Integer evaluateId) {
+    public boolean isContainArea(Integer evaluateId) {
         Integer article_id = articleMapper.findIdaboutEvaluate(evaluateId);
         List<Area> articleAreas = areaMapper.findArticleAreas(article_id);
         PeopleDetails peopleDetails = peopleService.findByUsername(Utils.getCurrent());

@@ -1,6 +1,7 @@
 package cn.edu.ncepu.researchplatform.service;
 
 import cn.edu.ncepu.researchplatform.entity.Article;
+import cn.edu.ncepu.researchplatform.entity.dto.ArticleDto;
 import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
 import cn.edu.ncepu.researchplatform.mapper.ArticleMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
@@ -10,6 +11,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Service
 public class ArticleService {
@@ -42,5 +45,8 @@ public class ArticleService {
 
     public Integer insert(Article article){
         return articleMapper.insert(article);
+    }
+    public List<Article> findByCondition(ArticleDto dto){
+        return articleMapper.findByCondition(dto);
     }
 }

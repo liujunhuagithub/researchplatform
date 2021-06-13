@@ -1,6 +1,7 @@
 package cn.edu.ncepu.researchplatform.mapper
 
 import cn.edu.ncepu.researchplatform.entity.People
+import cn.edu.ncepu.researchplatform.entity.dto.PeopleDto
 import cn.edu.ncepu.researchplatform.security.PeopleDetails
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Options
@@ -32,6 +33,46 @@ and phone =#{username}
 </where>
  </script> ''')
     PeopleDetails findByUsername(String username);
+
+    @Select('''
+<script>
+select * from `people`
+        <where>
+           <if test="lc!=null">
+                and gmt_create &gt;=#{lc}
+            </if>
+             <if test="rc!=null">
+                and gmt_create &lt;=#{rc}
+            </if>
+           <if test="ld!=null">
+                and gmt_delete &gt;=#{ld}
+            </if>
+             <if test="rd!=null">
+                and gmt_delete &lt;=#{rd}
+            </if>
+            <if test="username !=null and username !=''">
+                and `username` like #{username}
+            </if>
+            <if test=" phone !=null  and phone !='' ">
+                and phone  like #{phone}
+            </if>
+            <if test=" nickname !=null  and nickname !='' ">
+               and  nickname like #{nickname}
+            </if>
+            <if test=" idCard !=null  and idCard !='' ">
+               and  id_card=#{idCard}
+            </if>
+            <if test=" realname !=null  and realname !='' ">
+               and  realname like #{realname}
+            </if>
+            <if test=" level !=null   ">
+              and   level=#{level}
+            </if>
+        </where>
+</script>
+''')
+    List<People> findByCondition(PeopleDto dto);
+
 
     @Select('select * from people where id=(select author_id from article where id=#{articleId})')
     People findAuthorByArticleId(Integer articleId);

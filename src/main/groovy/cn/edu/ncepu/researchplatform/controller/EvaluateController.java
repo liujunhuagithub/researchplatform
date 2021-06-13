@@ -1,10 +1,12 @@
 package cn.edu.ncepu.researchplatform.controller;
 
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
+import cn.edu.ncepu.researchplatform.entity.Evaluate;
 import cn.edu.ncepu.researchplatform.entity.vo.EvaluateVo;
 import cn.edu.ncepu.researchplatform.service.EvaluateService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
+import groovy.util.Eval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,8 +41,22 @@ public class EvaluateController {
     }
 
     @GetMapping("/article/{articleId}/evaluate")
-    public List<EvaluateVo> 某article下所有evaluate(@PathVariable Integer articleId) {
-        return evaluateService.findByArticleId(articleId).stream().map(e ->
+    public List<EvaluateVo> 某article下所有evaluate(@PathVariable Integer articleId, Integer current, Integer size) {
+        return evaluateService.findByArticleId(articleId, current, size).stream().map(e ->
+                new EvaluateVo(e, peopleService.findById(e.getPeopleId()).getUsername())).collect(Collectors.toList());
+    }
+
+    @PostMapping("/discuss")
+    @PostAuthorize("#evaluateService.isArticleContainArea(#evaluate.articleId)")
+    public Integer 添加讨论(Evaluate evaluate) {
+        evaluate.setPeopleId(peopleService.findByUsername(Utils.getCurrent()).getId());
+        return evaluateService.insertDiscuss(evaluate);
+    }
+
+
+    @GetMapping("/discuss/{parentId}")
+    public List<EvaluateVo> 给定parentId获取其子discuss(@PathVariable Integer parentId, Integer current, Integer size) {
+        return evaluateService.findDisscussByParentId(parentId, current, size).stream().map(e ->
                 new EvaluateVo(e, peopleService.findById(e.getPeopleId()).getUsername())).collect(Collectors.toList());
     }
 }

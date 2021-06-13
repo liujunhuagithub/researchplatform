@@ -1,15 +1,19 @@
 package cn.edu.ncepu.researchplatform.service;
 
 import cn.edu.ncepu.researchplatform.entity.People;
+import cn.edu.ncepu.researchplatform.entity.dto.PeopleDto;
 import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
+import cn.edu.ncepu.researchplatform.utils.Utils;
 import cn.hutool.core.util.PhoneUtil;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @CacheConfig(cacheNames = "people")
@@ -68,5 +72,10 @@ public class PeopleService {
 
     public People findById(Integer id) {
         return peopleMapper.findById(id);
+    }
+
+    public List<People> findByCondition(PeopleDto dto) {
+
+        return peopleMapper.findByCondition(dto);
     }
 }

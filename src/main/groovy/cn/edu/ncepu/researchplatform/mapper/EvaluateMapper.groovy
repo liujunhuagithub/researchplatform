@@ -4,6 +4,7 @@ import cn.edu.ncepu.researchplatform.entity.Article
 import cn.edu.ncepu.researchplatform.entity.Evaluate
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Options
+import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.annotations.Select
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository
@@ -28,17 +29,34 @@ interface EvaluateMapper {
     @Select('''<script>
 select * from `evaluate` 
 <where>
-article_id= #{articleId} and gmt_delete is null 
+article_id= #{param1} and gmt_delete is null and parent_id=0
+<if test="!param2">
+niming=0
+</if>
+</where>
+limit #{(current-1)*size},#{size}
+</script>''')
+    List<Evaluate> findEvaluateByArticleId(Integer articleId, boolean isAuthor,@Param("current")Integer current, @Param("size")Integer size);
+
+    @Select('''<script>
+select * from `evaluate` 
+<where>
+ gmt_delete is null and parent_id=#{param1}
 <if test="!isAuthor">
 niming=0
 </if>
 </where>
+limit #{(current-1)*size},#{size}
 </script>''')
-    List<Evaluate> findByArticleId(Integer articleId, boolean isAuthor);
+    List<Evaluate> findDisscussByParentId(Integer parentId,  @Param("current")Integer current, @Param("size")Integer size);
 
     @Insert('insert into `evaluate`(people_id,article_id,summary_id,niming,parent_id,content) values(#{peopleId},#{articleId},#{summaryId},#{niming},#{parentId},#{content})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
-    Integer insert(Evaluate evaluate);
+    Integer insertEvaluate(Evaluate evaluate);
+
+    @Insert('insert into `evaluate`(people_id,article_id,parent_id,content) values(#{peopleId},#{articleId},},#{parentId},#{content})')
+    @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
+    Integer insertDiscuss(Evaluate evaluate);
 }
 
 
