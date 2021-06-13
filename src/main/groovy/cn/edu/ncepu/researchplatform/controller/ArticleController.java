@@ -38,7 +38,7 @@ public class ArticleController {
         return new ArticleVo(article, peopleService.findById(article.getId()).getUsername());
     }
 
-    @GetMapping("/people")
+    @GetMapping("/article")
     public List<Article> 条件查询(ArticleDto dto) {
         return articleService.findByCondition(dto);
     }

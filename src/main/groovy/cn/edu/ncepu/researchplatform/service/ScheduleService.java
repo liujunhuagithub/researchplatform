@@ -23,27 +23,27 @@ public class ScheduleService {
     public void peoples() {
     }
 
-    @Scheduled(cron = "@daily")
-    public void deleteInvalidStar() {
-        starMapper.deleteInvalidStar();
-    }
-
     @Scheduled(cron = "@monthly")
     public void updatePeopleWeight() {
 
     }
 
-    @Scheduled(cron = "@monthly")
+    @Scheduled(cron = "@weekly")
     public void updateArticleScore() {
 
     }
 
-    @Scheduled(cron = "@weekly")
+    @Scheduled(cron = "@daily")
     public void deleteArticleAboutEvaluate() {
         evaluateMapper.deleteArticleAboutEvaluate();
     }
 
-    @Scheduled(cron = "@weekly")
+    @Scheduled(cron = "@daily")
+    public void deleteInvalidStar() {
+        starMapper.deleteInvalidStar();
+    }
+
+    @Scheduled(cron = "@daily")
     public void deleteBlackPeople() {
         peopleMapper.deleteBlackPeople();
     }
