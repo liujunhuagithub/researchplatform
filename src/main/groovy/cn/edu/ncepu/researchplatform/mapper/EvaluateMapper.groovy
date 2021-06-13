@@ -1,6 +1,9 @@
 package cn.edu.ncepu.researchplatform.mapper
 
+import cn.edu.ncepu.researchplatform.entity.Article
 import cn.edu.ncepu.researchplatform.entity.Evaluate
+import org.apache.ibatis.annotations.Insert
+import org.apache.ibatis.annotations.Options
 import org.apache.ibatis.annotations.Select
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository
@@ -32,6 +35,10 @@ niming=0
 </where>
 </script>''')
     List<Evaluate> findByArticleId(Integer articleId, boolean isAuthor);
+
+    @Insert('insert into `evaluate`(people_id,article_id,summary_id,niming,parent_id,content) values(#{peopleId},#{articleId},#{summaryId},#{niming},#{parentId},#{content})')
+    @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
+    Integer insert(Evaluate evaluate);
 }
 
 

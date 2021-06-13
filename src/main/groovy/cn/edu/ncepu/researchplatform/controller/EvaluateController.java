@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class EvaluateController {
     @Autowired
     private EvaluateService evaluateService;
+    @Autowired
     private PeopleService peopleService;
 
     @PostAuthorize("#username==#authentication.name or hasAuthority('admin')")

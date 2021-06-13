@@ -4,10 +4,12 @@ import cn.edu.ncepu.researchplatform.entity.Article;
 import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
 import cn.edu.ncepu.researchplatform.mapper.ArticleMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
+import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Service
 public class ArticleService {
@@ -36,5 +38,9 @@ public class ArticleService {
         article.setAuthorName(peopleMapper.findAuthorByArticleId(article.getAuthorId()).getNickname());
         article.setAreas(areaMapper.findArticleAreas(article.getId()));
         return article;
+    }
+
+    public Integer insert(Article article){
+        return articleMapper.insert(article);
     }
 }

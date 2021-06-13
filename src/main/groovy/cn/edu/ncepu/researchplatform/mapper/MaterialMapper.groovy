@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 interface MaterialMapper {
-    @Insert('insert into `material`(people_id,content,area) values (#{people_id},#{content},#{area}) ')
+    @Insert('insert into `material`(people_id,content,area) values (#{peopleId},#{content},#{area}) ')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertMaterial(Material material);
 
