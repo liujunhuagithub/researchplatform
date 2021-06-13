@@ -4,10 +4,8 @@ package cn.edu.ncepu.researchplatform.service;
 import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.entity.Evaluate;
 import cn.edu.ncepu.researchplatform.entity.People;
-import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
-import cn.edu.ncepu.researchplatform.mapper.ArticleMapper;
-import cn.edu.ncepu.researchplatform.mapper.EvaluateMapper;
-import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
+import cn.edu.ncepu.researchplatform.entity.Summary;
+import cn.edu.ncepu.researchplatform.mapper.*;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,9 @@ public class EvaluateService {
     private ArticleMapper articleMapper;
     @Autowired
     private AreaMapper areaMapper;
+
+    @Autowired
+    private SummaryMapper summaryMapper;
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteByIdPeopleId(Integer id, String username) {
         return evaluateMapper.deleteByIdPeopleId(id, peopleService.findByUsername(username).getId());
@@ -69,6 +70,14 @@ public class EvaluateService {
         articleAreas.retainAll(peopleAreas);
         if (articleAreas.size() == 0) {
             return false;
+        }
+        return true;
+    }
+
+    public boolean insertBatchSummary(Summary summary,Evaluate[] evaluates) {
+        summaryMapper.insert(summary);
+        for (Evaluate evaluate : evaluates) {
+            evaluateMapper.insertEvaluate(evaluate);
         }
         return true;
     }

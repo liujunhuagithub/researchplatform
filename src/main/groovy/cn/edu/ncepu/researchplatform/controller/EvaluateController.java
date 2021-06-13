@@ -2,6 +2,7 @@ package cn.edu.ncepu.researchplatform.controller;
 
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.Evaluate;
+import cn.edu.ncepu.researchplatform.entity.Summary;
 import cn.edu.ncepu.researchplatform.entity.vo.EvaluateVo;
 import cn.edu.ncepu.researchplatform.service.EvaluateService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
@@ -58,5 +59,11 @@ public class EvaluateController {
     public List<EvaluateVo> 给定parentId获取其子discuss(@PathVariable Integer parentId, Integer current, Integer size) {
         return evaluateService.findDisscussByParentId(parentId, current, size).stream().map(e ->
                 new EvaluateVo(e, peopleService.findById(e.getPeopleId()).getUsername())).collect(Collectors.toList());
+    }
+
+    @PostMapping("/summary")
+    public boolean 新增summary(Evaluate[] summary) {
+        Summary _s = new Summary();
+        return evaluateService.insertBatchSummary(_s, summary);
     }
 }

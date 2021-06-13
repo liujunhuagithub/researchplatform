@@ -54,6 +54,8 @@ select * from ``
 </script>
 ''')
     List<Article> findByCondition(ArticleDto dto);
+@Select('select * from `people` order by `score` limit 100')
+    List<Article> rankArticle();
 }
 
 

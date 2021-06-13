@@ -5,6 +5,7 @@ import cn.edu.ncepu.researchplatform.entity.Evaluate;
 import cn.edu.ncepu.researchplatform.entity.People;
 import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
 import cn.edu.ncepu.researchplatform.mapper.ArticleMapper;
+import cn.edu.ncepu.researchplatform.mapper.EvaluateMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +19,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@CacheConfig(cacheNames = "rank",cacheManager = "rankCacheManager")
+@CacheConfig(cacheNames = "rank", cacheManager = "rankCacheManager")
 public class RankService {
-private static final Logger logger =  LoggerFactory.getLogger(RankService.class);
+    private static final Logger logger = LoggerFactory.getLogger(RankService.class);
     @Autowired
     private ArticleMapper articleMapper;
 
@@ -29,21 +30,26 @@ private static final Logger logger =  LoggerFactory.getLogger(RankService.class)
 
     @Autowired
     private PeopleMapper peopleMapper;
+    @Autowired
+    private EvaluateMapper evaluateMapper;
 
     @Cacheable
     public List<People> peoples() {
         logger.info("生成peoples  rank");
         return null;
     }
+
     @Cacheable
     public List<Evaluate> evaluate() {
-        return null;
+        return evaluateMapper.rankEvaluate();
     }
+
     @Cacheable
     public List<Article> article() {
-        return null;
+        return articleMapper.rankArticle();
 
     }
+
     @Cacheable
     public List<People> author() {
         return null;

@@ -57,6 +57,11 @@ limit #{(current-1)*size},#{size}
     @Insert('insert into `evaluate`(people_id,article_id,parent_id,content) values(#{peopleId},#{articleId},},#{parentId},#{content})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertDiscuss(Evaluate evaluate);
+    @Select('select * from `evaluate` order by `score_item` limit 100')
+    List<Evaluate> rankEvaluate();
+    @Update('update evaluate set weight+=(random()-0.3)')
+    boolean updateWeight();
+
 }
 
 

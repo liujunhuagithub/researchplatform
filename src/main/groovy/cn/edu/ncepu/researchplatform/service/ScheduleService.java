@@ -19,10 +19,6 @@ public class ScheduleService {
     @Autowired
     private PeopleMapper peopleMapper;
 
-    @Scheduled(cron = "@weekly")
-    public void peoples() {
-    }
-
     @Scheduled(cron = "@daily")
     public void deleteInvalidStar() {
         starMapper.deleteInvalidStar();
@@ -30,7 +26,7 @@ public class ScheduleService {
 
     @Scheduled(cron = "@monthly")
     public void updatePeopleWeight() {
-
+        peopleMapper.updateWeight();
     }
 
     @Scheduled(cron = "@monthly")
