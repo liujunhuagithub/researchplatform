@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class EvaluateService {
     @Autowired
@@ -32,13 +34,14 @@ public class EvaluateService {
         return evaluateMapper.updateFlag(id, flag);
     }
 
-    public boolean isIllegalEvaluate(String content) {
-        //审核Evaluate，暂时95%通过率
-        return Math.random() > 0.05;
-    }
-    @Transactional(rollbackFor = Exception.class,readOnly = true)
+
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
     public People getAuthor(Integer evaluateId) {
         Integer article_id = articleMapper.findIdaboutEvaluate(evaluateId);
         return peopleMapper.findAuthorById(article_id);
+    }
+
+    public List<Integer> findBypeopleToArticle(Integer articleId, String  username) {
+        return evaluateMapper.findBypeopleToArticle(articleId, peopleService.findByUsername(username).getId());
     }
 }

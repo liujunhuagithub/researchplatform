@@ -18,4 +18,13 @@ public class OtherService {
     public boolean verfyPhoneCode(String phone,String phoneCode){
         return captchaCache.get(phone,String.class).equals(phoneCode);
     }
+
+    public boolean isReadName(String idCard, String realname){
+        return Math.random()>0.05;
+    }
+
+    public boolean isIllegalEvaluate(String content) {
+        //审核Evaluate，暂时95%通过率
+        return Math.random() > 0.05;
+    }
 }

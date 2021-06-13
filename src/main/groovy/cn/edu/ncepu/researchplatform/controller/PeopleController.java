@@ -6,7 +6,6 @@ import cn.edu.ncepu.researchplatform.security.CustomizerPasseordEncoder;
 import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
-import cn.hutool.core.util.IdcardUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -74,7 +73,7 @@ public class PeopleController {
     @PutMapping("/poeple/{username}/realname")
     @PostAuthorize("#username==#authentication.name or hasAuthority('admin')")
     public boolean 实名认证(String idCard, String realname, @PathVariable String username) {
-        if (!IdcardUtil.isValidCard(idCard)) {
+        if (!otherService.isReadName(idCard,realname)) {
             throw CustomException.INPUT_ERROE_Exception;
         }
         return peopleService.updateReal(realname, idCard, username);
