@@ -36,7 +36,7 @@ and phone =#{username}
 
     @Select('''
 <script>
-select * from `people`
+select distinct * from `people`
         <where>
            <if test="lc!=null">
                 and gmt_create &gt;=#{lc}
