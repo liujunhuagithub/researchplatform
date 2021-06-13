@@ -22,8 +22,6 @@ import java.util.UUID;
 public class OtherController {
 
     public static String CAPTCH_HEADER_NAME = "captchakey";
-    public static String CAPTCHCODE_PARAM_KEY_NAME = "captchakey";
-    public static String CAPTCHCODE_PARAM_NAME = "captchaCode";
     public static String PHONECODE_PARAM_NAME = "phoneCode";
     @Autowired
     @Qualifier("captcha")
@@ -43,7 +41,7 @@ public class OtherController {
     }
 
     @GetMapping("/identityCaptchaCode")
-    public boolean 校验图形验证码(@RequestParam String captchakey,@RequestParam String captchaCode) {
+    public boolean 校验图形验证码( String captchakey, String captchaCode) {
         String code = captchaCache.get(captchakey,String.class);
         if (!captchaCode.equals(code)) {
             throw CustomException.INPUT_ERROE_Exception;
@@ -52,7 +50,7 @@ public class OtherController {
     }
 
     @PostMapping("/phoneCode")
-    public boolean 获取手机验证码(@RequestParam String phone ) throws IOException {
+    public boolean 获取手机验证码( String phone ) throws IOException {
         captchaCache.put(phone, otherService.phoneCode(phone));
         return true;
     }

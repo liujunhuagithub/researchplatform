@@ -1,6 +1,7 @@
 package cn.edu.ncepu.researchplatform.service;
 
 import cn.edu.ncepu.researchplatform.mapper.EvaluateMapper;
+import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import cn.edu.ncepu.researchplatform.mapper.StarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,6 +16,8 @@ public class ScheduleService {
     private StarMapper starMapper;
     @Autowired
     private EvaluateMapper evaluateMapper;
+    @Autowired
+    private PeopleMapper peopleMapper;
 
     @Scheduled(cron = "@weekly")
     public void peoples() {
@@ -38,5 +41,10 @@ public class ScheduleService {
     @Scheduled(cron = "@weekly")
     public void deleteArticleAboutEvaluate() {
         evaluateMapper.deleteArticleAboutEvaluate();
+    }
+
+    @Scheduled(cron = "@weekly")
+    public void deleteBlackPeople() {
+        peopleMapper.deleteBlackPeople();
     }
 }

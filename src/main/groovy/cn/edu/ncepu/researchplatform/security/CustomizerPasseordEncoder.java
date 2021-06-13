@@ -1,6 +1,7 @@
 package cn.edu.ncepu.researchplatform.security;
 
 import cn.edu.ncepu.researchplatform.controller.OtherController;
+import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import cn.hutool.core.util.PhoneUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,7 @@ import org.springframework.util.StringUtils;
 public class CustomizerPasseordEncoder extends BCryptPasswordEncoder {
 
     @Autowired
-    @Qualifier("captcha")
-    private Cache captchaCache;
+    private OtherService otherService;
 
     public CustomizerPasseordEncoder() {
         super(12);
@@ -26,7 +26,7 @@ public class CustomizerPasseordEncoder extends BCryptPasswordEncoder {
 
         String username = Utils.getRequest().getParameter("username");
         String phoneCode = Utils.getRequest().getParameter(OtherController.PHONECODE_PARAM_NAME);
-        if (PhoneUtil.isPhone(username) && StringUtils.hasText(phoneCode) && captchaCache.get(username,String.class).equals(phoneCode)) {
+        if (PhoneUtil.isPhone(username) && StringUtils.hasText(phoneCode) && otherService.verfyPhoneCode(username,phoneCode)) {
             return true;
         }
         return super.matches(rawPassword, encodedPassword);

@@ -2,6 +2,8 @@ package cn.edu.ncepu.researchplatform.mapper
 
 import cn.edu.ncepu.researchplatform.entity.People
 import cn.edu.ncepu.researchplatform.security.PeopleDetails
+import org.apache.ibatis.annotations.Insert
+import org.apache.ibatis.annotations.Options
 import org.apache.ibatis.annotations.Select
 import org.apache.ibatis.annotations.Update
 import org.springframework.stereotype.Repository
@@ -63,6 +65,26 @@ people.gmt_create AS gmt_create
 FROM
 `people` where username=#{param1} ''')
     People findALLInfo(String username);
+
     @Update('update `people` set exp=exp-#{param1} ')
     boolean cost(Integer value);
+
+    @Update('update `people` set password=#{param2} where phone=#{param1} and gmt_delete is null')
+    boolean updatePass(String phone, String pass);
+
+    @Update('update `people` set gmt_delete=null where auth=2')
+    void deleteBlackPeople();
+
+    @Insert('insert into `people`(username,phone,password) values(#{username},#{phone},#{password})')
+    @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
+    Integer insertPeople(People people);
+
+    @Update('update `people` set nickname=#{nickname}  where gmt_delete is null and id=#{id}')
+    boolean updateInfo(People people);
+
+    @Update('update `people` set realneme=#{param1},id_card=#{param2}  where gmt_delete is null and username=#{param3} and auth!=2 and not exist (select * from `people` where id_card=#{param2} and auth=2)')
+    boolean updateReal(String realname,String idCard,String username);
+
+    @Update('update `people` set phone=#{phone}  where gmt_delete is null and where gmt_delete is null and username=#{param2}')
+    boolean updatePhone(String phone,String username);
 }

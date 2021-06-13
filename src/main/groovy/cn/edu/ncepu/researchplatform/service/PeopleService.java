@@ -45,4 +45,25 @@ public class PeopleService {
         People author = evaluateService.getAuthor(evaluateId);
         return peopleMapper.cost(value);
     }
+
+    public boolean updatePass(String phone, String pass) {
+        return peopleMapper.updatePass(phone, pass);
+    }
+
+    public Integer insertPeople(People people) {
+        return peopleMapper.insertPeople(people);
+    }
+
+    public boolean updateInfo(People people) {
+        return peopleMapper.updateInfo(people);
+    }
+
+    public boolean updateReal(String realname, String idCard, String username) {
+        return peopleMapper.updateReal(realname, idCard, username);
+    }
+
+    public boolean updatePhone(String phone, String username) {
+        return peopleMapper.updatePhone(phone, username);
+    }
+
 }
