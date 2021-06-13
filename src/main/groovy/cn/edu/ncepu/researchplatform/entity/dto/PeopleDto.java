@@ -1,4 +1,6 @@
 package cn.edu.ncepu.researchplatform.entity.dto;
 
-public class PeopleDto {
+import cn.edu.ncepu.researchplatform.entity.People;
+
+public class PeopleDto extends People {
 }
