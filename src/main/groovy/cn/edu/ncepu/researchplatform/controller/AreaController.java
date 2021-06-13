@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class AreaController {
@@ -14,7 +15,7 @@ public class AreaController {
     private AreaService areaService;
 
     @GetMapping("/area")
-    public List<Area> 获取所有Area() {
+    public Map<Integer, Area> 获取所有Area() {
         return areaService.findAllArea();
     }
 

@@ -66,6 +66,9 @@ FROM
 `people` where username=#{param1} ''')
     People findALLInfo(String username);
 
+    @Select('select * from `people` where id=#{param1}')
+    People findById(Integer id);
+
     @Update('update `people` set exp=exp-#{param1} ')
     boolean cost(Integer value);
 
@@ -79,12 +82,13 @@ FROM
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertPeople(People people);
 
-    @Update('update `people` set nickname=#{nickname}  where gmt_delete is null and id=#{id}')
+    @Update('update `people` set nickname=#{nickname}, organization=#{organization},email=#{email},info=#{info} where gmt_delete is null and id=#{id}')
     boolean updateInfo(People people);
 
     @Update('update `people` set realneme=#{param1},id_card=#{param2}  where gmt_delete is null and username=#{param3} and auth!=2 and not exist (select * from `people` where id_card=#{param2} and auth=2)')
-    boolean updateReal(String realname,String idCard,String username);
+    boolean updateReal(String realname, String idCard, String username);
 
     @Update('update `people` set phone=#{phone}  where gmt_delete is null and where gmt_delete is null and username=#{param2}')
-    boolean updatePhone(String phone,String username);
+    boolean updatePhone(String phone, String username);
+
 }

@@ -2,10 +2,8 @@ package cn.edu.ncepu.researchplatform.controller;
 
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.Area;
-import cn.edu.ncepu.researchplatform.service.AreaService;
-import cn.edu.ncepu.researchplatform.service.ArticleService;
-import cn.edu.ncepu.researchplatform.service.EvaluateService;
-import cn.edu.ncepu.researchplatform.service.PeopleService;
+import cn.edu.ncepu.researchplatform.service.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +21,9 @@ public class AdminController {
     private PeopleService peopleService;
     @Autowired
     private EvaluateService evaluateService;
+
+    @Autowired
+    private MaterialService materialService;
 
     @PostMapping("/area")
     public boolean 新增Area(@RequestBody Area area) {
@@ -53,5 +54,12 @@ public class AdminController {
             throw CustomException.INPUT_ERROE_Exception;
         }
         return evaluateService.updateFlag(id, params.get("flag"));
+    }
+
+
+    @PutMapping("/admin/material/{materialId}/flag")
+    public boolean 全通过1或全部不通过负一(Integer materialId, boolean flag) throws JsonProcessingException {
+
+        return materialService.throughBatchArea(materialId, flag ?1:-1);
     }
 }

@@ -66,4 +66,7 @@ public class PeopleService {
         return peopleMapper.updatePhone(phone, username);
     }
 
+    public People findById(Integer id) {
+        return peopleMapper.findById(id);
+    }
 }
