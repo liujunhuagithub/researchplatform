@@ -26,6 +26,8 @@ interface ArticleMapper {
     @Insert('insert into `article`(author_id,title,ref,content) values(#{author_id},#{title},#{ref},#{content})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insert(Article article);
+    @Insert('insert into `article_area`(author_id,area_id) values(#{param1},#{param2})')
+    boolean insertArea(Integer articleId,Integer areaId);
 
     @Select('''
 <script>
@@ -64,6 +66,7 @@ select * from ``
 
     @Update('update `article` set score=(select sum(score_item) from evaluate where article_id=#{param1} where gmt_delete is null)')
     boolean updateScore(Integer articleId);
+
     @Update('update `article` set weight+=(random()-0.3)')
     boolean updateWeight();
 }

@@ -29,13 +29,14 @@ public class ArticleService {
     public boolean updateFlag(Integer flag, Integer articleId) {
         return articleMapper.updateFlag(flag, articleId);
     }
+
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteByIdAuthorId(Integer id, String username) {
         return articleMapper.deleteByIdAuthorId(id, peopleService.findByUsername(username).getId());
     }
 
     @Cacheable(value = "article", key = "#articleId")
-    @Transactional(rollbackFor = Exception.class,readOnly = true)
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
     public Article findArticleById(Integer articleId) {
         Article article = articleMapper.findById(articleId);
         article.setAuthorName(peopleMapper.findAuthorByArticleId(article.getAuthorId()).getNickname());
@@ -43,10 +44,13 @@ public class ArticleService {
         return article;
     }
 
-    public Integer insert(Article article){
+    @Transactional(rollbackFor = Exception.class)
+    public Integer insert(Article article) {
+        article.getAreas().forEach(a -> articleMapper.insertArea(article.getId(), a.getId()));
         return articleMapper.insert(article);
     }
-    public List<Article> findByCondition(ArticleDto dto){
+
+    public List<Article> findByCondition(ArticleDto dto) {
         return articleMapper.findByCondition(dto);
     }
 }
