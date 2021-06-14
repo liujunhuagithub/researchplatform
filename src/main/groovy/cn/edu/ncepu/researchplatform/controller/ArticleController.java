@@ -1,12 +1,11 @@
 package cn.edu.ncepu.researchplatform.controller;
 
+import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.Article;
-import cn.edu.ncepu.researchplatform.entity.People;
 import cn.edu.ncepu.researchplatform.entity.dto.ArticleDto;
-import cn.edu.ncepu.researchplatform.entity.dto.PeopleDto;
 import cn.edu.ncepu.researchplatform.entity.vo.ArticleVo;
-import cn.edu.ncepu.researchplatform.mapper.ArticleMapper;
 import cn.edu.ncepu.researchplatform.service.ArticleService;
+import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +44,9 @@ public class ArticleController {
 
     @PostMapping("/article")
     public Integer 新增article(Article article) {
+        if (OtherService.isIllegalArticle(article.getContent())) {
+            throw CustomException.SENSITIVE_ERROR_Exception;
+        }
         article.setAuthorId(peopleService.findByUsername(Utils.getCurrent()).getId());
         return articleService.insert(article);
     }

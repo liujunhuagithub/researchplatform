@@ -1,10 +1,12 @@
 package cn.edu.ncepu.researchplatform.controller;
 
+import cn.edu.ncepu.researchplatform.common.R;
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.Evaluate;
 import cn.edu.ncepu.researchplatform.entity.Summary;
 import cn.edu.ncepu.researchplatform.entity.vo.EvaluateVo;
 import cn.edu.ncepu.researchplatform.service.EvaluateService;
+import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import groovy.util.Eval;
@@ -50,6 +52,9 @@ public class EvaluateController {
     @PostMapping("/discuss")
     @PostAuthorize("#evaluateService.isArticleContainArea(#evaluate.articleId)")
     public Integer 添加讨论(Evaluate evaluate) {
+        if (OtherService.isIllegalEvaluate(evaluate.getContent())){
+            throw CustomException.SENSITIVE_ERROR_Exception;
+        }
         evaluate.setPeopleId(peopleService.findByUsername(Utils.getCurrent()).getId());
         return evaluateService.insertDiscuss(evaluate);
     }
