@@ -45,7 +45,8 @@ public class CacheConfig {
         cacheManager.isAllowNullValues();
         return cacheManager;
     }
-@Bean
+
+    @Bean
     public Cache captcha() {
         return captchaCacheManager().getCache("captcha");
     }

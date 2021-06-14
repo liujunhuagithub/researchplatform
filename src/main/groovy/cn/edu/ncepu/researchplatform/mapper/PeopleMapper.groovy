@@ -131,5 +131,6 @@ FROM
 
     @Update('update `people` set phone=#{phone}  where gmt_delete is null and where gmt_delete is null and username=#{param2}')
     boolean updatePhone(String phone, String username);
-
+    @Update('update `people` set weight+=(random()-0.3)')
+    boolean updateWeight();
 }

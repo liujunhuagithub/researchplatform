@@ -19,31 +19,27 @@ public class ScheduleService {
     @Autowired
     private PeopleMapper peopleMapper;
 
-    @Scheduled(cron = "@weekly")
-    public void peoples() {
-    }
-
-    @Scheduled(cron = "@monthly")
-    public void updatePeopleWeight() {
-
-    }
-
-    @Scheduled(cron = "@weekly")
-    public void updateArticleScore() {
-
-    }
-
-    @Scheduled(cron = "@daily")
-    public void deleteArticleAboutEvaluate() {
-        evaluateMapper.deleteArticleAboutEvaluate();
-    }
-
     @Scheduled(cron = "@daily")
     public void deleteInvalidStar() {
         starMapper.deleteInvalidStar();
     }
 
-    @Scheduled(cron = "@daily")
+    @Scheduled(cron = "@monthly")
+    public void updatePeopleWeight() {
+        peopleMapper.updateWeight();
+    }
+
+    @Scheduled(cron = "@monthly")
+    public void updateArticleScore() {
+
+    }
+
+    @Scheduled(cron = "@weekly")
+    public void deleteArticleAboutEvaluate() {
+        evaluateMapper.deleteArticleAboutEvaluate();
+    }
+
+    @Scheduled(cron = "@weekly")
     public void deleteBlackPeople() {
         peopleMapper.deleteBlackPeople();
     }
