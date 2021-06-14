@@ -39,6 +39,7 @@ public class PeopleController {
     public String 查询某人icon(@PathVariable String username) {
         return peopleService.findIcon(username);
     }
+
     @GetMapping("/people")
     public List<People> 条件查询(PeopleDto dto) {
         if (Utils.isAdmin()) {

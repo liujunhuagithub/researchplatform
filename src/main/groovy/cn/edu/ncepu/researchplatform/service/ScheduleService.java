@@ -1,5 +1,7 @@
 package cn.edu.ncepu.researchplatform.service;
 
+import cn.edu.ncepu.researchplatform.entity.Article;
+import cn.edu.ncepu.researchplatform.mapper.ArticleMapper;
 import cn.edu.ncepu.researchplatform.mapper.EvaluateMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import cn.edu.ncepu.researchplatform.mapper.StarMapper;
@@ -12,6 +14,9 @@ import org.springframework.stereotype.Service;
 public class ScheduleService {
     @Autowired
     private RankService rankService;
+
+    @Autowired
+    private ArticleMapper articleMapper;
     @Autowired
     private StarMapper starMapper;
     @Autowired
@@ -30,8 +35,20 @@ public class ScheduleService {
     }
 
     @Scheduled(cron = "@monthly")
-    public void updateArticleScore() {
+    public void updateArticleWeight() {
+        articleMapper.updateWeight();
+    }
 
+    @Scheduled(cron = "@daily")
+    public void updateArticleScore() {
+        while (true) {
+            Article needCalculateArticle = articleMapper.calculateArticle();
+            if (needCalculateArticle != null) {
+                articleMapper.updateScore(needCalculateArticle.getId());
+                evaluateMapper.updateArticleCalculateByArticleId(needCalculateArticle.getId(), 0);
+            }
+            break;
+        }
     }
 
     @Scheduled(cron = "@weekly")

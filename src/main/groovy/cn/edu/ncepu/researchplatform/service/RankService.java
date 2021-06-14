@@ -36,7 +36,7 @@ public class RankService {
     @Cacheable
     public List<People> peoples() {
         logger.info("生成peoples  rank");
-        return null;
+        return peopleMapper.rankPeople();
     }
 
     @Cacheable
@@ -52,7 +52,6 @@ public class RankService {
 
     @Cacheable
     public List<People> author() {
-        return null;
-
+        return peopleMapper.rankPeople();
     }
 }

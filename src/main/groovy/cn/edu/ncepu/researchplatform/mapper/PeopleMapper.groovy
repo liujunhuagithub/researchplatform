@@ -1,5 +1,6 @@
 package cn.edu.ncepu.researchplatform.mapper
 
+import cn.edu.ncepu.researchplatform.entity.Article
 import cn.edu.ncepu.researchplatform.entity.People
 import cn.edu.ncepu.researchplatform.entity.dto.PeopleDto
 import cn.edu.ncepu.researchplatform.security.PeopleDetails
@@ -133,4 +134,7 @@ FROM
     boolean updatePhone(String phone, String username);
     @Update('update `people` set weight+=(random()-0.3)')
     boolean updateWeight();
+
+    @Select('select * from `people` order by rand() limit 100')
+    List<People> rankPeople();
 }

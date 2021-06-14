@@ -54,8 +54,18 @@ select * from ``
 </script>
 ''')
     List<Article> findByCondition(ArticleDto dto);
-@Select('select * from `people` order by `score` limit 100')
+
+    @Select('select * from `article` order by `score` limit 100')
     List<Article> rankArticle();
+
+
+    @Select('select * from `article`  where calculate=1 order by rand() limit 1')
+    Article calculateArticle();
+
+    @Update('update `article` set score=(select sum(score_item) from evaluate where article_id=#{param1} where gmt_delete is null)')
+    boolean updateScore(Integer articleId);
+    @Update('update `article` set weight+=(random()-0.3)')
+    boolean updateWeight();
 }
 
 

@@ -1,6 +1,5 @@
 package cn.edu.ncepu.researchplatform.controller;
 
-import cn.edu.ncepu.researchplatform.common.R;
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.Evaluate;
 import cn.edu.ncepu.researchplatform.entity.Summary;
@@ -9,12 +8,14 @@ import cn.edu.ncepu.researchplatform.service.EvaluateService;
 import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
-import groovy.util.Eval;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,11 +26,12 @@ public class EvaluateController {
     private EvaluateService evaluateService;
     @Autowired
     private PeopleService peopleService;
-
+    @Autowired
+    private ObjectMapper om;
     @PostAuthorize("#username==#authentication.name or hasAuthority('admin')")
     @DeleteMapping("/people/{username}/evaluate/{evaluateId}")
     public boolean 删除evaluate(@PathVariable String username, @PathVariable Integer evaluateId) {
-        return evaluateService.deleteByIdPeopleId(evaluateId, username);
+        return evaluateService.deleteById(evaluateId, username);
     }
 
     @PutMapping("/evaluate/{id}/adopt")
@@ -67,8 +69,11 @@ public class EvaluateController {
     }
 
     @PostMapping("/summary")
-    public boolean 新增summary(Evaluate[] summary) {
+    public boolean 新增summary(Evaluate[] evaluates) throws JsonProcessingException {
         Summary _s = new Summary();
-        return evaluateService.insertBatchSummary(_s, summary);
+        String sort = om.writeValueAsString(Arrays.stream(evaluates).map(Evaluate::getArticleId).collect(Collectors.toList()));
+        _s.setPeopleId(peopleService.findByUsername(Utils.getCurrent()).getId());
+        _s.setContent(sort);
+        return evaluateService.insertBatchSummary(_s, evaluates);
     }
 }

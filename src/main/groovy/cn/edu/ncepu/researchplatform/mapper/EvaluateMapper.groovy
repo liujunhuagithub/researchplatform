@@ -62,6 +62,10 @@ limit #{(current-1)*size},#{size}
     @Update('update evaluate set weight+=(random()-0.3)')
     boolean updateWeight();
 
+    @Update('update `article` set calculate=#{param2} where id=#{param1}')
+    boolean updateArticleCalculateByArticleId(Integer articleId, Integer flag);
+    @Update('update `article` set calculate=#{param2} where id=(select article_id from evaluate where id=#{param1})')
+    boolean updateArticleCalculateByEvaluateId(Integer evaluateId, Integer flag);
 }
 
 

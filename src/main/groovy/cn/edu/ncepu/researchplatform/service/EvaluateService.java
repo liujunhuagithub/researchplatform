@@ -29,8 +29,10 @@ public class EvaluateService {
 
     @Autowired
     private SummaryMapper summaryMapper;
+
     @Transactional(rollbackFor = Exception.class)
-    public boolean deleteByIdPeopleId(Integer id, String username) {
+    public boolean deleteById(Integer id, String username) {
+        evaluateMapper.updateArticleCalculateByEvaluateId(id, 1);
         return evaluateMapper.deleteByIdPeopleId(id, peopleService.findByUsername(username).getId());
     }
 
@@ -46,22 +48,24 @@ public class EvaluateService {
         return peopleMapper.findAuthorByArticleId(article_id);
     }
 
-    public List<Integer> findBypeopleToArticle(Integer articleId, String  username) {
+    public List<Integer> findBypeopleToArticle(Integer articleId, String username) {
         return evaluateMapper.findBypeopleToArticle(articleId, peopleService.findByUsername(username).getId());
     }
 
-    public List<Evaluate> findByArticleId(Integer articleId,Integer current,Integer size){
+    public List<Evaluate> findByArticleId(Integer articleId, Integer current, Integer size) {
         People author = peopleMapper.findAuthorByArticleId(articleId);
-       return evaluateMapper.findEvaluateByArticleId(articleId,peopleService.findByUsername(Utils.getCurrent()).getId().equals(author.getId()),current, size);
+        return evaluateMapper.findEvaluateByArticleId(articleId, peopleService.findByUsername(Utils.getCurrent()).getId().equals(author.getId()), current, size);
     }
 
-    public Integer insertDiscuss(Evaluate evaluate){
+    public Integer insertDiscuss(Evaluate evaluate) {
+        evaluateMapper.updateArticleCalculateByArticleId(evaluate.getArticleId(), 1);
         return evaluateMapper.insertDiscuss(evaluate);
     }
 
-    public    List<Evaluate> findDisscussByParentId(Integer parentId,Integer current,Integer size){
-        return evaluateMapper.findDisscussByParentId(parentId,current,size);
+    public List<Evaluate> findDisscussByParentId(Integer parentId, Integer current, Integer size) {
+        return evaluateMapper.findDisscussByParentId(parentId, current, size);
     }
+
     @Transactional(rollbackFor = Exception.class, readOnly = true)
     public boolean isArticleContainArea(Integer articleId) {
         List<Area> articleAreas = areaMapper.findArticleAreas(articleId);
@@ -74,10 +78,12 @@ public class EvaluateService {
         return true;
     }
 
-    public boolean insertBatchSummary(Summary summary,Evaluate[] evaluates) {
+    @Transactional(rollbackFor = Exception.class)
+    public boolean insertBatchSummary(Summary summary, Evaluate[] evaluates) {
         summaryMapper.insert(summary);
         for (Evaluate evaluate : evaluates) {
             evaluateMapper.insertEvaluate(evaluate);
+            evaluateMapper.updateArticleCalculateByArticleId(evaluate.getArticleId(), 1);
         }
         return true;
     }
