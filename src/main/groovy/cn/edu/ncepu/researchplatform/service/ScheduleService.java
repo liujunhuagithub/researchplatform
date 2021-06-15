@@ -43,11 +43,11 @@ public class ScheduleService {
     public void updateArticleScore() {
         while (true) {
             Article needCalculateArticle = articleMapper.calculateArticle();
-            if (needCalculateArticle != null) {
-                articleMapper.updateScore(needCalculateArticle.getId());
-                evaluateMapper.updateArticleCalculateByArticleId(needCalculateArticle.getId(), 0);
+            if (needCalculateArticle == null) {
+                break;
             }
-            break;
+            articleMapper.updateScore(needCalculateArticle.getId());
+            evaluateMapper.updateArticleCalculateByArticleId(needCalculateArticle.getId(), 0);
         }
     }
 
