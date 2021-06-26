@@ -18,8 +18,8 @@ public class CacheConfig {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
         cacheManager.isAllowNullValues();
         cacheManager.setCaffeine(Caffeine.newBuilder()
-                .initialCapacity(100)
-                .maximumSize(500)
+                .initialCapacity(10000)
+                .maximumSize(50000)
                 .expireAfterWrite(10, TimeUnit.SECONDS));
         return cacheManager;
     }
