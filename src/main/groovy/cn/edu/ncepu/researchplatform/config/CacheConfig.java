@@ -39,8 +39,8 @@ public class CacheConfig {
     public CacheManager captchaCacheManager() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
         cacheManager.setCaffeine(Caffeine.newBuilder()
-                .initialCapacity(200)
-                .maximumSize(4 * 200)
+                .initialCapacity(2000)
+                .maximumSize(4 * 2000)
                 .expireAfterWrite(3, TimeUnit.MINUTES));
         cacheManager.isAllowNullValues();
         return cacheManager;
