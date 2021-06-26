@@ -23,7 +23,6 @@ class ResearchplatformApplicationTests {
     @Test
     @Rollback(value = false)
     void contextLoads() {
-        areaMapper.updateName("fdsa", 1);
     }
 
 }

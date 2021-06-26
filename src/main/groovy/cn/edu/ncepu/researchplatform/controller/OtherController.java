@@ -40,7 +40,7 @@ public class OtherController {
         captcha.write(response.getOutputStream());
     }
 
-    @GetMapping("/identityCaptchaCode")
+    @PostMapping("/identityCaptchaCode")
     public boolean 校验图形验证码( String captchakey, String captchaCode) {
         String code = captchaCache.get(captchakey,String.class);
         if (!captchaCode.equals(code)) {
