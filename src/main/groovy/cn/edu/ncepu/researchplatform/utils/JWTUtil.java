@@ -35,17 +35,12 @@ public class JWTUtil {
         return jwtParser.setSigningKey(SECRET).parseClaimsJws(jwt).getBody();
     }
 
-    public static String parseAuthorization() {
-        String authorization = Utils.getRequest().getHeader("Authorization");
-        if (!StringUtils.hasText(authorization)) {
-            throw new RuntimeException();
-        }
+    public static String parseAuthorization(String authorization) {
         try {
             return getJwt(authorization.split(" ")[1]).getSubject();
         } catch (Exception e) {
             //校验Bearer Token
             return getJwt(authorization).getSubject();
         }
-
     }
 }

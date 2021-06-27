@@ -44,7 +44,7 @@ public class EvaluateController {
             case -1:
                 throw CustomException.INPUT_ERROE_Exception;
             case 1:
-                peopleService.cost(evaluateId, 10);
+                peopleService.costForEvaluate(evaluateId, 10);
             case 0:
                 break;
             default:

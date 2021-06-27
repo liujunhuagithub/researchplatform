@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 public class ScheduleService {
     @Autowired
     private RankService rankService;
-
     @Autowired
     private ArticleMapper articleMapper;
     @Autowired

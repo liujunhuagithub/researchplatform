@@ -9,6 +9,7 @@ import cn.edu.ncepu.researchplatform.mapper.StarMapper;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class StarService {
     @Autowired
     private AreaMapper areaMapper;
     @Autowired
+    @Lazy
     private PeopleService peopleService;
     @Autowired
     private PeopleMapper peopleMapper;

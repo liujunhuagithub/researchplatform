@@ -47,7 +47,7 @@ public class PeopleService {
     }
 
     @Async
-    public void cost(Integer evaluateId, Integer value) {
+    public void costForEvaluate(Integer evaluateId, Integer value) {
         People author = evaluateService.getAuthor(evaluateId);
         peopleMapper.cost(author.getId(), value);
     }

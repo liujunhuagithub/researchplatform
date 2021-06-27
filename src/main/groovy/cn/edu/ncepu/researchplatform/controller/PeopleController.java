@@ -85,7 +85,7 @@ public class PeopleController {
     @PutMapping("/poeple/{username}/realname")
     @PostAuthorize("#username==#authentication.name or hasAuthority('admin')")
     public boolean 实名认证(String idCard, String realname, @PathVariable String username) {
-        if (!otherService.isReadName(idCard, realname)) {
+        if (!OtherService.isReadName(idCard, realname)) {
             throw CustomException.INPUT_ERROE_Exception;
         }
         return peopleService.updateReal(realname, idCard, username);
