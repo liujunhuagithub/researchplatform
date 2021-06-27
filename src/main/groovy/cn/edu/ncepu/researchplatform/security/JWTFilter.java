@@ -41,10 +41,10 @@ public class JWTFilter extends OncePerRequestFilter {
         try {
             String authorization = Utils.getRequest().getHeader("Authorization");
             if (!StringUtils.hasText(authorization)) {
-                logger.warn("当前无JWT令牌");
+                logger.info("当前无JWT令牌");
             } else {
                 PeopleDetails details = peopleService.findByUsername(JWTUtil.parseAuthorization(authorization));
-                logger.warn("当前访问用户名： {} ", details.getUsername());
+                logger.info("当前访问用户名： {} ", details.getUsername());
                 SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(details.getUsername(), null, details.getAuthorities()));
             }
             filterChain.doFilter(httpServletRequest, httpServletResponse);

@@ -13,7 +13,6 @@ public class CustomException extends RuntimeException {
         this.code = type.code;
     }
 
-
     public int getCode() {
         return code;
     }
