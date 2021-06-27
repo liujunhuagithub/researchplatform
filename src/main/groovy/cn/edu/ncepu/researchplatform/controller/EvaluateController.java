@@ -41,8 +41,6 @@ public class EvaluateController {
     public boolean 置顶或取消evaluate(@PathVariable Integer evaluateId, @RequestBody Map<String, Integer> params) {
         Integer flag = params.get("flag");
         switch (flag) {
-            case -1:
-                throw CustomException.INPUT_ERROE_Exception;
             case 1:
                 peopleService.costForEvaluate(evaluateId, 10);
             case 0:
@@ -87,4 +85,10 @@ public class EvaluateController {
         _s.setContent(sort);
         return evaluateService.insertBatchSummary(_s, evaluates);
     }
+
+    @PutMapping("/evaluate/{evaluateId}/report")
+    public boolean 举报evaluate(@PathVariable Integer evaluateId) {
+        return evaluateService.updateFlag(evaluateId, -2);
+    }
+
 }

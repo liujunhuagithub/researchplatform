@@ -28,8 +28,9 @@ public class MaterialController {
     private ObjectMapper om;
 
     @PostMapping("/material")
-    public Integer 新增material(Material material) {
+    public Integer 新增material参数peopleId不用写(@RequestBody Material material) {
         material.setPeopleId(peopleService.findByUsername(Utils.getCurrent()).getId());
+        material.setFlag(0);
         return materialService.insertMaterial(material);
     }
 

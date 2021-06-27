@@ -50,4 +50,9 @@ public class ArticleController {
         article.setAuthorId(peopleService.findByUsername(Utils.getCurrent()).getId());
         return articleService.insert(article);
     }
+
+    @PutMapping("/article/{articleId}/report")
+    public boolean 举报article(@PathVariable Integer articleId) {
+        return articleService.updateFlag(-2, articleId);
+    }
 }

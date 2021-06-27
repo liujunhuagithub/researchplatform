@@ -9,6 +9,7 @@ import cn.edu.ncepu.researchplatform.service.PeopleService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,8 +67,8 @@ public class PeopleController {
         return peopleService.insertPeople(people);
     }
 
-    @PutMapping("/poeple/{username}/phone")
-    @PostAuthorize("#username==#authentication.name or hasAuthority('admin')")
+    @PutMapping("/people/{username}/phone")
+    @PreAuthorize("#username==authentication.name or hasAuthority('admin')")
     public boolean 修改phone(String phone, String phoneCode, @PathVariable String username) {
         if (!otherService.verfyPhoneCode(phone, phoneCode)) {
             throw CustomException.INPUT_ERROE_Exception;
@@ -76,14 +77,14 @@ public class PeopleController {
     }
 
     @PutMapping("/poeple/{username}/info")
-    @PostAuthorize("#username==#authentication.name or hasAuthority('admin')")
+    @PreAuthorize("#username==authentication.name or hasAuthority('admin')")
     public boolean 修改Info(People people, @PathVariable String username) {
 
         return peopleService.updateInfo(people);
     }
 
     @PutMapping("/poeple/{username}/realname")
-    @PostAuthorize("#username==#authentication.name or hasAuthority('admin')")
+    @PreAuthorize("#username==authentication.name or hasAuthority('admin')")
     public boolean 实名认证(String idCard, String realname, @PathVariable String username) {
         if (!OtherService.isReadName(idCard, realname)) {
             throw CustomException.INPUT_ERROE_Exception;

@@ -38,10 +38,11 @@ public class ScheduleService {
         articleMapper.updateWeight();
     }
 
+    //待优化
     @Scheduled(cron = "@daily")
     public void updateArticleScore() {
         while (true) {
-            Article needCalculateArticle = articleMapper.calculateArticle();
+            Article needCalculateArticle = articleMapper.findCalculatedArticle();
             if (needCalculateArticle == null) {
                 break;
             }
@@ -60,8 +61,4 @@ public class ScheduleService {
         peopleMapper.deleteBlackPeople();
     }
 
-    @Scheduled(cron = "@weekly")
-    public void deleteIllegeEvaluate() {
-        evaluateMapper.deleteIllegeEvaluate();
-    }
 }

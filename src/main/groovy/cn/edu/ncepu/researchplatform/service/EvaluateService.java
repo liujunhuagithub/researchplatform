@@ -38,8 +38,10 @@ public class EvaluateService {
         return evaluateMapper.deleteByIdAndPeopleId(id, peopleId);
     }
 
-
+    @Transactional(rollbackFor = Exception.class)
     public boolean updateFlag(Integer id, Integer flag) {
+        evaluateMapper.updateArticleCalculateByEvaluateId(id, 1);
+        evaluateMapper.deleteById(id);
         return evaluateMapper.updateFlag(id, flag);
     }
 

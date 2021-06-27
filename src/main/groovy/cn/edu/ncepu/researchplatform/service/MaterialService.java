@@ -15,7 +15,6 @@ public class MaterialService {
     @Autowired
     private ObjectMapper om;
 
-
     public Integer insertMaterial(Material material) {
         return materialMapper.insertMaterial(material);
     }
@@ -34,7 +33,7 @@ public class MaterialService {
         return materialMapper.findById(id);
     }
 
-    public boolean deleteById(Integer id,Integer peopleId){
-        return materialMapper.deleteById(id,peopleId);
+    public boolean deleteById(Integer id, Integer peopleId) {
+        return materialMapper.deleteById(id, peopleId);
     }
 }

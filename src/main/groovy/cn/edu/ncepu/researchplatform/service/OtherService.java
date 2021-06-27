@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class OtherService {
     @Autowired
-    @Qualifier("captcha")
-    private Cache captchaCache;
+    @Qualifier("code")
+    private Cache codeCache;
 
     public String phoneCode(String phone) {
         //暂定phone前6位
@@ -18,7 +18,7 @@ public class OtherService {
     }
 
     public boolean verfyPhoneCode(String phone, String phoneCode) {
-        return captchaCache.get(phone, String.class).equals(phoneCode);
+        return codeCache.get(phone, String.class).equals(phoneCode);
     }
 
     public static boolean isReadName(String idCard, String realname) {

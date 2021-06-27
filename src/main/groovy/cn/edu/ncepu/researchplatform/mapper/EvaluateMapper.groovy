@@ -36,7 +36,7 @@ niming=0
 </where>
 limit #{(current-1)*size},#{size}
 </script>''')
-    List<Evaluate> findEvaluateByArticleId(Integer articleId, boolean isAuthor,@Param("current")Integer current, @Param("size")Integer size);
+    List<Evaluate> findEvaluateByArticleId(Integer articleId, boolean isAuthor, @Param("current") Integer current, @Param("size") Integer size);
 
     @Select('''<script>
 select * from `evaluate` 
@@ -48,7 +48,7 @@ niming=0
 </where>
 limit #{(current-1)*size},#{size}
 </script>''')
-    List<Evaluate> findDisscussByParentId(Integer parentId,  @Param("current")Integer current, @Param("size")Integer size);
+    List<Evaluate> findDisscussByParentId(Integer parentId, @Param("current") Integer current, @Param("size") Integer size);
 
     @Insert('insert into `evaluate`(people_id,article_id,summary_id,niming,parent_id,content) values(#{peopleId},#{articleId},#{summaryId},#{niming},#{parentId},#{content})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
@@ -57,17 +57,21 @@ limit #{(current-1)*size},#{size}
     @Insert('insert into `evaluate`(people_id,article_id,parent_id,content) values(#{peopleId},#{articleId},},#{parentId},#{content})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertDiscuss(Evaluate evaluate);
+
     @Select('select * from `evaluate` order by `score_item` limit 100')
     List<Evaluate> rankEvaluate();
+
     @Update('update evaluate set weight+=(random()-0.3)')
     boolean updateWeight();
 
     @Update('update `article` set calculate=#{param2} where id=#{param1}')
     boolean updateArticleCalculateByArticleId(Integer articleId, Integer flag);
+
     @Update('update `article` set calculate=#{param2} where id=(select article_id from evaluate where id=#{param1})')
     boolean updateArticleCalculateByEvaluateId(Integer evaluateId, Integer flag);
-    @Update('update evaluate set gmt_delete=CURRENT_TIMESTAMP where flag=-1 and gmt_delete is null')
-boolean deleteIllegeEvaluate();
+
+    @Update('update evaluate set gmt_delete=CURRENT_TIMESTAMP where id=#{param1}')
+    boolean deleteById(Integer evaluateId);
 }
 
 

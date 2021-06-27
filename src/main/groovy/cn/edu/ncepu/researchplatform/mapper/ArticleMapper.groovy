@@ -62,7 +62,7 @@ select * from ``
 
 
     @Select('select * from `article`  where calculate=1 order by rand() limit 1')
-    Article calculateArticle();
+    Article findCalculatedArticle();
 
     @Update('update `article` set score=(select sum(score_item) from evaluate where article_id=#{param1} where gmt_delete is null)')
     boolean updateScore(Integer articleId);

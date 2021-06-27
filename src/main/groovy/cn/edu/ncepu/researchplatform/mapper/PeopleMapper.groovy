@@ -107,7 +107,7 @@ FROM
 `people` where username=#{param1} ''')
     People findALLInfo(String username);
 
-    @Select('select * from `people` where id=#{param1}')
+    @Select('select id,username,phone from `people` where id=#{param1}')
     People findById(Integer id);
 
     @Update('update `people` set exp=exp-#{param2} where id =#{param1} ')

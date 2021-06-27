@@ -3,7 +3,7 @@ package cn.edu.ncepu.researchplatform.controller;
 import cn.edu.ncepu.researchplatform.service.EvaluateService;
 import cn.edu.ncepu.researchplatform.service.StarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class StarController {
     private EvaluateService evaluateService;
 
     @PostMapping("/star/{evaluateId}")
-    @PostAuthorize("#starService.isContainArea(#evaluateId)")
+    @PreAuthorize("#starService.isContainArea(#evaluateId)")
     public boolean 点赞反对取消tar(@PathVariable Integer evaluateId, @RequestBody Map<String, Integer> params) {
         boolean r = starService.saveStar(evaluateId, params.get("flag"));
         starService.notifyAuthorStar(evaluateId);

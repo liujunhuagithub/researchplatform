@@ -48,8 +48,8 @@ public class PeopleService {
 
     @Async
     public void costForEvaluate(Integer evaluateId, Integer value) {
-        People author = evaluateService.getAuthor(evaluateId);
-        peopleMapper.cost(author.getId(), value);
+//        People author = evaluateService.getAuthor(evaluateId);
+//        peopleMapper.cost(author.getId(), value);
     }
 
     public boolean updatePass(String phone, String pass) {
@@ -65,6 +65,7 @@ public class PeopleService {
     }
 
     public boolean updateReal(String realname, String idCard, String username) {
+        //补充：如果该idcard封杀，就报错
         return peopleMapper.updateReal(realname, idCard, username);
     }
 

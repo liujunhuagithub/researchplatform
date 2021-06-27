@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class CacheConfig {
     @Bean
     @Primary
-    public CacheManager caffeineCacheManager() {
+    public CacheManager entityCacheManager() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
         cacheManager.isAllowNullValues();
         cacheManager.setCaffeine(Caffeine.newBuilder()
@@ -36,7 +36,7 @@ public class CacheConfig {
     }
 
     @Bean
-    public CacheManager captchaCacheManager() {
+    public CacheManager codeCacheManager() {
         CaffeineCacheManager cacheManager = new CaffeineCacheManager();
         cacheManager.setCaffeine(Caffeine.newBuilder()
                 .initialCapacity(2000)
@@ -46,7 +46,7 @@ public class CacheConfig {
     }
 
     @Bean
-    public Cache captcha() {
-        return captchaCacheManager().getCache("captcha");
+    public Cache code() {
+        return codeCacheManager().getCache("code");
     }
 }

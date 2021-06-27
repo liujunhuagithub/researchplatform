@@ -82,7 +82,7 @@ mybatis:
     local-cache-scope: statement
     map-underscore-to-camel-case: true
 rank:
-  size: 10
+  size: 50
 ---
 spring:
   config:

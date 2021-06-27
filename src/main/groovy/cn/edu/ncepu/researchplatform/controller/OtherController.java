@@ -24,8 +24,8 @@ public class OtherController {
     public static String CAPTCH_HEADER_NAME = "captchakey";
     public static String PHONECODE_PARAM_NAME = "phoneCode";
     @Autowired
-    @Qualifier("captcha")
-    private Cache captchaCache;
+    @Qualifier("code")
+    private Cache codeCache;
 
     @Autowired
     OtherService otherService;
@@ -34,7 +34,7 @@ public class OtherController {
     public void 获取图形验证码(HttpServletResponse response) throws IOException {
         String key = UUID.randomUUID().toString();
         LineCaptcha captcha = CaptchaUtil.createLineCaptcha(200, 100);
-        captchaCache.put(key, captcha.getCode());
+        codeCache.put(key, captcha.getCode());
         response.setContentType("image/png");
         response.addHeader(CAPTCH_HEADER_NAME, key);
         captcha.write(response.getOutputStream());
@@ -42,7 +42,7 @@ public class OtherController {
 
     @PostMapping("/identityCaptchaCode")
     public boolean 校验图形验证码( String captchakey, String captchaCode) {
-        String code = captchaCache.get(captchakey,String.class);
+        String code = codeCache.get(captchakey,String.class);
         if (!captchaCode.equals(code)) {
             throw CustomException.INPUT_ERROE_Exception;
         }
@@ -51,7 +51,7 @@ public class OtherController {
 
     @PostMapping("/phoneCode")
     public boolean 获取手机验证码( String phone ) throws IOException {
-        captchaCache.put(phone, otherService.phoneCode(phone));
+        codeCache.put(phone, otherService.phoneCode(phone));
         return true;
     }
 }
