@@ -9,6 +9,8 @@ import cn.edu.ncepu.researchplatform.mapper.*;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ public class EvaluateService {
     @Autowired
     private EvaluateMapper evaluateMapper;
     @Autowired
+    @Lazy
     private PeopleService peopleService;
     @Autowired
     private PeopleMapper peopleMapper;
@@ -26,14 +29,13 @@ public class EvaluateService {
     private ArticleMapper articleMapper;
     @Autowired
     private AreaMapper areaMapper;
-
     @Autowired
     private SummaryMapper summaryMapper;
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean deleteById(Integer id, String username) {
+    public boolean deleteById(Integer id, Integer peopleId) {
         evaluateMapper.updateArticleCalculateByEvaluateId(id, 1);
-        return evaluateMapper.deleteByIdPeopleId(id, peopleService.findByUsername(username).getId());
+        return evaluateMapper.deleteByIdAndPeopleId(id, peopleId);
     }
 
 
@@ -43,6 +45,7 @@ public class EvaluateService {
 
 
     @Transactional(rollbackFor = Exception.class, readOnly = true)
+    @Cacheable(value = "evaluate" ,key = "'author'+#evaluateId")
     public People getAuthor(Integer evaluateId) {
         Integer article_id = articleMapper.findIdaboutEvaluate(evaluateId);
         return peopleMapper.findAuthorByArticleId(article_id);

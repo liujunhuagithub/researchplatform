@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface EvaluateMapper {
     @Update('update `evaluate` set `gmt_delete`=CURRENT_TIMESTAMP where id=#{param1} and `people_id`=#{param2}')
-    boolean deleteByIdPeopleId(Integer id, Integer peopleId);
+    boolean deleteByIdAndPeopleId(Integer id, Integer peopleId);
 
     @Update('update `evaluate` set flag=#{param2} where id = #{param1}')
     boolean updateFlag(Integer id, Integer flag);
@@ -20,7 +20,7 @@ interface EvaluateMapper {
     @Select('select * from where id =#{param1}')
     Evaluate findById(Integer id);
 
-    @Update('update  `evaluate` set `gmt_delete`=CURRENT_TIMESTAMP  where article_id in (select id from `article` where gmt_delete is not null)')
+    @Update('update  `evaluate` set `gmt_delete`=CURRENT_TIMESTAMP  where `gmt_delete` IS NULL and article_id in (select id from `article` where gmt_delete is not null)')
     Integer deleteArticleAboutEvaluate();
 
     @Select('select evaluate_id from `star` where poeple_id=#{param2} and evaluate_id in (select id from `evaluate` where article_id= #{articleId} and gmt_delete is null )')
@@ -66,6 +66,8 @@ limit #{(current-1)*size},#{size}
     boolean updateArticleCalculateByArticleId(Integer articleId, Integer flag);
     @Update('update `article` set calculate=#{param2} where id=(select article_id from evaluate where id=#{param1})')
     boolean updateArticleCalculateByEvaluateId(Integer evaluateId, Integer flag);
+    @Update('update evaluate set gmt_delete=CURRENT_TIMESTAMP where flag=-1 and gmt_delete is null')
+boolean deleteIllegeEvaluate();
 }
 
 

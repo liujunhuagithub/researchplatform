@@ -5,6 +5,8 @@ import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
 import cn.hutool.core.util.PhoneUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,10 +21,12 @@ class ResearchplatformApplicationTests {
     AreaMapper areaMapper;
     @Autowired
     PeopleMapper peopleMapper;
-
+    @Autowired
+    ObjectMapper om;
     @Test
     @Rollback(value = false)
-    void contextLoads() {
+    void contextLoads() throws JsonProcessingException {
+        Integer[] integers = om.readValue("[1, 2, 3]", Integer[].class);
     }
 
 }

@@ -13,6 +13,7 @@ interface MaterialMapper {
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertMaterial(Material material);
 
+    @Insert('insert into `people_area` values (#{param1},#{param2})')
     boolean throughArea(Integer peopleId, Integer areaId);
 
     @Update('update `material` set flag=flag where id=#{param1}')

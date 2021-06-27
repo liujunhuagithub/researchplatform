@@ -42,7 +42,6 @@ public class CacheConfig {
                 .initialCapacity(2000)
                 .maximumSize(4 * 2000)
                 .expireAfterWrite(3, TimeUnit.MINUTES));
-        cacheManager.isAllowNullValues();
         return cacheManager;
     }
 

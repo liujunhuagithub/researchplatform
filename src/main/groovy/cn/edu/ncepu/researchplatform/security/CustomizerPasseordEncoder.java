@@ -26,8 +26,8 @@ public class CustomizerPasseordEncoder extends BCryptPasswordEncoder {
 
         String username = Utils.getRequest().getParameter("username");
         String phoneCode = Utils.getRequest().getParameter(OtherController.PHONECODE_PARAM_NAME);
-        if (PhoneUtil.isPhone(username) && StringUtils.hasText(phoneCode) && otherService.verfyPhoneCode(username,phoneCode)) {
-            return true;
+        if (PhoneUtil.isPhone(username) && StringUtils.hasText(phoneCode)) {
+            return otherService.verfyPhoneCode(username,phoneCode);
         }
         return super.matches(rawPassword, encodedPassword);
     }

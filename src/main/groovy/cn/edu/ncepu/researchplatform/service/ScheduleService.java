@@ -60,4 +60,9 @@ public class ScheduleService {
     public void deleteBlackPeople() {
         peopleMapper.deleteBlackPeople();
     }
+
+    @Scheduled(cron = "@weekly")
+    public void deleteIllegeEvaluate() {
+        evaluateMapper.deleteIllegeEvaluate();
+    }
 }

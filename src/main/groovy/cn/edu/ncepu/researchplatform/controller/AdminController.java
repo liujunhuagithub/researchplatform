@@ -1,10 +1,8 @@
 package cn.edu.ncepu.researchplatform.controller;
 
-import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,24 +40,19 @@ public class AdminController {
     }
 
     @PutMapping("/auth/{username}")
-    public boolean 修改people权限身份参数名auth为0_3(@PathVariable String username, @RequestBody Map<String, Integer> params) {
-        Integer people_id = peopleService.findByUsername(username).getId();
-        return peopleService.updateAuthById(people_id, params.get("auth"));
+    public boolean 修改people权限身份参数名auth为负一_3(@PathVariable String username, @RequestBody Map<String, Integer> params) {
+        Integer peopleId = peopleService.findByUsername(username).getId();
+        return peopleService.updateAuthById(peopleId, params.get("auth"));
     }
 
     @PutMapping("/evaluate/{id}/illegal")
-    public boolean 封杀evaluate参数名flag只能是负一(@PathVariable Integer id, @RequestBody Map<String, Integer> params) {
-        Integer flag = params.get("flag");
-        if (!flag.equals(-1)) {
-            throw CustomException.INPUT_ERROE_Exception;
-        }
-        return evaluateService.updateFlag(id, params.get("flag"));
+    public boolean 封杀evaluate无需参数(@PathVariable Integer id) {
+        return evaluateService.updateFlag(id, -1);
     }
 
 
     @PutMapping("/material/{materialId}/flag")
-    public boolean 全通过1或全部不通过负一(Integer materialId, boolean flag) throws JsonProcessingException {
-
-        return materialService.throughBatchArea(materialId, flag ?1:-1);
+    public boolean 全通过1或全部不通过负一(@PathVariable Integer materialId, @RequestBody Map<String, Integer> params) throws JsonProcessingException {
+        return materialService.throughBatchArea(materialId, params.get("flag"));
     }
 }

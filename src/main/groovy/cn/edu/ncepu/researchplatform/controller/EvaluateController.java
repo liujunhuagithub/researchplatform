@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,21 +29,31 @@ public class EvaluateController {
     private PeopleService peopleService;
     @Autowired
     private ObjectMapper om;
-    @PostAuthorize("#username==#authentication.name or hasAuthority('admin')")
+
+    @PreAuthorize("#username==authentication.name or hasAuthority('admin')")
     @DeleteMapping("/people/{username}/evaluate/{evaluateId}")
-    public boolean 删除evaluate(@PathVariable String username, @PathVariable Integer evaluateId) {
-        return evaluateService.deleteById(evaluateId, username);
+    public boolean 删除evaluate路径参数username必须是evaluate发表者而非当前登录用户(@PathVariable String username, @PathVariable Integer evaluateId) {
+        return evaluateService.deleteById(evaluateId, peopleService.findByUsername(username).getId());
     }
 
-    @PutMapping("/evaluate/{id}/adopt")
+    @PutMapping("/evaluate/{evaluateId}/adopt")
     @Transactional(rollbackFor = Exception.class)
-    public boolean 置顶采纳evaluate(@PathVariable Integer id, @RequestBody Map<String, Integer> params) {
+    public boolean 置顶或取消evaluate(@PathVariable Integer evaluateId, @RequestBody Map<String, Integer> params) {
         Integer flag = params.get("flag");
-        if (flag.equals(-1)) throw CustomException.INPUT_ERROE_Exception;
-        if (!evaluateService.getAuthor(id).getUsername().equals(Utils.getCurrent()))
+        switch (flag) {
+            case -1:
+                throw CustomException.INPUT_ERROE_Exception;
+            case 1:
+                peopleService.cost(evaluateId, 10);
+            case 0:
+                break;
+            default:
+                throw CustomException.INPUT_ERROE_Exception;
+        }
+        if (!evaluateService.getAuthor(evaluateId).getUsername().equals(Utils.getCurrent())) {
             throw CustomException.AUTH_ERROR_Exception;
-        peopleService.cost(id, 10);
-        return evaluateService.updateFlag(id, params.get("flag"));
+        }
+        return evaluateService.updateFlag(evaluateId, params.get("flag"));
     }
 
     @GetMapping("/article/{articleId}/evaluate")
@@ -52,9 +63,9 @@ public class EvaluateController {
     }
 
     @PostMapping("/discuss")
-    @PostAuthorize("#evaluateService.isArticleContainArea(#evaluate.articleId)")
+    @PreAuthorize("#evaluateService.isArticleContainArea(#evaluate.articleId)")
     public Integer 添加讨论(Evaluate evaluate) {
-        if (OtherService.isIllegalEvaluate(evaluate.getContent())){
+        if (OtherService.isIllegalEvaluate(evaluate.getContent())) {
             throw CustomException.SENSITIVE_ERROR_Exception;
         }
         evaluate.setPeopleId(peopleService.findByUsername(Utils.getCurrent()).getId());

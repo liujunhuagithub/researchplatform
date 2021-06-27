@@ -11,6 +11,7 @@ import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,9 +46,10 @@ public class PeopleService {
         return people;
     }
 
-    public boolean cost(Integer evaluateId, Integer value) {
+    @Async
+    public void cost(Integer evaluateId, Integer value) {
         People author = evaluateService.getAuthor(evaluateId);
-        return peopleMapper.cost(value);
+        peopleMapper.cost(author.getId(), value);
     }
 
     public boolean updatePass(String phone, String pass) {

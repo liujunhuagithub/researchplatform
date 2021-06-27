@@ -1,6 +1,5 @@
 package cn.edu.ncepu.researchplatform.mapper
 
-import cn.edu.ncepu.researchplatform.entity.Article
 import cn.edu.ncepu.researchplatform.entity.People
 import cn.edu.ncepu.researchplatform.entity.dto.PeopleDto
 import cn.edu.ncepu.researchplatform.security.PeopleDetails
@@ -20,7 +19,7 @@ interface PeopleMapper {
     CASE auth
     WHEN 0 THEN "guest"
     WHEN 1 THEN "vip"
-    WHEN 2 THEN "black"
+    WHEN -1 THEN "black"
     WHEN 3 THEN "admin,vip"
     END AS auth
     FROM `people`
@@ -111,8 +110,8 @@ FROM
     @Select('select * from `people` where id=#{param1}')
     People findById(Integer id);
 
-    @Update('update `people` set exp=exp-#{param1} ')
-    boolean cost(Integer value);
+    @Update('update `people` set exp=exp-#{param2} where id =#{param1} ')
+    boolean cost(Integer poepleId,Integer value);
 
     @Update('update `people` set password=#{param2} where phone=#{param1} and gmt_delete is null')
     boolean updatePass(String phone, String pass);

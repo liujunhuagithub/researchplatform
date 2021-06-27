@@ -31,8 +31,8 @@ public class ArticleService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean deleteByIdAuthorId(Integer id, String username) {
-        return articleMapper.deleteByIdAuthorId(id, peopleService.findByUsername(username).getId());
+    public boolean deleteByIdAuthorId(Integer articleId, String username) {
+        return articleMapper.deleteByIdAuthorId(articleId, peopleService.findByUsername(username).getId());
     }
 
     @Cacheable(value = "article", key = "#articleId")

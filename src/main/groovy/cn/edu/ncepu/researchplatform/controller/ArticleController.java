@@ -9,7 +9,7 @@ import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,13 +21,13 @@ public class ArticleController {
     @Autowired
     private PeopleService peopleService;
 
-    @PostAuthorize("#username==#authentication.name or hasAuthority('admin')")
+    @PreAuthorize("#username== authentication.name or hasAuthority('admin')")
     @DeleteMapping("/people/{username}/article/{articleId}")
-    public boolean 删除article(@PathVariable String username, @PathVariable Integer articleId) {
+    public boolean 删除article路径参数username必须是文章作者而非当前登录用户(@PathVariable String username, @PathVariable Integer articleId) {
         return articleService.deleteByIdAuthorId(articleId, username);
     }
 
-    @GetMapping("article/{id}")
+    @GetMapping("/article/{id}")
     public ArticleVo 查询某article(@PathVariable Integer id) {
         Article article = articleService.findArticleById(id);
         //   普通用户                  已删除                           有问题

@@ -31,10 +31,10 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Swagger3-Demo接口文档")
-                .description("技术支持-团队")
-                .contact(new Contact("团队", "http://www.4399.com", "cloud.com "))
-                .version("1.0")
+                .title("科研平台接口文档")
+                .description("this is a 科研平台")
+                .contact(new Contact("垃圾二人组", "http://www.shabi.com", "cloud.com "))
+                .version("999999999999.9999999")
                 .build();
     }
 }
