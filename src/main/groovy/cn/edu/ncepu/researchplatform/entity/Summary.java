@@ -1,11 +1,8 @@
 package cn.edu.ncepu.researchplatform.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 @Validated
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
