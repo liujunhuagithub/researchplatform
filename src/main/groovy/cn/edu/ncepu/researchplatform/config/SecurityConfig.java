@@ -32,9 +32,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier("customizerPasseordEncoder")
     private PasswordEncoder passwordEncoder;
-
+    @Autowired
+    private ObjectMapper om;
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser("root").password("root").authorities("admin","vip");
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder);
     }
@@ -58,26 +60,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //          匿名访问失败处理
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(200);
-            response.getWriter().write(om().writeValueAsString(R.fail(CustomException.AUTH_ERROR_Exception)));
+            response.getWriter().write(om.writeValueAsString(R.fail(CustomException.AUTH_ERROR_Exception)));
         }).accessDeniedHandler((request, response, accessDeniedException) -> {
 //            鉴权失败处理器
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(200);
-            response.getWriter().write(om().writeValueAsString(R.fail(CustomException.AUTH_ERROR_Exception)));
+            response.getWriter().write(om.writeValueAsString(R.fail(CustomException.AUTH_ERROR_Exception)));
         });
 
 
         http.formLogin().successHandler((request, response, authentication) -> {
             response.setContentType("text/plain;charset=utf-8");
             response.setStatus(200);
-            response.getWriter().write(om().writeValueAsString(R.success(JWTUtil.createjwt(authentication))));
+            response.getWriter().write(om.writeValueAsString(R.success(JWTUtil.createjwt(authentication))));
         }).failureHandler((request, response, exception) -> {
             response.setContentType("application/json; charset=utf-8");
             response.setStatus(200);
             if (exception instanceof DisabledException) {
-                response.getWriter().write(om().writeValueAsString(R.fail(401, "该账号违禁，已被拉黑")));
+                response.getWriter().write(om.writeValueAsString(R.fail(401, "该账号违禁，已被拉黑")));
             }else {
-                response.getWriter().write(om().writeValueAsString(R.fail(401, "登陆失败!")));
+                response.getWriter().write(om.writeValueAsString(R.fail(401, "登陆失败!")));
             }
         }).permitAll();
 
@@ -97,8 +99,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-    @Bean
-    public ObjectMapper om() {
-        return new ObjectMapper();
-    }
+
 }
