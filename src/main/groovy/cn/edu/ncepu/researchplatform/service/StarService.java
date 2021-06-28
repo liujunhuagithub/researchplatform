@@ -32,10 +32,12 @@ public class StarService {
     private PeopleMapper peopleMapper;
     @Autowired
     private WebSocketService wsService;
-
+    @Autowired
+    @Lazy
+    private AreaService areaService;
     @Transactional(rollbackFor = Exception.class)
     public boolean saveStar(Integer evaluateId, Integer flag) {
-        Integer peopleId = peopleService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getId();
+        Integer peopleId = peopleService.findByUsername(Utils.getCurrent()).getId();
         Star star = starMapper.findOne(evaluateId, peopleId);
         if (star == null) {
             return starMapper.saveStar(evaluateId, peopleId, flag);
@@ -47,14 +49,8 @@ public class StarService {
     public boolean isContainArea(Integer evaluateId) {
         Integer article_id = articleMapper.findIdaboutEvaluate(evaluateId);
         List<Area> articleAreas = areaMapper.findArticleAreas(article_id);
-        PeopleDetails peopleDetails = peopleService.findByUsername(Utils.getCurrent());
-        List<Area> peopleAreas = areaMapper.findPeopleAreas(peopleDetails.getId());
-
-        articleAreas.retainAll(peopleAreas);
-        if (articleAreas.size() == 0) {
-            return false;
-        }
-        return true;
+        List<Area> peopleAreas = areaMapper.findPeopleAreas(peopleService.findByUsername(Utils.getCurrent()).getId());
+        return areaService.isAreaContain(peopleAreas,articleAreas);
     }
 
     @Async

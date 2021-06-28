@@ -55,14 +55,15 @@ public class EvaluateController {
     }
 
     @GetMapping("/article/{articleId}/evaluate")
-    public List<EvaluateVo> 某article下所有evaluate(@PathVariable Integer articleId, Integer current, Integer size) {
+    public List<EvaluateVo> 某article下所有evaluate(@PathVariable Integer articleId, @RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "5") Integer size) {
+        //当前用户为作者要显示niming的
         return evaluateService.findByArticleId(articleId, current, size).stream().map(e ->
                 new EvaluateVo(e, peopleService.findById(e.getPeopleId()).getUsername())).collect(Collectors.toList());
     }
 
     @PostMapping("/discuss")
     @PreAuthorize("#evaluateService.isArticleContainArea(#evaluate.articleId)")
-    public Integer 添加讨论(Evaluate evaluate) {
+    public Integer 添加讨论(@RequestBody Evaluate evaluate) {
         if (OtherService.isIllegalEvaluate(evaluate.getContent())) {
             throw CustomException.SENSITIVE_ERROR_Exception;
         }
@@ -80,9 +81,9 @@ public class EvaluateController {
     @PostMapping("/summary")
     public boolean 新增summary(Evaluate[] evaluates) throws JsonProcessingException {
         Summary _s = new Summary();
-        String sort = om.writeValueAsString(Arrays.stream(evaluates).map(Evaluate::getArticleId).collect(Collectors.toList()));
+        String content = om.writeValueAsString(Arrays.stream(evaluates).map(Evaluate::getArticleId).collect(Collectors.toList()));
         _s.setPeopleId(peopleService.findByUsername(Utils.getCurrent()).getId());
-        _s.setContent(sort);
+        _s.setContent(content);
         return evaluateService.insertBatchSummary(_s, evaluates);
     }
 

@@ -2,6 +2,7 @@ package cn.edu.ncepu.researchplatform.service;
 
 import cn.edu.ncepu.researchplatform.entity.Material;
 import cn.edu.ncepu.researchplatform.mapper.MaterialMapper;
+import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MaterialService {
     @Autowired
     private MaterialMapper materialMapper;
+    @Autowired
+    private PeopleMapper peopleMapper;
     @Autowired
     private ObjectMapper om;
 
@@ -26,6 +29,9 @@ public class MaterialService {
             materialMapper.throughArea(material.getPeopleId(), areaId);
         }
         materialMapper.updateFlag(materialId, flag);
+        if("guest".equals(peopleMapper.findById(material.getPeopleId()).getAuth())){
+            peopleMapper.updateAuth(material.getPeopleId(),1);
+        }
         return true;
     }
 

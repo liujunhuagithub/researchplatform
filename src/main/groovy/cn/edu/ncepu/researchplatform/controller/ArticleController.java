@@ -28,13 +28,13 @@ public class ArticleController {
     }
 
     @GetMapping("/article/{id}")
-    public ArticleVo 查询某article(@PathVariable Integer id) {
+    public Article 查询某article(@PathVariable Integer id) {
         Article article = articleService.findArticleById(id);
         //   普通用户                  已删除                           有问题
         if (!Utils.isAdmin() && (article.getGmtDelete() != null || !article.getFlag().equals(1))) {
             return null;
         }
-        return new ArticleVo(article, peopleService.findById(article.getId()).getUsername());
+        return article;
     }
 
     @GetMapping("/article")
@@ -43,6 +43,7 @@ public class ArticleController {
     }
 
     @PostMapping("/article")
+    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
     public Integer 新增article(Article article) {
         if (OtherService.isIllegalArticle(article.getContent())) {
             throw CustomException.SENSITIVE_ERROR_Exception;

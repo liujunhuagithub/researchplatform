@@ -12,8 +12,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Article {
     private Integer id;
-    private String authorName;
     private Integer authorId;
+    private People author;
     private String title;
     private String ref;
     private String content;
@@ -33,14 +33,6 @@ public class Article {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
     }
 
     public Integer getAuthorId() {
@@ -121,5 +113,13 @@ public class Article {
 
     public void setGmtDelete(LocalDateTime gmtDelete) {
         this.gmtDelete = gmtDelete;
+    }
+
+    public People getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(People author) {
+        this.author = author;
     }
 }

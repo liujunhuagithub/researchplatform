@@ -4,9 +4,13 @@ import cn.edu.ncepu.researchplatform.entity.People
 import cn.edu.ncepu.researchplatform.entity.dto.PeopleDto
 import cn.edu.ncepu.researchplatform.security.PeopleDetails
 import org.apache.ibatis.annotations.Insert
+import org.apache.ibatis.annotations.One
 import org.apache.ibatis.annotations.Options
+import org.apache.ibatis.annotations.Result
+import org.apache.ibatis.annotations.Results
 import org.apache.ibatis.annotations.Select
 import org.apache.ibatis.annotations.Update
+import org.apache.ibatis.mapping.FetchType
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -73,7 +77,6 @@ select distinct * from `people`
 ''')
     List<People> findByCondition(PeopleDto dto);
 
-
     @Select('select * from people where id=(select author_id from article where id=#{articleId})')
     People findAuthorByArticleId(Integer articleId);
 
@@ -83,6 +86,24 @@ select distinct * from `people`
     @Select('select icon from people where username=#{param1} ')
     String findIcon(String username);
 
+    @Results(id = "BasePeopleMap", value = [
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "author", column = "author_id", one = @One(select = 'cn.edu.ncepu.researchplatform.mapper.PeopleMapper.findById', fetchType = FetchType.EAGER)),
+            @Result(property = "auth", column = "auth"),
+            @Result(property = "phone", column = "phone"),
+            @Result(property = "nickname", column = "nickname"),
+            @Result(property = "weight", column = "weight"),
+            @Result(property = "exp", column = "exp"),
+            @Result(property = "level", column = "level"),
+            @Result(property = "idCard", column = "id_card"),
+            @Result(property = "phone", column = "phone"),
+            @Result(property = "organization", column = "organization"),
+            @Result(property = "email", column = "email"),
+            @Result(property = "info", column = "info"),
+            @Result(property = "gmtCreate", column = "gmt_create"),
+            @Result(property = "gmtDelete", column = "gmt_delete"),
+            @Result(property = "areas", column = "id", one = @One(select = 'cn.edu.ncepu.researchplatform.mapper.AreaMapper.findPeopleAreas', fetchType = FetchType.EAGER))
+    ])
     @Select('''SELECT
 people.id AS id, 
  people.username AS username, 
@@ -107,13 +128,13 @@ FROM
 `people` where username=#{param1} ''')
     People findALLInfo(String username);
 
-    @Select('select id,username,phone from `people` where id=#{param1}')
+    @Select('select id,username,phone,nickname from `people` where id=#{param1}')
     People findById(Integer id);
 
     @Update('update `people` set exp=exp-#{param2} where id =#{param1} ')
-    boolean cost(Integer poepleId,Integer value);
+    boolean cost(Integer poepleId, Integer value);
 
-    @Update('update `people` set password=#{param2} where phone=#{param1} and gmt_delete is null')
+    @Update('update `people` set password=#{param2} where phone=#{param1}')
     boolean updatePass(String phone, String pass);
 
     @Update('update `people` set gmt_delete=null where auth=2')
@@ -123,14 +144,34 @@ FROM
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertPeople(People people);
 
-    @Update('update `people` set nickname=#{nickname}, organization=#{organization},email=#{email},info=#{info} where gmt_delete is null and id=#{id}')
+    @Update('''
+<script>
+update `people` 
+<set>  
+        <if test="nickname!= null and nickname != '' ">  
+               nickname=#{nickname},
+        </if>  
+        <if test="organization!= null and organization!= '' ">  
+           organization=#{organization},  
+        </if>  
+        <if test="email != null and email!= '' ">  
+            email=#{email},  
+        </if>  
+        <if test="info != null and info!= '' ">  
+            info=#{info} 
+        </if>  
+    </set> 
+   where id=#{id}
+</script>
+''')
     boolean updateInfo(People people);
 
-    @Update('update `people` set realneme=#{param1},id_card=#{param2}  where gmt_delete is null and username=#{param3} and auth!=2 and not exist (select * from `people` where id_card=#{param2} and auth=2)')
+    @Update('update `people` set realneme=#{param1},id_card=#{param2}  where username=#{param3} and auth!=-1 and not exist (select * from `people` where id_card=#{param2} and auth=-1)')
     boolean updateReal(String realname, String idCard, String username);
 
-    @Update('update `people` set phone=#{phone}  where gmt_delete is null and where gmt_delete is null and username=#{param2}')
+    @Update('update `people` set phone=#{phone}  where username=#{param2}')
     boolean updatePhone(String phone, String username);
+
     @Update('update `people` set weight+=(random()-0.3)')
     boolean updateWeight();
 

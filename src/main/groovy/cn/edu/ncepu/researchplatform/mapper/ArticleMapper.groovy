@@ -1,16 +1,28 @@
 package cn.edu.ncepu.researchplatform.mapper
 
 import cn.edu.ncepu.researchplatform.entity.Article
-import cn.edu.ncepu.researchplatform.entity.People
 import cn.edu.ncepu.researchplatform.entity.dto.ArticleDto
 import org.apache.ibatis.annotations.Insert
+import org.apache.ibatis.annotations.One
 import org.apache.ibatis.annotations.Options
+import org.apache.ibatis.annotations.Result
+import org.apache.ibatis.annotations.Results
 import org.apache.ibatis.annotations.Select
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.Update
+import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 
 @Repository
 interface ArticleMapper {
+
+    @Results(id = "BaseArticleMap", value = [
+        @Result(property = "id", column = "id", id = true),
+        @Result(property = "author", column = "author_id", one = @One(select = 'cn.edu.ncepu.researchplatform.mapper.PeopleMapper.findById', fetchType = FetchType.EAGER)),
+        @Result(property = "content", column = "content"),
+        @Result(property = "gmtCreate",column = "gmt_create"),
+        @Result(property = "gmtDelete", column = "gmt_delete"),
+        @Result(property = "areas", column = "id", one = @One(select = 'cn.edu.ncepu.researchplatform.mapper.AreaMapper.findArticleAreas', fetchType = FetchType.EAGER))
+    ])
     @Select('select * from `article` where id=#{param1}')
     Article findById(Integer id);
 
@@ -26,8 +38,9 @@ interface ArticleMapper {
     @Insert('insert into `article`(author_id,title,ref,content) values(#{author_id},#{title},#{ref},#{content})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insert(Article article);
+
     @Insert('insert into `article_area`(author_id,area_id) values(#{param1},#{param2})')
-    boolean insertArea(Integer articleId,Integer areaId);
+    boolean insertArea(Integer articleId, Integer areaId);
 
     @Select('''
 <script>

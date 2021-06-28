@@ -1,5 +1,6 @@
 package cn.edu.ncepu.researchplatform.service;
 
+import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.entity.Article;
 import cn.edu.ncepu.researchplatform.entity.dto.ArticleDto;
 import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
@@ -8,6 +9,7 @@ import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +27,9 @@ public class ArticleService {
     private PeopleService peopleService;
     @Autowired
     private PeopleMapper peopleMapper;
+    @Autowired
+    @Lazy
+    private AreaService areaService;
 
     public boolean updateFlag(Integer flag, Integer articleId) {
         return articleMapper.updateFlag(flag, articleId);
@@ -38,10 +43,7 @@ public class ArticleService {
     @Cacheable(value = "article", key = "#articleId")
     @Transactional(rollbackFor = Exception.class, readOnly = true)
     public Article findArticleById(Integer articleId) {
-        Article article = articleMapper.findById(articleId);
-        article.setAuthorName(peopleMapper.findAuthorByArticleId(article.getAuthorId()).getNickname());
-        article.setAreas(areaMapper.findArticleAreas(article.getId()));
-        return article;
+        return articleMapper.findById(articleId);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -52,5 +54,9 @@ public class ArticleService {
 
     public List<Article> findByCondition(ArticleDto dto) {
         return articleMapper.findByCondition(dto);
+    }
+
+    public boolean isPeopleContainArea(List<Area> intentAreas) {
+        return areaService.isAreaContain(areaMapper.findPeopleAreas(peopleService.findByUsername(Utils.getCurrent()).getId()), intentAreas);
     }
 }

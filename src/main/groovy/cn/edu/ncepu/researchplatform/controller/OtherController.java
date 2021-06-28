@@ -42,8 +42,8 @@ public class OtherController {
 
     @PostMapping("/identityCaptchaCode")
     public boolean 校验图形验证码( String captchakey, String captchaCode) {
-        String code = codeCache.get(captchakey,String.class);
-        if (!captchaCode.equals(code)) {
+        String realCode = codeCache.get(captchakey,String.class);
+        if (!captchaCode.equals(realCode)) {
             throw CustomException.INPUT_ERROE_Exception;
         }
         return true;

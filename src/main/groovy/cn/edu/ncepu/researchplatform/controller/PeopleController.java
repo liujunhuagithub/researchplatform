@@ -8,7 +8,6 @@ import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +29,7 @@ public class PeopleController {
         if (!Utils.isAdmin() && "black".equals(people.getAuth())) {
             return null;
         }
-        if (!(Utils.isAdmin() || Utils.isCurrent(username + ""))) {
+        if (!(Utils.isAdmin() || Utils.isCurrent(username))) {
             people.hideInfo();
         }
         return people;
@@ -78,8 +77,8 @@ public class PeopleController {
 
     @PutMapping("/poeple/{username}/info")
     @PreAuthorize("#username==authentication.name or hasAuthority('admin')")
-    public boolean 修改Info(People people, @PathVariable String username) {
-
+    public boolean 修改Info(@RequestBody People people, @PathVariable String username) {
+        people.setId(peopleService.findByUsername(username).getId());
         return peopleService.updateInfo(people);
     }
 

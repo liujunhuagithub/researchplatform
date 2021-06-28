@@ -23,7 +23,6 @@ public class CustomizerPasseordEncoder extends BCryptPasswordEncoder {
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-
         String username = Utils.getRequest().getParameter("username");
         String phoneCode = Utils.getRequest().getParameter(OtherController.PHONECODE_PARAM_NAME);
         if (PhoneUtil.isPhone(username) && StringUtils.hasText(phoneCode)) {

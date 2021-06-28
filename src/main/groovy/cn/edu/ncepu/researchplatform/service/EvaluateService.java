@@ -31,7 +31,9 @@ public class EvaluateService {
     private AreaMapper areaMapper;
     @Autowired
     private SummaryMapper summaryMapper;
-
+    @Autowired
+    @Lazy
+    private AreaService areaService;
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteById(Integer id, Integer peopleId) {
         evaluateMapper.updateArticleCalculateByEvaluateId(id, 1);
@@ -56,31 +58,21 @@ public class EvaluateService {
     public List<Integer> findBypeopleToArticle(Integer articleId, String username) {
         return evaluateMapper.findBypeopleToArticle(articleId, peopleService.findByUsername(username).getId());
     }
-
+    @Cacheable(value = "evaluate")
     public List<Evaluate> findByArticleId(Integer articleId, Integer current, Integer size) {
         People author = peopleMapper.findAuthorByArticleId(articleId);
-        return evaluateMapper.findEvaluateByArticleId(articleId, peopleService.findByUsername(Utils.getCurrent()).getId().equals(author.getId()), current, size);
+        PeopleDetails currentUser = peopleService.findByUsername(Utils.getCurrent());
+        Integer currentId = currentUser==null?null:currentUser.getId();
+        return evaluateMapper.findEvaluateByArticleId(articleId, currentId!=null&&currentId.equals(author.getId()), current, size);
     }
 
     public Integer insertDiscuss(Evaluate evaluate) {
-        evaluateMapper.updateArticleCalculateByArticleId(evaluate.getArticleId(), 1);
+//        evaluateMapper.updateArticleCalculateByArticleId(evaluate.getArticleId(), 1);
         return evaluateMapper.insertDiscuss(evaluate);
     }
 
     public List<Evaluate> findDisscussByParentId(Integer parentId, Integer current, Integer size) {
         return evaluateMapper.findDisscussByParentId(parentId, current, size);
-    }
-
-    @Transactional(rollbackFor = Exception.class, readOnly = true)
-    public boolean isArticleContainArea(Integer articleId) {
-        List<Area> articleAreas = areaMapper.findArticleAreas(articleId);
-        PeopleDetails peopleDetails = peopleService.findByUsername(Utils.getCurrent());
-        List<Area> peopleAreas = areaMapper.findPeopleAreas(peopleDetails.getId());
-        articleAreas.retainAll(peopleAreas);
-        if (articleAreas.size() == 0) {
-            return false;
-        }
-        return true;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -91,5 +83,11 @@ public class EvaluateService {
             evaluateMapper.updateArticleCalculateByArticleId(evaluate.getArticleId(), 1);
         }
         return true;
+    }
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
+    public boolean isArticleContainArea(Integer articleId) {
+        List<Area> articleAreas = areaMapper.findArticleAreas(articleId);
+        List<Area> peopleAreas = areaMapper.findPeopleAreas(peopleService.findByUsername(Utils.getCurrent()).getId());
+        return areaService.isAreaContain(peopleAreas, articleAreas);
     }
 }

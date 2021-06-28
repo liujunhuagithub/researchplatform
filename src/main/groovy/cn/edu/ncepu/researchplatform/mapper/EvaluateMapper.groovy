@@ -31,10 +31,11 @@ select * from `evaluate`
 <where>
 article_id= #{param1} and gmt_delete is null and parent_id=0
 <if test="!param2">
-niming=0
+and niming=0
 </if>
 </where>
-limit #{(current-1)*size},#{size}
+order by `flag` desc
+limit ${(current-1)*size},#{size}
 </script>''')
     List<Evaluate> findEvaluateByArticleId(Integer articleId, boolean isAuthor, @Param("current") Integer current, @Param("size") Integer size);
 
@@ -46,7 +47,7 @@ select * from `evaluate`
 niming=0
 </if>
 </where>
-limit #{(current-1)*size},#{size}
+limit ${(current-1)*size},#{size}
 </script>''')
     List<Evaluate> findDisscussByParentId(Integer parentId, @Param("current") Integer current, @Param("size") Integer size);
 

@@ -7,6 +7,7 @@ public class CustomException extends RuntimeException {
     public static CustomException AUTH_ERROR_Exception = new CustomException(CustomExceptionType.AUTH_ERROR);
     public static CustomException MUST_LOGIN_ERROR_Exception = new CustomException(CustomExceptionType.MUST_LOGIN_ERROR);
     public static CustomException SYSTEM_ERROR_Exception = new CustomException(CustomExceptionType.SYSTEM_ERROR);
+    public static CustomException AREA_ERROR_Exception = new CustomException(CustomExceptionType.AREA_ERROR);
 
     private CustomException(CustomExceptionType type) {
         super(type.message);

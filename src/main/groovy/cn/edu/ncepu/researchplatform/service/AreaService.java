@@ -1,5 +1,6 @@
 package cn.edu.ncepu.researchplatform.service;
 
+import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,13 @@ public class AreaService {
     @CacheEvict(value = "area", allEntries = true)
     public boolean updateName(String name, Integer id) {
         return areaMapper.updateName(name, id);
+    }
+
+    public boolean isAreaContain(List<Area> peopleAreas, List<Area> targetAreas) {
+        targetAreas.retainAll(peopleAreas);
+        if (targetAreas.size() == 0) {
+            throw CustomException.AREA_ERROR_Exception;
+        }
+        return true;
     }
 }

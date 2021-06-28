@@ -41,9 +41,7 @@ public class PeopleService {
 
     @Cacheable(key = "#username")
     public People findAllInfo(String username) {
-        People people = peopleMapper.findALLInfo(username);
-        people.setAreas(areaMapper.findPeopleAreas(people.getId()));
-        return people;
+        return peopleMapper.findALLInfo(username);
     }
 
     @Async
@@ -65,7 +63,6 @@ public class PeopleService {
     }
 
     public boolean updateReal(String realname, String idCard, String username) {
-        //补充：如果该idcard封杀，就报错
         return peopleMapper.updateReal(realname, idCard, username);
     }
 

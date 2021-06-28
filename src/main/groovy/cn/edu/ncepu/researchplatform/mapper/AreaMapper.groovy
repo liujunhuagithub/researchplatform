@@ -13,7 +13,6 @@ interface AreaMapper {
     @Select('select * from `area` where id in (select area_id from `article_area` where article_id=#{param1})')
     List<Area> findArticleAreas(Integer articleId);
 
-
     @Select('select * from `area` where id in (select area_id from `people_area` where people_id=#{param1})')
     List<Area> findPeopleAreas(Integer peopleId);
 
@@ -26,4 +25,5 @@ interface AreaMapper {
 
     @Update('update `area` set `name`=#{param1} where id=#{param2}')
     boolean updateName(String name, Integer id);
+
 }
