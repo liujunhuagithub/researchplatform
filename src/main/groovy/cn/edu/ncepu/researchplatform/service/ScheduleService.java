@@ -57,8 +57,7 @@ public class ScheduleService {
     }
 
     @Scheduled(cron = "@weekly")
-    public void deleteBlackPeople() {
-        peopleMapper.deleteBlackPeople();
+    public void updateScoreItem() {
     }
 
 }

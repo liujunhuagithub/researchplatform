@@ -232,9 +232,6 @@ FROM
     @Update('update `people` set password=#{param2} where phone=#{param1}')
     boolean updatePass(String phone, String pass);
 
-    @Update('update `people` set gmt_delete=null where auth=2')
-    void deleteBlackPeople();
-
     @Insert('insert into `people`(username,phone,password) values(#{username},#{phone},#{password})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertPeople(People people);
