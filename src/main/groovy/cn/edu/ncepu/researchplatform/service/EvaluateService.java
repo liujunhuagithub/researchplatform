@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -34,6 +35,7 @@ public class EvaluateService {
     @Autowired
     @Lazy
     private AreaService areaService;
+
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteById(Integer id, Integer peopleId) {
         evaluateMapper.updateArticleCalculateByEvaluateId(id, 1);
@@ -49,21 +51,23 @@ public class EvaluateService {
 
 
     @Transactional(rollbackFor = Exception.class, readOnly = true)
-    @Cacheable(value = "evaluate" ,key = "'author'+#evaluateId")
+    @Cacheable(value = "evaluate", key = "'author'+#evaluateId")
     public People getAuthor(Integer evaluateId) {
-        Integer article_id = articleMapper.findIdaboutEvaluate(evaluateId);
-        return peopleMapper.findAuthorByArticleId(article_id);
+        Integer articleId = articleMapper.findIdaboutEvaluate(evaluateId);
+        return peopleMapper.findAuthorByArticleId(articleId);
     }
 
+    @Cacheable(value = "evaluate")
     public List<Integer> findBypeopleToArticle(Integer articleId, String username) {
         return evaluateMapper.findBypeopleToArticle(articleId, peopleService.findByUsername(username).getId());
     }
+
     @Cacheable(value = "evaluate")
     public List<Evaluate> findByArticleId(Integer articleId, Integer current, Integer size) {
         People author = peopleMapper.findAuthorByArticleId(articleId);
         PeopleDetails currentUser = peopleService.findByUsername(Utils.getCurrent());
-        Integer currentId = currentUser==null?null:currentUser.getId();
-        return evaluateMapper.findEvaluateByArticleId(articleId, currentId!=null&&currentId.equals(author.getId()), current, size);
+        Integer currentId = currentUser == null ? null : currentUser.getId();
+        return evaluateMapper.findEvaluateByArticleId(articleId, currentId != null && currentId.equals(author.getId()), current, size);
     }
 
     public Integer insertDiscuss(Evaluate evaluate) {
@@ -76,14 +80,20 @@ public class EvaluateService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean insertBatchSummary(Summary summary, Evaluate[] evaluates) {
-        summaryMapper.insert(summary);
+    public boolean insertBatchSummary(Summary summary, Collection<Evaluate> evaluates) {
+        Integer summaryId = summaryMapper.insert(summary);
         for (Evaluate evaluate : evaluates) {
+            evaluate.setSummaryId(summaryId);
             evaluateMapper.insertEvaluate(evaluate);
             evaluateMapper.updateArticleCalculateByArticleId(evaluate.getArticleId(), 1);
         }
         return true;
     }
+
+    public Evaluate findById(Integer id) {
+        return evaluateMapper.findById(id);
+    }
+
     @Transactional(rollbackFor = Exception.class, readOnly = true)
     public boolean isArticleContainArea(Integer articleId) {
         List<Area> articleAreas = areaMapper.findArticleAreas(articleId);

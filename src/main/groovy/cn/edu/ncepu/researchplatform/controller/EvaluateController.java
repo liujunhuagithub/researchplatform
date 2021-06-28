@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 @RestController
@@ -55,7 +56,7 @@ public class EvaluateController {
     }
 
     @GetMapping("/article/{articleId}/evaluate")
-    public List<EvaluateVo> 某article下所有evaluate(@PathVariable Integer articleId, @RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "5") Integer size) {
+    public List<EvaluateVo> 某article下所有evaluate(@PathVariable Integer articleId, @RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "25") Integer size) {
         //当前用户为作者要显示niming的
         return evaluateService.findByArticleId(articleId, current, size).stream().map(e ->
                 new EvaluateVo(e, peopleService.findById(e.getPeopleId()).getUsername())).collect(Collectors.toList());
@@ -73,18 +74,24 @@ public class EvaluateController {
 
 
     @GetMapping("/discuss/{parentId}")
-    public List<EvaluateVo> 给定parentId获取其子discuss(@PathVariable Integer parentId, Integer current, Integer size) {
+    public List<EvaluateVo> 给定parentId获取其子discuss(@PathVariable Integer parentId, @RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "25") Integer size) {
         return evaluateService.findDisscussByParentId(parentId, current, size).stream().map(e ->
                 new EvaluateVo(e, peopleService.findById(e.getPeopleId()).getUsername())).collect(Collectors.toList());
     }
 
     @PostMapping("/summary")
-    public boolean 新增summary(Evaluate[] evaluates) throws JsonProcessingException {
+    public boolean 新增summary(@RequestBody Map<Integer, Evaluate> evaluates) throws JsonProcessingException {
         Summary _s = new Summary();
-        String content = om.writeValueAsString(Arrays.stream(evaluates).map(Evaluate::getArticleId).collect(Collectors.toList()));
+        TreeMap<Integer, Integer> tempMap = new TreeMap<>(Integer::compareTo);
+        for (Map.Entry<Integer, Evaluate> entry : evaluates.entrySet()) {
+            Integer key = entry.getKey();
+            tempMap.put(key,evaluates.get(key).getId());
+        }
+
+        String content = om.writeValueAsString(tempMap);
         _s.setPeopleId(peopleService.findByUsername(Utils.getCurrent()).getId());
         _s.setContent(content);
-        return evaluateService.insertBatchSummary(_s, evaluates);
+        return evaluateService.insertBatchSummary(_s, evaluates.values());
     }
 
     @PutMapping("/evaluate/{evaluateId}/report")

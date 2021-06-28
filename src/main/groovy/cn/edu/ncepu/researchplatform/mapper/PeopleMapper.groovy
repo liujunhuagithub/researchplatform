@@ -40,19 +40,34 @@ and phone =#{username}
 
     @Select('''
 <script>
-select distinct * from `people`
+SELECT DISTINCT
+people.username AS username, 
+people.nickname AS nickname, 
+people.id_card AS id_card, 
+people.realname AS realname, 
+people.email AS email, 
+people.gmt_create AS gmt_create, 
+GROUP_CONCAT(area.`name`) AS area_string,
+people.`level` as `level`
+FROM
+people_area
+INNER JOIN
+area
+ON 
+people_area.area_id = area.id
+INNER JOIN
+people
+ON 
+people.id = people_area.people_id 
         <where>
+            <if test="!@cn.edu.ncepu.researchplatform.utils.Utils@isAdmin()">
+                and auth !=-1
+            </if>
            <if test="lc!=null">
                 and gmt_create &gt;=#{lc}
             </if>
              <if test="rc!=null">
                 and gmt_create &lt;=#{rc}
-            </if>
-           <if test="ld!=null">
-                and gmt_delete &gt;=#{ld}
-            </if>
-             <if test="rd!=null">
-                and gmt_delete &lt;=#{rd}
             </if>
             <if test="username !=null and username !=''">
                 and `username` like #{username}
@@ -63,19 +78,99 @@ select distinct * from `people`
             <if test=" nickname !=null  and nickname !='' ">
                and  nickname like #{nickname}
             </if>
+            <if test=" organization !=null  and organization !='' ">
+               and  organization like #{organization}
+            </if>
+            <if test=" email !=null  and email !='' ">
+               and  email like #{email}
+            </if>
             <if test=" idCard !=null  and idCard !='' ">
-               and  id_card=#{idCard}
+               and  id_card like #{idCard}
             </if>
             <if test=" realname !=null  and realname !='' ">
                and  realname like #{realname}
             </if>
+             <if test=" areaname !=null and areaname !=''  ">
+              and   area.`name` like #{areaname}
+            </if>
             <if test=" level !=null   ">
               and   level=#{level}
+            </if>
+             <if test=" auth !=null   ">
+              and   auth=#{auth}
+            </if>
+        </where>
+        GROUP BY people.username  , 
+people.nickname , 
+people.id_card , 
+people.realname , 
+people.email , 
+people.gmt_create , 
+people.info , 
+people.`level` 
+limit ${(current-1)*size},#{size}
+</script>
+''')
+    List<People> findByCondition(PeopleDto dto);
+
+    @Select('''
+<script>
+SELECT 
+count(DISTINCT people.username)
+FROM
+people_area
+INNER JOIN
+area
+ON 
+people_area.area_id = area.id
+INNER JOIN
+people
+ON 
+people.id = people_area.people_id 
+        <where>
+            <if test="!@cn.edu.ncepu.researchplatform.utils.Utils@isAdmin()">
+                and auth !=-1
+            </if>
+           <if test="lc!=null">
+                and gmt_create &gt;=#{lc}
+            </if>
+             <if test="rc!=null">
+                and gmt_create &lt;=#{rc}
+            </if>
+            <if test="username !=null and username !=''">
+                and `username` like #{username}
+            </if>
+            <if test=" phone !=null  and phone !='' ">
+                and phone  like #{phone}
+            </if>
+            <if test=" nickname !=null  and nickname !='' ">
+               and  nickname like #{nickname}
+            </if>
+            <if test=" organization !=null  and organization !='' ">
+               and  organization like #{organization}
+            </if>
+            <if test=" email !=null  and email !='' ">
+               and  email like #{email}
+            </if>
+            <if test=" idCard !=null  and idCard !='' ">
+               and  id_card like #{idCard}
+            </if>
+            <if test=" realname !=null  and realname !='' ">
+               and  realname like #{realname}
+            </if>
+             <if test=" areaname !=null and areaname !=''  ">
+              and   area.`name` like #{areaname}
+            </if>
+            <if test=" level !=null   ">
+              and   level=#{level}
+            </if>
+             <if test=" auth !=null   ">
+              and   auth=#{auth}
             </if>
         </where>
 </script>
 ''')
-    List<People> findByCondition(PeopleDto dto);
+    Integer findCountByCondition(PeopleDto dto);
 
     @Select('select * from people where id=(select author_id from article where id=#{articleId})')
     People findAuthorByArticleId(Integer articleId);

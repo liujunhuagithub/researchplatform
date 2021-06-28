@@ -26,8 +26,8 @@ public class People {
     private String auth;
 
     private String phone;
-
     private List<Area> areas;
+    private String areaString;
 
     private Double weight;
 
@@ -179,6 +179,14 @@ public class People {
 
     public String getIcon() {
         return icon;
+    }
+
+    public String getAreaString() {
+        return areaString;
+    }
+
+    public void setAreaString(String areaString) {
+        this.areaString = areaString;
     }
 
     public void setIcon(String icon) {

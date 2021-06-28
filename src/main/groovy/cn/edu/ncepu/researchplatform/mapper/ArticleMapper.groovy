@@ -44,8 +44,11 @@ interface ArticleMapper {
 
     @Select('''
 <script>
-select * from ``
+select * from `article`
         <where>
+            <if test="!@cn.edu.ncepu.researchplatform.utils.Utils@isAdmin()">
+                and gmt_delete is null
+            </if>
             <if test="lc!=null">
                 and gmt_create &gt;=#{lc}
             </if>
@@ -58,17 +61,48 @@ select * from ``
              <if test="rd!=null">
                 and gmt_delete &lt;=#{rd}
             </if>
+            
             <if test="title !=null and title !=''">
                 and `title` like #{title}
             </if>
             <if test=" flag !=null ">
               and   flag=#{flag}
             </if>
-
         </where>
+        limit ${(current-1)*size},#{size}
 </script>
 ''')
     List<Article> findByCondition(ArticleDto dto);
+    @Select('''
+<script>
+select count(id) from `article`
+        <where>
+             <if test="!@cn.edu.ncepu.researchplatform.utils.Utils@isAdmin()">
+                and gmt_delete is null
+            </if>
+            <if test="lc!=null">
+                and gmt_create &gt;=#{lc}
+            </if>
+             <if test="rc!=null">
+                and gmt_create &lt;=#{rc}
+            </if>
+           <if test="ld!=null">
+                and gmt_delete &gt;=#{ld}
+            </if>
+             <if test="rd!=null">
+                and gmt_delete &lt;=#{rd}
+            </if>
+            
+            <if test="title !=null and title !=''">
+                and `title` like #{title}
+            </if>
+            <if test=" flag !=null ">
+              and   flag=#{flag}
+            </if>
+        </where>
+</script>
+''')
+    Integer findCountByCondition(ArticleDto dto);
 
     @Select('select * from `article` order by `score` limit 100')
     List<Article> rankArticle();

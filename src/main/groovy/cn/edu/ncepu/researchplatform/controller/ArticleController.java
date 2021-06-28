@@ -38,7 +38,11 @@ public class ArticleController {
     }
 
     @GetMapping("/article")
-    public List<Article> 条件查询(ArticleDto dto) {
+    public ArticleVo 条件查询(ArticleDto dto) {
+        if (!Utils.isAdmin()){
+            dto.setFlag(1);
+//已删除如何处理？
+     }
         return articleService.findByCondition(dto);
     }
 

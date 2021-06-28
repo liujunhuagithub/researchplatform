@@ -3,6 +3,7 @@ package cn.edu.ncepu.researchplatform.service;
 import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.entity.Article;
 import cn.edu.ncepu.researchplatform.entity.dto.ArticleDto;
+import cn.edu.ncepu.researchplatform.entity.vo.ArticleVo;
 import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
 import cn.edu.ncepu.researchplatform.mapper.ArticleMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
@@ -52,8 +53,10 @@ public class ArticleService {
         return articleMapper.insert(article);
     }
 
-    public List<Article> findByCondition(ArticleDto dto) {
-        return articleMapper.findByCondition(dto);
+    public ArticleVo findByCondition(ArticleDto dto) {
+        List<Article> articles = articleMapper.findByCondition(dto);
+        Integer total = articleMapper.findCountByCondition(dto);
+        return new ArticleVo(total,dto.getCurrent(),dto.getSize(),articles);
     }
 
     public boolean isPeopleContainArea(List<Area> intentAreas) {

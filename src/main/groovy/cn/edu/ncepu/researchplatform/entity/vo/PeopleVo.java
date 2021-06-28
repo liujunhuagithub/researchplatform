@@ -1,20 +1,20 @@
 package cn.edu.ncepu.researchplatform.entity.vo;
 
-import cn.edu.ncepu.researchplatform.entity.Article;
+import cn.edu.ncepu.researchplatform.entity.People;
 
 import java.util.List;
 
-public class ArticleVo {
+public class PeopleVo extends People {
     private Integer total;
     private Integer current;
     private Integer size;
-    private List<Article> articles;
+    private List<People> peoples;
 
-    public ArticleVo(Integer total, Integer current, Integer size, List<Article> articles) {
+    public PeopleVo(Integer total, Integer current, Integer size, List<People> peoples) {
         this.total = total;
         this.current = current;
         this.size = size;
-        this.articles = articles;
+        this.peoples = peoples;
     }
 
     public Integer getTotal() {
@@ -41,11 +41,11 @@ public class ArticleVo {
         this.size = size;
     }
 
-    public List<Article> getArticles() {
-        return articles;
+    public List<People> getPeoples() {
+        return peoples;
     }
 
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
+    public void setPeoples(List<People> peoples) {
+        this.peoples = peoples;
     }
 }

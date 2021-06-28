@@ -10,6 +10,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -50,7 +51,6 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
     public R accessDeniedHandler(AccessDeniedException exception) {
         return R.fail(CustomException.AUTH_ERROR_Exception);
     }
-
     @ExceptionHandler(Exception.class)
     public R error(Exception exception) {
         return R.fail(CustomException.SYSTEM_ERROR_Exception);

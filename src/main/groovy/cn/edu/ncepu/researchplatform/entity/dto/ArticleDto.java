@@ -9,8 +9,9 @@ public class ArticleDto extends Article {
     private LocalDateTime rc;
     private LocalDateTime ld;
     private LocalDateTime rd;
-    private Integer current;
-    private Integer size;
+    private Integer current = 1;
+    private Integer size = 25;
+    private String areaname;
 
     public LocalDateTime getLc() {
         return lc;

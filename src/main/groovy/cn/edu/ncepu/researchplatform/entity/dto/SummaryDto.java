@@ -1,15 +1,15 @@
 package cn.edu.ncepu.researchplatform.entity.dto;
 
-import cn.edu.ncepu.researchplatform.entity.People;
+import cn.edu.ncepu.researchplatform.entity.Summary;
 
 import java.time.LocalDateTime;
 
-public class PeopleDto extends People {
+public class SummaryDto extends Summary {
     private LocalDateTime lc;
     private LocalDateTime rc;
     private Integer current = 1;
     private Integer size = 25;
-    private String areaname;
+    private String username;
     public LocalDateTime getLc() {
         return lc;
     }
@@ -38,15 +38,8 @@ public class PeopleDto extends People {
         return size;
     }
 
-    public String getAreaname() {
-        return areaname;
-    }
-
-    public void setAreaname(String areaname) {
-        this.areaname = areaname;
-    }
-
     public void setSize(Integer size) {
         this.size = size;
     }
+
 }

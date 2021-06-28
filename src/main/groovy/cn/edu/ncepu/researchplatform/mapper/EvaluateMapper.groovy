@@ -1,6 +1,5 @@
 package cn.edu.ncepu.researchplatform.mapper
 
-import cn.edu.ncepu.researchplatform.entity.Article
 import cn.edu.ncepu.researchplatform.entity.Evaluate
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Options
@@ -17,13 +16,13 @@ interface EvaluateMapper {
     @Update('update `evaluate` set flag=#{param2} where id = #{param1}')
     boolean updateFlag(Integer id, Integer flag);
 
-    @Select('select * from where id =#{param1}')
+    @Select('select * from `evaluate` where id =#{param1}')
     Evaluate findById(Integer id);
 
     @Update('update  `evaluate` set `gmt_delete`=CURRENT_TIMESTAMP  where `gmt_delete` IS NULL and article_id in (select id from `article` where gmt_delete is not null)')
     Integer deleteArticleAboutEvaluate();
 
-    @Select('select evaluate_id from `star` where poeple_id=#{param2} and evaluate_id in (select id from `evaluate` where article_id= #{articleId} and gmt_delete is null )')
+    @Select('select evaluate_id from `star` where people_id=#{param2} and evaluate_id in (select id from `evaluate` where article_id= #{param1} and gmt_delete is null )')
     List<Integer> findBypeopleToArticle(Integer articleId, Integer poepleId);
 
     @Select('''<script>
@@ -39,16 +38,7 @@ limit ${(current-1)*size},#{size}
 </script>''')
     List<Evaluate> findEvaluateByArticleId(Integer articleId, boolean isAuthor, @Param("current") Integer current, @Param("size") Integer size);
 
-    @Select('''<script>
-select * from `evaluate` 
-<where>
- gmt_delete is null and parent_id=#{param1}
-<if test="!isAuthor">
-niming=0
-</if>
-</where>
-limit ${(current-1)*size},#{size}
-</script>''')
+    @Select('select * from `evaluate` where gmt_delete is null and parent_id=#{param1} limit ${(current-1)*size},#{size}')
     List<Evaluate> findDisscussByParentId(Integer parentId, @Param("current") Integer current, @Param("size") Integer size);
 
     @Insert('insert into `evaluate`(people_id,article_id,summary_id,niming,parent_id,content) values(#{peopleId},#{articleId},#{summaryId},#{niming},#{parentId},#{content})')

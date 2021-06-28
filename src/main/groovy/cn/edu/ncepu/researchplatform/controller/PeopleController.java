@@ -1,8 +1,10 @@
 package cn.edu.ncepu.researchplatform.controller;
 
+import cn.edu.ncepu.researchplatform.common.R;
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.People;
 import cn.edu.ncepu.researchplatform.entity.dto.PeopleDto;
+import cn.edu.ncepu.researchplatform.entity.vo.PeopleVo;
 import cn.edu.ncepu.researchplatform.security.CustomizerPasseordEncoder;
 import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
@@ -12,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
 public class PeopleController {
@@ -36,16 +37,18 @@ public class PeopleController {
     }
 
     @GetMapping("/people/{username}/icon")
-    public String 查询某人icon(@PathVariable String username) {
-        return peopleService.findIcon(username);
+    public R 查询某人icon(@PathVariable String username) {
+        String icon = peopleService.findIcon(username);
+        return R.success(icon);
     }
 
     @GetMapping("/people")
-    public List<People> 条件查询(PeopleDto dto) {
-        if (Utils.isAdmin()) {
+    public PeopleVo 条件查询(PeopleDto dto) {
+        if (!Utils.isAdmin()) {
             dto.setIdCard(null);
-            dto.setId(null);
+            dto.setRealname(null);
             dto.setAuth(null);
+            dto.setPhone(null);
         }
         return peopleService.findByCondition(dto);
     }

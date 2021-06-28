@@ -1,20 +1,20 @@
 package cn.edu.ncepu.researchplatform.entity.vo;
 
-import cn.edu.ncepu.researchplatform.entity.Article;
+import cn.edu.ncepu.researchplatform.entity.Summary;
 
 import java.util.List;
 
-public class ArticleVo {
+public class SummaryPageVo {
     private Integer total;
     private Integer current;
     private Integer size;
-    private List<Article> articles;
+    private List<SummaryDetailVo> summaries;
 
-    public ArticleVo(Integer total, Integer current, Integer size, List<Article> articles) {
+    public SummaryPageVo(Integer total, Integer current, Integer size, List<SummaryDetailVo> summaries) {
         this.total = total;
         this.current = current;
         this.size = size;
-        this.articles = articles;
+        this.summaries = summaries;
     }
 
     public Integer getTotal() {
@@ -41,11 +41,11 @@ public class ArticleVo {
         this.size = size;
     }
 
-    public List<Article> getArticles() {
-        return articles;
+    public List<SummaryDetailVo> getSummaries() {
+        return summaries;
     }
 
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
+    public void setSummaries(List<SummaryDetailVo> summaries) {
+        this.summaries = summaries;
     }
 }

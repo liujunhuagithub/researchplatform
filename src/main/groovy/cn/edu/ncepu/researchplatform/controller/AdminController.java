@@ -1,14 +1,22 @@
 package cn.edu.ncepu.researchplatform.controller;
 
-import cn.edu.ncepu.researchplatform.common.exception.CustomException;
+import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
 import cn.edu.ncepu.researchplatform.entity.Area;
+import cn.edu.ncepu.researchplatform.entity.Evaluate;
 import cn.edu.ncepu.researchplatform.entity.Summary;
+import cn.edu.ncepu.researchplatform.entity.dto.SummaryDto;
+import cn.edu.ncepu.researchplatform.entity.vo.SummaryDetailVo;
+import cn.edu.ncepu.researchplatform.entity.vo.SummaryPageVo;
 import cn.edu.ncepu.researchplatform.service.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin")
@@ -21,9 +29,12 @@ public class AdminController {
     private PeopleService peopleService;
     @Autowired
     private EvaluateService evaluateService;
-
+    @Autowired
+    private SummaryService summaryService;
     @Autowired
     private MaterialService materialService;
+    @Autowired
+    private ObjectMapper om;
 
     @PostMapping("/area")
     public boolean 新增Area(@RequestBody Area area) {
@@ -39,9 +50,7 @@ public class AdminController {
     @PutMapping("/article/{articleId}")
     public boolean 修改article_flag参数名flag为负一或一(@RequestBody Map<String, Integer> params, @PathVariable Integer articleId) {
         Integer flag = params.get("flag");
-        if (!(flag.equals(-1)||flag.equals(1))){
-            throw CustomException.INPUT_ERROE_Exception;
-        }
+        Assert.isTrue(flag.equals(-1) || flag.equals(1), CustomExceptionType.INPUT_ERROE.message);
         return articleService.updateFlag(flag, articleId);
     }
 
@@ -63,12 +72,16 @@ public class AdminController {
     }
 
     @GetMapping("/summary/{summaryId}")
-    public Summary 获取某个summary() {
-        return null;
+    public SummaryDetailVo 获取某个summary(@PathVariable Integer summaryId) throws JsonProcessingException {
+        Summary summary = summaryService.findById(summaryId);
+        TreeMap<Integer, Integer> tempMap=om.readValue(summary.getContent(), TreeMap.class);
+        List<Evaluate> evaluates =tempMap.values().stream()
+                        .map(eId->evaluateService.findById(eId)).collect(Collectors.toList());
+    return new SummaryDetailVo(summary, peopleService.findById(summary.getPeopleId()), evaluates);
     }
 
     @GetMapping("/summary")
-    public Summary 获取summary() {
-        return null;
+    public SummaryPageVo 获取summary(SummaryDto dto) {
+        return summaryService.findByCondition(dto);
     }
 }
