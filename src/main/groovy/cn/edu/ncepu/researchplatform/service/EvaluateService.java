@@ -14,7 +14,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 import java.util.List;
@@ -102,7 +101,7 @@ public class EvaluateService {
         List<Area> peopleAreas = areaMapper.findPeopleAreas(peopleService.findByUsername(Utils.getCurrent()).getId());
         return areaService.isAreaContain(peopleAreas, articleAreas);
     }
-
+    @Cacheable(value = "evaluate")
     public EvaluatePageVo findByPeopleId(Integer peopleId, Integer current, Integer size){
         List<Evaluate> evaluates = evaluateMapper.findByPeopleId(peopleId, current, size);
         Integer total = evaluateMapper.findCountByPeopleId(peopleId);
