@@ -73,10 +73,11 @@ public class AdminController {
     @GetMapping("/summary/{summaryId}")
     public SummaryDetailVo 获取某个summary(@PathVariable Integer summaryId) throws JsonProcessingException {
         Summary summary = summaryService.findById(summaryId);
-        TreeMap<Integer, Integer> tempMap=om.readValue(summary.getContent(), TreeMap.class);
-        List<Evaluate> evaluates =tempMap.values().stream()
-                        .map(eId->evaluateService.findById(eId)).collect(Collectors.toList());
-    return new SummaryDetailVo(summary, peopleService.findById(summary.getPeopleId()), evaluates);
+        TreeMap<Integer, Object> tempMap = om.readValue(summary.getContent(), TreeMap.class);
+        for (Map.Entry<Integer, Object> entry : tempMap.entrySet()) {
+            tempMap.put(entry.getKey(), evaluateService.findById((Integer) (entry.getValue())));
+        }
+        return new SummaryDetailVo(summary, peopleService.findById(summary.getPeopleId()), tempMap);
     }
 
     @GetMapping("/summary")

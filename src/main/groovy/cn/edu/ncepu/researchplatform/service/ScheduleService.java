@@ -27,7 +27,10 @@ public class ScheduleService {
     public void deleteInvalidStar() {
         starMapper.deleteInvalidStar();
     }
-
+    @Scheduled(cron = "@daily")
+    public void deleteIlleageEvaluate() {
+        evaluateMapper.deleteIlleageEvaluate();
+    }
     @Scheduled(cron = "@monthly")
     public void updatePeopleWeight() {
         peopleMapper.updateWeight();

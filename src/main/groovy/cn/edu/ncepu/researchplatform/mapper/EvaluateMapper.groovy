@@ -41,6 +41,13 @@ limit ${(current-1)*size},#{size}
     @Select('select * from `evaluate` where gmt_delete is null and parent_id=#{param1} limit ${(current-1)*size},#{size}')
     List<Evaluate> findDisscussByParentId(Integer parentId, @Param("current") Integer current, @Param("size") Integer size);
 
+
+    @Select('select * from `evaluate` where gmt_delete is null and people_id=#{param1} limit ${(current-1)*size},#{size} ')
+    List<Evaluate> findByPeopleId(Integer peopleId, @Param("current") Integer current, @Param("size") Integer size);
+
+    @Select('select count(id) from `evaluate` where gmt_delete is null and people_id=#{param1} ')
+    Integer findCountByPeopleId(Integer peopleId);
+
     @Insert('insert into `evaluate`(people_id,article_id,summary_id,niming,parent_id,content) values(#{peopleId},#{articleId},#{summaryId},#{niming},#{parentId},#{content})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertEvaluate(Evaluate evaluate);
@@ -63,6 +70,8 @@ limit ${(current-1)*size},#{size}
 
     @Update('update evaluate set gmt_delete=CURRENT_TIMESTAMP where id=#{param1}')
     boolean deleteById(Integer evaluateId);
+    @Update('update evaluate set gmt_delete=CURRENT_TIMESTAMP where flag=-1 and gmt_delete is null')
+    boolean deleteIlleageEvaluate();
 }
 
 

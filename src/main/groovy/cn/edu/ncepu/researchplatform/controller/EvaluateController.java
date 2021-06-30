@@ -3,6 +3,7 @@ package cn.edu.ncepu.researchplatform.controller;
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.Evaluate;
 import cn.edu.ncepu.researchplatform.entity.Summary;
+import cn.edu.ncepu.researchplatform.entity.vo.EvaluatePageVo;
 import cn.edu.ncepu.researchplatform.entity.vo.EvaluateVo;
 import cn.edu.ncepu.researchplatform.service.EvaluateService;
 import cn.edu.ncepu.researchplatform.service.OtherService;
@@ -73,6 +74,11 @@ public class EvaluateController {
     }
 
 
+    @GetMapping("/people/{username}/evaluate")
+    public EvaluatePageVo 获取某people发表的所有evaluate(@PathVariable String username, @RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "25") Integer size) {
+        return evaluateService.findByPeopleId(peopleService.findByUsername(username).getId(), current, size);
+    }
+
     @GetMapping("/discuss/{parentId}")
     public List<EvaluateVo> 给定parentId获取其子discuss(@PathVariable Integer parentId, @RequestParam(defaultValue = "1") Integer current, @RequestParam(defaultValue = "25") Integer size) {
         return evaluateService.findDisscussByParentId(parentId, current, size).stream().map(e ->
@@ -85,7 +91,7 @@ public class EvaluateController {
         TreeMap<Integer, Integer> tempMap = new TreeMap<>(Integer::compareTo);
         for (Map.Entry<Integer, Evaluate> entry : evaluates.entrySet()) {
             Integer key = entry.getKey();
-            tempMap.put(key,evaluates.get(key).getId());
+            tempMap.put(key, evaluates.get(key).getId());
         }
 
         String content = om.writeValueAsString(tempMap);

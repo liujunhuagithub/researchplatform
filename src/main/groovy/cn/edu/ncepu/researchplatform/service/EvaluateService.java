@@ -5,6 +5,7 @@ import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.entity.Evaluate;
 import cn.edu.ncepu.researchplatform.entity.People;
 import cn.edu.ncepu.researchplatform.entity.Summary;
+import cn.edu.ncepu.researchplatform.entity.vo.EvaluatePageVo;
 import cn.edu.ncepu.researchplatform.mapper.*;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
 import cn.edu.ncepu.researchplatform.utils.Utils;
@@ -13,6 +14,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 import java.util.List;
@@ -99,5 +101,11 @@ public class EvaluateService {
         List<Area> articleAreas = areaMapper.findArticleAreas(articleId);
         List<Area> peopleAreas = areaMapper.findPeopleAreas(peopleService.findByUsername(Utils.getCurrent()).getId());
         return areaService.isAreaContain(peopleAreas, articleAreas);
+    }
+
+    public EvaluatePageVo findByPeopleId(Integer peopleId, Integer current, Integer size){
+        List<Evaluate> evaluates = evaluateMapper.findByPeopleId(peopleId, current, size);
+        Integer total = evaluateMapper.findCountByPeopleId(peopleId);
+        return new EvaluatePageVo(total,current,size,evaluates);
     }
 }

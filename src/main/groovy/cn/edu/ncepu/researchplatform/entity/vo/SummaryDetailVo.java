@@ -5,13 +5,14 @@ import cn.edu.ncepu.researchplatform.entity.People;
 import cn.edu.ncepu.researchplatform.entity.Summary;
 
 import java.util.List;
+import java.util.Map;
 
 public class SummaryDetailVo extends Summary {
     private Summary summary;
     private People people;
-    private List<Evaluate> evaluates;
+    private Map<Integer, Object> evaluates;
 
-    public SummaryDetailVo(Summary summary, People people, List<Evaluate> evaluates) {
+    public SummaryDetailVo(Summary summary, People people, Map<Integer, Object> evaluates) {
         this.summary = summary;
         this.people = people;
         this.evaluates = evaluates;
@@ -33,11 +34,11 @@ public class SummaryDetailVo extends Summary {
         this.people = people;
     }
 
-    public List<Evaluate> getEvaluates() {
+    public Map<Integer, Object> getEvaluates() {
         return evaluates;
     }
 
-    public void setEvaluates(List<Evaluate> evaluates) {
+    public void setEvaluates(Map<Integer, Object> evaluates) {
         this.evaluates = evaluates;
     }
 }
