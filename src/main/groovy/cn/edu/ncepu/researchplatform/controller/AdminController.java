@@ -67,7 +67,9 @@ public class AdminController {
 
     @PutMapping("/material/{materialId}/flag")
     public boolean 全通过1或全部不通过负一(@PathVariable Integer materialId, @RequestBody Map<String, Integer> params) throws JsonProcessingException {
-        return materialService.throughBatchArea(materialId, params.get("flag"));
+        Integer flag = params.get("flag");
+        Assert.isTrue(flag.equals(-1) || flag.equals(1), CustomExceptionType.INPUT_ERROE.message);
+        return materialService.throughBatchArea(materialId, flag);
     }
 
     @GetMapping("/summary/{summaryId}")
