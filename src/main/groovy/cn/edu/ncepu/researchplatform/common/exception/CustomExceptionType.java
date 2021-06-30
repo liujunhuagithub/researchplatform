@@ -10,7 +10,7 @@ public enum CustomExceptionType {
     public int code;
     public String message;
 
-    private CustomExceptionType(int code, String message) {
+    CustomExceptionType(int code, String message) {
         this.code = code;
         this.message = message;
     }
