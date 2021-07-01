@@ -4,6 +4,7 @@ import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
+import cn.edu.ncepu.researchplatform.service.ScheduleService;
 import cn.hutool.core.util.PhoneUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,11 +28,14 @@ class ResearchplatformApplicationTests {
     ObjectMapper om;
     @Value("${customize.save-location}")
     private String pathPre;
+    @Autowired
+    ScheduleService scheduleService;
+
     @Test
     @Rollback(value = false)
     void contextLoads() throws JsonProcessingException {
-        System.out.println("----------------------");
-        System.out.println(Paths.get(pathPre,"/article","/gjfno"));
+        System.out.println("----------");
+        scheduleService.deleteExpireArticleFile();
     }
 
 }

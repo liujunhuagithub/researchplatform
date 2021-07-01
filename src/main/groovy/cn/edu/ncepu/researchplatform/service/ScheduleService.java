@@ -78,24 +78,22 @@ public class ScheduleService {
     @Scheduled(cron = "@daily")
     public void deleteExpireArticleFile() {
         LocalDateTime time = LocalDateTime.now().minusDays(retainDay);
-        articleMapper.findPathByDeleted(time);
-        List<String> fileNames = FileUtil.listFileNames(Paths.get(pathPre, "ResearchPlatformFiles","article").toString());
-        for (String file : fileNames) {
-            if (FileUtil.isFile(file) && file.endsWith(".temp")) {
-                FileUtil.del(file);
-            }
+        List<String> expiredArticle = articleMapper.findPathByDeleted(time);
+        expiredArticle.forEach(s -> Paths.get(pathPre, "ResearchPlatformFiles", "article",s).toFile().delete());
+        File[] tempFiles = Paths.get(pathPre, "ResearchPlatformFiles", "article").toFile().listFiles(pathname -> pathname.isFile() && pathname.getName().endsWith(".temp"));
+        for (File file : tempFiles) {
+            FileUtil.del(file);
         }
-    }
+}
 
     @Scheduled(cron = "@daily")
     public void deleteExpireMaterialFile() {
         LocalDateTime time = LocalDateTime.now().minusDays(retainDay);
-        materialMapper.findPathByDeleted(time);
-        List<String> fileNames = FileUtil.listFileNames(Paths.get(pathPre, "ResearchPlatformFiles","material").toString());
-        for (String file : fileNames) {
-            if (FileUtil.isFile(file) && file.endsWith(".temp")) {
-                FileUtil.del(file);
-            }
+        List<String> expiredMaterial = materialMapper.findPathByDeleted(time);
+        expiredMaterial.forEach(s -> Paths.get(pathPre, "ResearchPlatformFiles", "material",s).toFile().delete());
+        File[] tempFiles = Paths.get(pathPre, "ResearchPlatformFiles", "material").toFile().listFiles(pathname -> pathname.isFile() && pathname.getName().endsWith(".temp"));
+        for (File file : tempFiles) {
+            FileUtil.del(file);
         }
     }
 
