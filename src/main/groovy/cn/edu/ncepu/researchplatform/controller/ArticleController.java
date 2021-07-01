@@ -63,21 +63,24 @@ public class ArticleController {
     public void 查询article正文(@PathVariable Integer articleId, HttpServletResponse response) {
         Article article = articleService.findArticleById(articleId);
         Assert.isTrue(Utils.isAdmin() || article.getGmtDelete() == null, CustomExceptionType.AUTH_ERROR.message);
-        ServletUtil.write(response, Paths.get(pathPre, "/article", article.getPath()).toFile());
+        ServletUtil.write(response, Paths.get(pathPre, "ResearchPlatformFiles","article", article.getPath()).toFile());
     }
 
     @PostMapping("/article")
 //    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
     public Integer 新增article(Article article, MultipartFile articleFile) throws IOException {
         String uuid = UUID.randomUUID().toString();
-        File _file = Paths.get(pathPre, "/article", uuid + ".temp").toFile();
-        articleFile.transferTo(_file);
-        if (OtherService.isIllegalFile(_file)) {
+        File saveFile = Paths.get(pathPre, "ResearchPlatformFiles","article", uuid + ".temp").toFile();
+        if (!saveFile.getParentFile().exists()) {
+            saveFile.getParentFile().mkdirs();
+        }
+        articleFile.transferTo(saveFile);
+        if (OtherService.isIllegalFile(saveFile)) {
             throw CustomException.SENSITIVE_ERROR_Exception;
         }
         article.setAuthorId(peopleService.findByUsername(Utils.getCurrent()).getId());
         Integer newId = articleService.insert(article);
-        _file.renameTo(Paths.get(pathPre, "/article", uuid + "." + articleFile.getOriginalFilename().split(".")[1]).toFile());
+        saveFile.renameTo(Paths.get(pathPre, "article", uuid + "." + articleFile.getOriginalFilename().split(".")[1]).toFile());
         return newId;
     }
 

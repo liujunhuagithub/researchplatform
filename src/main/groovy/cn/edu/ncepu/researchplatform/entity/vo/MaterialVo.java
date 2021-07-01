@@ -27,7 +27,6 @@ public class MaterialVo extends Material {
         }
         setFlag(material.getFlag());
         setGmtCreate(material.getGmtCreate());
-        setContent(material.getContent());
         setId(material.getId());
         people.setPhone(null);
         this.areas = areas;

@@ -12,7 +12,7 @@ public class Material {
 
     private Integer id;
     private Integer peopleId;
-    private String content;
+    private String path;
     private String area;
 
     /**
@@ -40,12 +40,12 @@ public class Material {
         this.peopleId = peopleId;
     }
 
-    public String getContent() {
-        return content;
+    public String getPath() {
+        return path;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getArea() {

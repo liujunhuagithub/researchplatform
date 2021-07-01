@@ -79,7 +79,7 @@ public class ScheduleService {
     public void deleteExpireArticleFile() {
         LocalDateTime time = LocalDateTime.now().minusDays(retainDay);
         articleMapper.findPathByDeleted(time);
-        List<String> fileNames = FileUtil.listFileNames(Paths.get(pathPre, "/article").toString());
+        List<String> fileNames = FileUtil.listFileNames(Paths.get(pathPre, "ResearchPlatformFiles","article").toString());
         for (String file : fileNames) {
             if (FileUtil.isFile(file) && file.endsWith(".temp")) {
                 FileUtil.del(file);
@@ -91,7 +91,7 @@ public class ScheduleService {
     public void deleteExpireMaterialFile() {
         LocalDateTime time = LocalDateTime.now().minusDays(retainDay);
         materialMapper.findPathByDeleted(time);
-        List<String> fileNames = FileUtil.listFileNames(Paths.get(pathPre, "/material").toString());
+        List<String> fileNames = FileUtil.listFileNames(Paths.get(pathPre, "ResearchPlatformFiles","material").toString());
         for (String file : fileNames) {
             if (FileUtil.isFile(file) && file.endsWith(".temp")) {
                 FileUtil.del(file);

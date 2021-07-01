@@ -87,7 +87,7 @@ mybatis:
     map-underscore-to-camel-case: true
 customize:
   rank-size: 50
-  save-location: ${user.home}+'/ResearchPlatformFiles'
+  save-location: ${user.home}
   retain-day: 15
 ---
 spring:
