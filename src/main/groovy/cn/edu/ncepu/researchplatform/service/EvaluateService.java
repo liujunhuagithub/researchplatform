@@ -10,6 +10,7 @@ import cn.edu.ncepu.researchplatform.mapper.*;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames = "evaluate")
 public class EvaluateService {
     @Autowired
     private EvaluateMapper evaluateMapper;
@@ -52,18 +54,17 @@ public class EvaluateService {
 
 
     @Transactional(rollbackFor = Exception.class, readOnly = true)
-    @Cacheable(value = "evaluate", key = "'author'+#evaluateId")
+    @Cacheable(key = "'author'+#evaluateId")
     public People getAuthor(Integer evaluateId) {
         Integer articleId = articleMapper.findIdaboutEvaluate(evaluateId);
         return peopleMapper.findAuthorByArticleId(articleId);
     }
 
-    @Cacheable(value = "evaluate")
     public List<Integer> findBypeopleToArticle(Integer articleId, String username) {
         return evaluateMapper.findBypeopleToArticle(articleId, peopleService.findByUsername(username).getId());
     }
 
-    @Cacheable(value = "evaluate")
+    @Cacheable(key = "'findByArticleId'+#articleId+','+#current+','+#size")
     public List<Evaluate> findByArticleId(Integer articleId, Integer current, Integer size) {
         People author = peopleMapper.findAuthorByArticleId(articleId);
         PeopleDetails currentUser = peopleService.findByUsername(Utils.getCurrent());
@@ -76,6 +77,7 @@ public class EvaluateService {
         return evaluateMapper.insertDiscuss(evaluate);
     }
 
+    @Cacheable(key = "'findDisscussByParentId'+#articleId+','+#current+','+#size")
     public List<Evaluate> findDisscussByParentId(Integer parentId, Integer current, Integer size) {
         return evaluateMapper.findDisscussByParentId(parentId, current, size);
     }
@@ -101,10 +103,10 @@ public class EvaluateService {
         List<Area> peopleAreas = areaMapper.findPeopleAreas(peopleService.findByUsername(Utils.getCurrent()).getId());
         return areaService.isAreaContain(peopleAreas, articleAreas);
     }
-    @Cacheable(value = "evaluate")
-    public EvaluatePageVo findByPeopleId(Integer peopleId, Integer current, Integer size){
+
+    public EvaluatePageVo findByPeopleId(Integer peopleId, Integer current, Integer size) {
         List<Evaluate> evaluates = evaluateMapper.findByPeopleId(peopleId, current, size);
         Integer total = evaluateMapper.findCountByPeopleId(peopleId);
-        return new EvaluatePageVo(total,current,size,evaluates);
+        return new EvaluatePageVo(total, current, size, evaluates);
     }
 }

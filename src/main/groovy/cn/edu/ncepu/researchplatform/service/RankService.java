@@ -33,24 +33,24 @@ public class RankService {
     @Autowired
     private EvaluateMapper evaluateMapper;
 
-    @Cacheable
+    @Cacheable(key = "'peoples'")
     public List<People> peoples() {
         logger.info("生成peoples  rank");
         return peopleMapper.rankPeople();
     }
 
-    @Cacheable
+    @Cacheable(key = "'evaluate'")
     public List<Evaluate> evaluate() {
         return evaluateMapper.rankEvaluate();
     }
 
-    @Cacheable
+    @Cacheable(key = "'article'")
     public List<Article> article() {
         return articleMapper.rankArticle();
 
     }
 
-    @Cacheable
+    @Cacheable(key = "'author'")
     public List<People> author() {
         return peopleMapper.rankPeople();
     }

@@ -6,6 +6,7 @@ import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,16 +32,17 @@ public class MaterialService {
             materialMapper.throughArea(material.getPeopleId(), areaId);
         }
         materialMapper.updateFlag(materialId, flag);
-        if("guest".equals(peopleMapper.findById(material.getPeopleId()).getAuth())){
-            peopleMapper.updateAuth(material.getPeopleId(),1);
+        if ("guest".equals(peopleMapper.findById(material.getPeopleId()).getAuth())) {
+            peopleMapper.updateAuth(material.getPeopleId(), 1);
         }
         return true;
     }
-
+    @Cacheable(value = "material",key = "#id")
     public Material findById(Integer id) {
         return materialMapper.findById(id);
     }
-    public List<Material> findByPeopleId(Integer PeopleId){
+
+    public List<Material> findByPeopleId(Integer PeopleId) {
         return materialMapper.findByPeopleId(PeopleId);
     }
 
