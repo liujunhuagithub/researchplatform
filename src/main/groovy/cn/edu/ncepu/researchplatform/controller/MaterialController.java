@@ -55,7 +55,7 @@ public class MaterialController {
         material.setPeopleId(peopleService.findByUsername(Utils.getCurrent()).getId());
         material.setFlag(0);
         Integer newId = materialService.insertMaterial(material);
-        saveFile.renameTo(Paths.get(pathPre, "ResearchPlatformFiles","material", uuid + "." + materialFile.getOriginalFilename().split(".")[1]).toFile());
+        saveFile.renameTo(Paths.get(pathPre, "ResearchPlatformFiles","material", uuid + "." + materialFile.getOriginalFilename().split("\\.")[1]).toFile());
         return newId;
     }
 
@@ -75,6 +75,6 @@ public class MaterialController {
     @GetMapping("/material/content/{materialId}")
     public void 查询文件ById(@PathVariable Integer materialId, HttpServletResponse response) throws JsonProcessingException {
         Material material = materialService.findById(materialId);
-        ServletUtil.write(response, Paths.get(pathPre, "/material", material.getPath()).toFile());
+        ServletUtil.write(response, Paths.get(pathPre, "ResearchPlatformFiles","material", material.getPath()).toFile());
     }
 }

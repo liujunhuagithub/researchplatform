@@ -67,7 +67,7 @@ public class ArticleController {
     }
 
     @PostMapping("/article")
-//    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
+    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
     public Integer 新增article(Article article, MultipartFile articleFile) throws IOException {
         String uuid = UUID.randomUUID().toString();
         File saveFile = Paths.get(pathPre, "ResearchPlatformFiles","article", uuid + ".temp").toFile();
@@ -80,7 +80,9 @@ public class ArticleController {
         }
         article.setAuthorId(peopleService.findByUsername(Utils.getCurrent()).getId());
         Integer newId = articleService.insert(article);
-        saveFile.renameTo(Paths.get(pathPre, "article", uuid + "." + articleFile.getOriginalFilename().split(".")[1]).toFile());
+
+        File n = Paths.get(pathPre, "ResearchPlatformFiles","article", uuid + "." +articleFile.getOriginalFilename().split("\\.")[1] ).toFile();
+        saveFile.renameTo(n);
         return newId;
     }
 
