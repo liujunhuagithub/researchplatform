@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/rank")
 public class RankController {
-    @Value("${rank.size}")
+    @Value("${customize.rank-size}")
     private Integer rankSize;
     @Autowired
     private RankService rankService;

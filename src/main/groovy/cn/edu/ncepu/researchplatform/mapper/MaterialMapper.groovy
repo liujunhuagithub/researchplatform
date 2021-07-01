@@ -6,7 +6,9 @@ import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Options
 import org.apache.ibatis.annotations.Select
 import org.apache.ibatis.annotations.Update;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Repository
+
+import java.time.LocalDateTime;
 
 @Repository
 interface MaterialMapper {
@@ -25,6 +27,9 @@ interface MaterialMapper {
 
     @Select('select * from `material` where id=#{param1}')
     Material findById(Integer id);
+
+    @Select('select `path` from `material` where gmt_delete <=#{param1}')
+    List<String> findPathByDeleted(LocalDateTime time);
 }
 
 

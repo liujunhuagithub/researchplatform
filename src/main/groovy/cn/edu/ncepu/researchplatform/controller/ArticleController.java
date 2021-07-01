@@ -1,6 +1,7 @@
 package cn.edu.ncepu.researchplatform.controller;
 
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
+import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
 import cn.edu.ncepu.researchplatform.entity.Article;
 import cn.edu.ncepu.researchplatform.entity.dto.ArticleDto;
 import cn.edu.ncepu.researchplatform.entity.vo.ArticleVo;
@@ -8,11 +9,21 @@ import cn.edu.ncepu.researchplatform.service.ArticleService;
 import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
+import cn.hutool.extra.servlet.ServletUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class ArticleController {
@@ -20,6 +31,8 @@ public class ArticleController {
     private ArticleService articleService;
     @Autowired
     private PeopleService peopleService;
+    @Value("${customize.save-location}")
+    private String pathPre;
 
     @PreAuthorize("#username== authentication.name or hasAuthority('admin')")
     @DeleteMapping("/people/{username}/article/{articleId}")
@@ -39,21 +52,33 @@ public class ArticleController {
 
     @GetMapping("/article")
     public ArticleVo 条件查询(ArticleDto dto) {
-        if (!Utils.isAdmin()){
+        if (!Utils.isAdmin()) {
             dto.setFlag(1);
 //已删除如何处理？
-     }
+        }
         return articleService.findByCondition(dto);
     }
 
+    @GetMapping("/article/content/{articleId}")
+    public void 查询article正文(@PathVariable Integer articleId, HttpServletResponse response) {
+        Article article = articleService.findArticleById(articleId);
+        Assert.isTrue(Utils.isAdmin() || article.getGmtDelete() == null, CustomExceptionType.AUTH_ERROR.message);
+        ServletUtil.write(response, Paths.get(pathPre, "/article", article.getPath()).toFile());
+    }
+
     @PostMapping("/article")
-    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
-    public Integer 新增article(Article article) {
-        if (OtherService.isIllegalArticle(article.getContent())) {
+//    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
+    public Integer 新增article(Article article, MultipartFile articleFile) throws IOException {
+        String uuid = UUID.randomUUID().toString();
+        File _file = Paths.get(pathPre, "/article", uuid + ".temp").toFile();
+        articleFile.transferTo(_file);
+        if (OtherService.isIllegalFile(_file)) {
             throw CustomException.SENSITIVE_ERROR_Exception;
         }
         article.setAuthorId(peopleService.findByUsername(Utils.getCurrent()).getId());
-        return articleService.insert(article);
+        Integer newId = articleService.insert(article);
+        _file.renameTo(Paths.get(pathPre, "/article", uuid + "." + articleFile.getOriginalFilename().split(".")[1]).toFile());
+        return newId;
     }
 
     @PutMapping("/article/{articleId}/report")

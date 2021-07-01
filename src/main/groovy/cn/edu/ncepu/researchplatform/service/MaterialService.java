@@ -35,7 +35,7 @@ public class MaterialService {
         return true;
     }
 
-    public Material fingById(Integer id) {
+    public Material findById(Integer id) {
         return materialMapper.findById(id);
     }
 

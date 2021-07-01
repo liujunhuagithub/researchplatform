@@ -10,18 +10,20 @@ import org.apache.ibatis.annotations.Results
 import org.apache.ibatis.annotations.Select
 import org.apache.ibatis.annotations.Update
 import org.apache.ibatis.mapping.FetchType;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Repository
+
+import java.time.LocalDateTime;
 
 @Repository
 interface ArticleMapper {
 
     @Results(id = "BaseArticleMap", value = [
-        @Result(property = "id", column = "id", id = true),
-        @Result(property = "author", column = "author_id", one = @One(select = 'cn.edu.ncepu.researchplatform.mapper.PeopleMapper.findById', fetchType = FetchType.EAGER)),
-        @Result(property = "content", column = "content"),
-        @Result(property = "gmtCreate",column = "gmt_create"),
-        @Result(property = "gmtDelete", column = "gmt_delete"),
-        @Result(property = "areas", column = "id", one = @One(select = 'cn.edu.ncepu.researchplatform.mapper.AreaMapper.findArticleAreas', fetchType = FetchType.EAGER))
+            @Result(property = "id", column = "id", id = true),
+            @Result(property = "author", column = "author_id", one = @One(select = 'cn.edu.ncepu.researchplatform.mapper.PeopleMapper.findById', fetchType = FetchType.EAGER)),
+            @Result(property = "path", column = "path"),
+            @Result(property = "gmtCreate", column = "gmt_create"),
+            @Result(property = "gmtDelete", column = "gmt_delete"),
+            @Result(property = "areas", column = "id", one = @One(select = 'cn.edu.ncepu.researchplatform.mapper.AreaMapper.findArticleAreas', fetchType = FetchType.EAGER))
     ])
     @Select('select * from `article` where id=#{param1}')
     Article findById(Integer id);
@@ -35,7 +37,7 @@ interface ArticleMapper {
     @Update('update `article` set `gmt_delete`=CURRENT_TIMESTAMP where id=#{param1} and `author_id`=#{param2}')
     boolean deleteByIdAuthorId(Integer id, Integer authorId);
 
-    @Insert('insert into `article`(author_id,title,ref,content) values(#{author_id},#{title},#{ref},#{content})')
+    @Insert('insert into `article`(author_id,title,ref,path) values(#{author_id},#{title},#{ref},#{path})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insert(Article article);
 
@@ -73,6 +75,7 @@ select * from `article`
 </script>
 ''')
     List<Article> findByCondition(ArticleDto dto);
+
     @Select('''
 <script>
 select count(id) from `article`
@@ -107,7 +110,6 @@ select count(id) from `article`
     @Select('select * from `article` order by `score` limit 100')
     List<Article> rankArticle();
 
-
     @Select('select * from `article`  where calculate=1 order by rand() limit 1')
     Article findCalculatedArticle();
 
@@ -116,6 +118,9 @@ select count(id) from `article`
 
     @Update('update `article` set weight+=(random()-0.3)')
     boolean updateWeight();
+
+    @Select('select `path` from `article` where gmt_delete <=#{param1}')
+    List<String> findPathByDeleted(LocalDateTime time);
 }
 
 

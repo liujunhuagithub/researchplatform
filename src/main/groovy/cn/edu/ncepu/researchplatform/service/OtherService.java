@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+
 @Service
 public class OtherService {
     @Autowired
@@ -30,7 +32,7 @@ public class OtherService {
         return Math.random() < 0.05;
     }
 
-    public static boolean isIllegalArticle(String content) {
+    public static boolean isIllegalFile(File file) {
         //审核Evaluate，暂时95%通过率
         return Math.random() < 0.05;
     }

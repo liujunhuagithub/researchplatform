@@ -16,7 +16,7 @@ public class Article {
     private People author;
     private String title;
     private String ref;
-    private String content;
+    private String path;
     private Double weight;
     private Double score;
     private List<Area> areas;
@@ -59,12 +59,12 @@ public class Article {
         this.ref = ref;
     }
 
-    public String getContent() {
-        return content;
+    public String getPath() {
+        return path;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Double getWeight() {

@@ -9,10 +9,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
+import java.nio.file.Paths;
 import java.util.List;
 
 @SpringBootTest
@@ -23,10 +25,13 @@ class ResearchplatformApplicationTests {
     PeopleMapper peopleMapper;
     @Autowired
     ObjectMapper om;
+    @Value("${customize.save-location}")
+    private String pathPre;
     @Test
     @Rollback(value = false)
     void contextLoads() throws JsonProcessingException {
-        Integer[] integers = om.readValue("[1, 2, 3]", Integer[].class);
+        System.out.println("----------------------");
+        System.out.println(Paths.get(pathPre,"/article","/gjfno"));
     }
 
 }

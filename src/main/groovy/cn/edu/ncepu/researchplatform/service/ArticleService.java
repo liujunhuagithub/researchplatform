@@ -56,7 +56,7 @@ public class ArticleService {
     public ArticleVo findByCondition(ArticleDto dto) {
         List<Article> articles = articleMapper.findByCondition(dto);
         Integer total = articleMapper.findCountByCondition(dto);
-        return new ArticleVo(total,dto.getCurrent(),dto.getSize(),articles);
+        return new ArticleVo(total, dto.getCurrent(), dto.getSize(), articles);
     }
 
     public boolean isPeopleContainArea(List<Area> intentAreas) {
