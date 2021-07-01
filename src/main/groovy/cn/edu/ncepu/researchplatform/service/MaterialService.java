@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class MaterialService {
     @Autowired
@@ -37,6 +39,9 @@ public class MaterialService {
 
     public Material findById(Integer id) {
         return materialMapper.findById(id);
+    }
+    public List<Material> findByPeopleId(Integer PeopleId){
+        return materialMapper.findByPeopleId(PeopleId);
     }
 
     public boolean deleteById(Integer id, Integer peopleId) {

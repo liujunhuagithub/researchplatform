@@ -44,7 +44,7 @@ public class MaterialController {
     @PostMapping("/material")
     public Integer 新增material参数peopleId不用写(Material material, MultipartFile materialFile) throws IOException {
         String uuid = UUID.randomUUID().toString();
-        File saveFile = Paths.get(pathPre, "ResearchPlatformFiles","material", uuid + ".temp").toFile();
+        File saveFile = Paths.get(pathPre, "ResearchPlatformFiles", "material", uuid + ".temp").toFile();
         if (!saveFile.getParentFile().exists()) {
             saveFile.getParentFile().mkdirs();
         }
@@ -55,7 +55,7 @@ public class MaterialController {
         material.setPeopleId(peopleService.findByUsername(Utils.getCurrent()).getId());
         material.setFlag(0);
         Integer newId = materialService.insertMaterial(material);
-        saveFile.renameTo(Paths.get(pathPre, "ResearchPlatformFiles","material", uuid + "." + materialFile.getOriginalFilename().split("\\.")[1]).toFile());
+        saveFile.renameTo(Paths.get(pathPre, "ResearchPlatformFiles", "material", uuid + "." + materialFile.getOriginalFilename().split("\\.")[1]).toFile());
         return newId;
     }
 
@@ -72,9 +72,14 @@ public class MaterialController {
         return new MaterialVo(material, areas, peopleService.findById(material.getPeopleId()));
     }
 
+    @GetMapping("/poeple/{username}/material}")
+    public List<Material> 查询moupeople的material(@PathVariable String username) throws JsonProcessingException {
+        return materialService.findByPeopleId(peopleService.findByUsername(username).getId());
+    }
+
     @GetMapping("/material/content/{materialId}")
     public void 查询文件ById(@PathVariable Integer materialId, HttpServletResponse response) throws JsonProcessingException {
         Material material = materialService.findById(materialId);
-        ServletUtil.write(response, Paths.get(pathPre, "ResearchPlatformFiles","material", material.getPath()).toFile());
+        ServletUtil.write(response, Paths.get(pathPre, "ResearchPlatformFiles", "material", material.getPath()).toFile());
     }
 }

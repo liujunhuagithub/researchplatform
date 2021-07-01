@@ -27,7 +27,8 @@ interface MaterialMapper {
 
     @Select('select * from `material` where id=#{param1}')
     Material findById(Integer id);
-
+    @Select('select * from `material` where people_id=#{param1}')
+    List<Material> findByPeopleId(Integer PeopleId);
     @Select('select `path` from `material` where gmt_delete <=#{param1}')
     List<String> findPathByDeleted(LocalDateTime time);
 }
