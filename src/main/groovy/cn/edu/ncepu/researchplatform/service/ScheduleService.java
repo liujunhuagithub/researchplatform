@@ -82,7 +82,7 @@ public class ScheduleService {
         expiredArticle.forEach(s -> Paths.get(pathPre, "ResearchPlatformFiles", "article",s).toFile().delete());
         File[] tempFiles = Paths.get(pathPre, "ResearchPlatformFiles", "article").toFile().listFiles(pathname -> pathname.isFile() && pathname.getName().endsWith(".temp"));
         for (File file : tempFiles) {
-            FileUtil.del(file);
+            file.delete();
         }
 }
 
