@@ -33,7 +33,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("科研平台接口文档")
                 .description("this is a 科研平台")
-                .contact(new Contact("垃圾二人组", "http://www.shabi.com", "cloud.com "))
+                .contact(new Contact("菜鸡二人组", "http://www.4399.com", "cloud.com "))
                 .version("999999999999.9999999")
                 .build();
     }
