@@ -42,8 +42,10 @@ public class AdminController {
     }
 
     @PutMapping("/area/{areaId}")
-    public boolean 修改area_name参数名name(@RequestBody Map<String, String> params, @PathVariable Integer areaId) {
-        return areaService.updateName(params.get("name"), areaId);
+    public boolean 修改area_name是否可用0可用1禁用(@RequestBody Map<String, Integer> params, @PathVariable Integer areaId) {
+        Integer flag = params.get("flag");
+        Assert.isTrue(flag.equals(1) || flag.equals(0), CustomExceptionType.INPUT_ERROE.message);
+        return areaService.updateDisabled(flag, areaId);
     }
 
     @PutMapping("/article/{articleId}")

@@ -29,8 +29,8 @@ public class AreaService {
     }
 
     @CacheEvict(value = "area", allEntries = true)
-    public boolean updateName(String name, Integer id) {
-        return areaMapper.updateName(name, id);
+    public boolean updateDisabled(Integer disabled, Integer id) {
+        return areaMapper.updateDisabled(disabled, id);
     }
 
     public boolean isAreaContain(List<Area> peopleAreas, List<Area> targetAreas) {
