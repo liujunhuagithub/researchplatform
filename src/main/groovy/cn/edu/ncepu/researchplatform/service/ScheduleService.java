@@ -88,9 +88,6 @@ public class ScheduleService {
 
     @Scheduled(cron = "@daily")
     public void deleteExpireMaterialFile() {
-        LocalDateTime time = LocalDateTime.now().minusDays(retainDay);
-        List<String> expiredMaterial = materialMapper.findPathByDeleted(time);
-        expiredMaterial.forEach(s -> Paths.get(pathPre, "ResearchPlatformFiles", "material",s).toFile().delete());
         File[] tempFiles = Paths.get(pathPre, "ResearchPlatformFiles", "material").toFile().listFiles(pathname -> pathname.isFile() && pathname.getName().endsWith(".temp"));
         for (File file : tempFiles) {
             FileUtil.del(file);

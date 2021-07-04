@@ -6,10 +6,13 @@ import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -20,7 +23,8 @@ public class MaterialService {
     private PeopleMapper peopleMapper;
     @Autowired
     private ObjectMapper om;
-
+    @Value("${customize.save-location}")
+    private String pathPre;
     public Integer insertMaterial(Material material) {
         return materialMapper.insertMaterial(material);
     }
@@ -47,6 +51,7 @@ public class MaterialService {
     }
 
     public boolean deleteById(Integer id, Integer peopleId) {
+        Paths.get(pathPre, "ResearchPlatformFiles", "material",materialMapper.findById(id).getPath()).toFile().delete();
         return materialMapper.deleteById(id, peopleId);
     }
 }
