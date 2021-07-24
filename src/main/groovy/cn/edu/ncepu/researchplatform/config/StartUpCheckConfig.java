@@ -6,6 +6,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @Component
 public class StartUpCheckConfig implements ApplicationRunner {
     private final static Logger logger = LoggerFactory.getLogger(StartUpCheckConfig.class);
