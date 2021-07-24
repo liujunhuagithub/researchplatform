@@ -4,6 +4,8 @@ import cn.edu.ncepu.researchplatform.controller.OtherController;
 import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import cn.hutool.core.util.PhoneUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
@@ -16,6 +18,7 @@ public class CustomizerPasseordEncoder extends BCryptPasswordEncoder {
 
     @Autowired
     private OtherService otherService;
+    private static final Logger logger = LoggerFactory.getLogger(CustomizerPasseordEncoder.class);
 
     public CustomizerPasseordEncoder() {
         super(12);
@@ -28,6 +31,7 @@ public class CustomizerPasseordEncoder extends BCryptPasswordEncoder {
         if (PhoneUtil.isPhone(username) && StringUtils.hasText(phoneCode)) {
             return otherService.verfyPhoneCode(username,phoneCode);
         }
+        logger.info("当前username：{}，当前密码：{}",username,Utils.getRequest().getParameter("password"));
         return super.matches(rawPassword, encodedPassword);
     }
 }

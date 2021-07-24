@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private ObjectMapper om;
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser("root").password("root").authorities("admin","vip");
+        auth.inMemoryAuthentication().passwordEncoder(passwordEncoder).withUser("root").password(passwordEncoder.encode("root")).authorities("admin","vip");
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder);
     }
@@ -89,9 +89,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/login","/phoneCode","/identityCaptchaCode").permitAll()
                 .antMatchers("/admin/**").hasAuthority("admin")
-//                .antMatchers(HttpMethod.DELETE).authenticated()
-//                .antMatchers(HttpMethod.PUT).authenticated()
-//                .antMatchers(HttpMethod.POST).authenticated()
+                .antMatchers(HttpMethod.DELETE).authenticated()
+                .antMatchers(HttpMethod.PUT).authenticated()
+                .antMatchers(HttpMethod.POST).authenticated()
                 .anyRequest().permitAll();
 
         http.cors();
