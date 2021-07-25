@@ -10,9 +10,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import java.nio.file.Paths;
@@ -30,12 +32,13 @@ class ResearchplatformApplicationTests {
     private String pathPre;
     @Autowired
     ScheduleService scheduleService;
-
+    @Autowired
+    @Qualifier("customizerPasseordEncoder")
+    private PasswordEncoder passwordEncoder;
     @Test
     @Rollback(value = false)
     void contextLoads() throws JsonProcessingException {
         System.out.println("----------");
-        scheduleService.deleteExpireArticleFile();
-    }
+        System.out.println(passwordEncoder.encode("root"));    }
 
 }

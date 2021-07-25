@@ -235,7 +235,8 @@ FROM
     @Insert('insert into `people`(username,phone,password) values(#{username},#{phone},#{password})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertPeople(People people);
-
+    @Insert("insert ignore into  `people`(id,username,`password`,auth) VALUES(1,'root','\$2a\$12\$W9fILdbgUfP77w2Z0snYGu70vaECo6oLcs8n4Kgv3Bhrdy1uxO3GG',3)")
+    boolean initRoot();
     @Update('''
 <script>
 update `people` 

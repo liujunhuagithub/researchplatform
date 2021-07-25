@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class AreaService {
     @Autowired
     private AreaMapper areaMapper;
-
+    @CacheEvict(cacheManager = "rankCacheManager", value = "area", key = "'areas'")
     public void insertArea(Area area) {
         Integer newId = areaMapper.insertArea(area);
     }
@@ -28,7 +28,7 @@ public class AreaService {
         return allArea.stream().collect(Collectors.toMap(Area::getId, area -> area));
     }
 
-    @CacheEvict(value = "area", allEntries = true)
+    @CacheEvict(cacheManager = "rankCacheManager",value = "area", allEntries = true)
     public boolean updateDisabled(Integer disabled, Integer id) {
         return areaMapper.updateDisabled(disabled, id);
     }
