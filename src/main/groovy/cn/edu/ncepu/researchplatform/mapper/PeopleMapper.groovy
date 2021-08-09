@@ -235,8 +235,7 @@ FROM
     @Insert('insert into `people`(username,phone,password) values(#{username},#{phone},#{password})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertPeople(People people);
-    @Insert("insert ignore into  `people`(id,username,`password`,auth) VALUES(1,'root','\$2a\$12\$W9fILdbgUfP77w2Z0snYGu70vaECo6oLcs8n4Kgv3Bhrdy1uxO3GG',3)")
-    boolean initRoot();
+
     @Update('''
 <script>
 update `people` 
@@ -259,7 +258,7 @@ update `people`
 ''')
     boolean updateInfo(People people);
 
-    @Update('update `people` set realneme=#{param1},id_card=#{param2}  where username=#{param3} and auth!=-1 and not exist (select * from `people` where id_card=#{param2} and auth=-1)')
+    @Update('update `people` set realneme=#{param1},id_card=#{param2}  where username=#{param3} and auth!=-1 ')
     boolean updateReal(String realname, String idCard, String username);
 
     @Update('update `people` set phone=#{phone}  where username=#{param2}')

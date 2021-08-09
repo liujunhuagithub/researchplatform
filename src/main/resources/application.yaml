@@ -60,6 +60,8 @@ spring:
           statement-executable-sql-log-enable: true
       filters:  stat,wall,slf4j
 
+
+
   #      remove-abandoned: true
   jackson:
     time-zone: GMT+8
@@ -81,6 +83,9 @@ spring:
     multipart:
       max-file-size: 5MB
       max-request-size: 5MB
+  sql:
+    init:
+      mode: always
 mybatis:
   configuration:
     local-cache-scope: statement

@@ -20,6 +20,5 @@ public class StartUpCheckConfig implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         logger.debug("开始启动************************");
-        peopleMapper.initRoot();
     }
 }
