@@ -1,5 +1,6 @@
 package cn.edu.ncepu.researchplatform.controller;
 
+import cn.edu.ncepu.researchplatform.common.R;
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
 import cn.edu.ncepu.researchplatform.entity.Article;
@@ -63,14 +64,14 @@ public class ArticleController {
     public void 查询article正文(@PathVariable Integer articleId, HttpServletResponse response) {
         Article article = articleService.findArticleById(articleId);
         Assert.isTrue(Utils.isAdmin() || article.getGmtDelete() == null, CustomExceptionType.AUTH_ERROR.message);
-        ServletUtil.write(response, Paths.get(pathPre, "ResearchPlatformFiles","article", article.getPath()).toFile());
+        ServletUtil.write(response, Paths.get(pathPre, "ResearchPlatformFiles", "article", article.getPath()).toFile());
     }
 
     @PostMapping("/article")
-    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
+//    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
     public Integer 新增article(Article article, MultipartFile articleFile) throws IOException {
         String uuid = UUID.randomUUID().toString();
-        File saveFile = Paths.get(pathPre, "ResearchPlatformFiles","article", uuid + ".temp").toFile();
+        File saveFile = Paths.get(pathPre, "ResearchPlatformFiles", "article", uuid + ".temp").toFile();
         if (!saveFile.getParentFile().exists()) {
             saveFile.getParentFile().mkdirs();
         }
@@ -79,9 +80,10 @@ public class ArticleController {
             throw CustomException.SENSITIVE_ERROR_Exception;
         }
         article.setAuthorId(peopleService.findByUsername(Utils.getCurrent()).getId());
+        String path = uuid + "." + articleFile.getOriginalFilename().split("\\.")[1];
+        article.setPath(path);
         Integer newId = articleService.insert(article);
-
-        File n = Paths.get(pathPre, "ResearchPlatformFiles","article", uuid + "." +articleFile.getOriginalFilename().split("\\.")[1] ).toFile();
+        File n = Paths.get(pathPre, "ResearchPlatformFiles", "article", path).toFile();
         saveFile.renameTo(n);
         return newId;
     }

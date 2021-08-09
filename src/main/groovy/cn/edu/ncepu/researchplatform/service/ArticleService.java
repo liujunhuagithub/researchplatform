@@ -50,7 +50,7 @@ public class ArticleService {
     @Transactional(rollbackFor = Exception.class)
     public Integer insert(Article article) {
         Integer newId = articleMapper.insert(article);
-        article.getAreas().forEach(a -> articleMapper.insertArea(newId, a.getId()));
+//        article.getAreas().forEach(a -> articleMapper.insertArea(newId, a.getId()));
         return newId;
     }
 
