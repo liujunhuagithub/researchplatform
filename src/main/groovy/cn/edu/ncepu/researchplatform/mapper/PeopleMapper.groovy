@@ -258,7 +258,7 @@ update `people`
 ''')
     boolean updateInfo(People people);
 
-    @Update('update `people` set realneme=#{param1},id_card=#{param2}  where username=#{param3} and auth!=-1 ')
+    @Update('update `people` set realname=#{param1},id_card=#{param2}  where username=#{param3} and auth!=-1 ')
     boolean updateReal(String realname, String idCard, String username);
 
     @Update('update `people` set phone=#{phone}  where username=#{param2}')
