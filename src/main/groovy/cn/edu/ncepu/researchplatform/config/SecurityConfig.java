@@ -86,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterAfter(jwtFilter, LogoutFilter.class);
 
         http.authorizeRequests()
-                .antMatchers("/login","/phoneCode","/identityCaptchaCode","/register").permitAll()
+                .antMatchers("/login","/phoneCode","/identityCaptchaCode","/register","/password").permitAll()
                 .antMatchers("/admin/**").hasAuthority("admin")
                 .antMatchers(HttpMethod.DELETE).authenticated()
                 .antMatchers(HttpMethod.PUT).authenticated()

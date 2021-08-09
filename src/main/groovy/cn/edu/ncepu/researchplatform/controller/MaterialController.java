@@ -54,8 +54,10 @@ public class MaterialController {
         }
         material.setPeopleId(peopleService.findByUsername(Utils.getCurrent()).getId());
         material.setFlag(0);
+        String path = uuid + "." + materialFile.getOriginalFilename().split("\\.")[1];
+        material.setPath(path);
         Integer newId = materialService.insertMaterial(material);
-        saveFile.renameTo(Paths.get(pathPre, "ResearchPlatformFiles", "material", uuid + "." + materialFile.getOriginalFilename().split("\\.")[1]).toFile());
+        saveFile.renameTo(Paths.get(pathPre, "ResearchPlatformFiles", "material", path).toFile());
         return newId;
     }
 
