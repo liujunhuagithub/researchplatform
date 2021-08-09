@@ -41,7 +41,7 @@ interface ArticleMapper {
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insert(Article article);
 
-    @Insert('insert into `article_area`(author_id,area_id) values(#{param1},#{param2})')
+    @Insert('insert into `article_area`(article_id,area_id) values(#{param1},#{param2})')
     boolean insertArea(Integer articleId, Integer areaId);
 
     @Select('''

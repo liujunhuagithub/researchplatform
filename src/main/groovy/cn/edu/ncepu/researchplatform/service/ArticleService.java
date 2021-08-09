@@ -49,8 +49,9 @@ public class ArticleService {
 
     @Transactional(rollbackFor = Exception.class)
     public Integer insert(Article article) {
-        article.getAreas().forEach(a -> articleMapper.insertArea(article.getId(), a.getId()));
-        return articleMapper.insert(article);
+        Integer newId = articleMapper.insert(article);
+        article.getAreas().forEach(a -> articleMapper.insertArea(newId, a.getId()));
+        return newId;
     }
 
     public ArticleVo findByCondition(ArticleDto dto) {

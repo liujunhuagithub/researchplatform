@@ -8,8 +8,8 @@ spring:
   datasource:
     #1.JDBC
     username: root
-    password: root
-    url: jdbc:mysql://202.206.212.65:3306/researchplatform?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai
+    password: dreamtech1012
+    url: jdbc:mysql://39.99.152.97:3306/researchplatform?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       #初始化大小
