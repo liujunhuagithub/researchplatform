@@ -9,7 +9,7 @@
         <result property="authorId" column="author_id" jdbcType="INTEGER"/>
         <result property="title" column="title" jdbcType="VARCHAR"/>
         <result property="ref" column="ref" jdbcType="VARCHAR"/>
-        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="path" column="path" jdbcType="VARCHAR"/>
         <result property="weight" column="weight" jdbcType="DOUBLE"/>
         <result property="score" column="score" jdbcType="DOUBLE"/>
         <result property="flag" column="flag" jdbcType="TINYINT"/>
@@ -19,7 +19,7 @@
 
     <sql id="Base_Column_List">
         id,author,title,
-        `ref`,content,weight,
+        `ref`,`path`,weight,
         score,flag,gmt_create,
         gmt_delete
     </sql>
