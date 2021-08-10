@@ -56,6 +56,7 @@ public class MaterialController {
         material.setFlag(0);
         String path = uuid + "." + materialFile.getOriginalFilename().split("\\.")[1];
         material.setPath(path);
+        material.setAreaTemp(om.writeValueAsString(material.getAreas().stream().map(m->m.getId()).collect(Collectors.toList())));
         Integer newId = materialService.insertMaterial(material);
         saveFile.renameTo(Paths.get(pathPre, "ResearchPlatformFiles", "material", path).toFile());
         return newId;
@@ -70,7 +71,7 @@ public class MaterialController {
     @GetMapping("/material/{materialId}")
     public MaterialVo 查询Id(@PathVariable Integer materialId) throws JsonProcessingException {
         Material material = materialService.findById(materialId);
-        List<Area> areas = Arrays.stream(om.readValue(material.getArea(), Integer[].class)).map(i -> areaService.findAllArea().get(i)).collect(Collectors.toList());
+        List<Area> areas = Arrays.stream(om.readValue(material.getAreaTemp(), Integer[].class)).map(i -> areaService.findAllArea().get(i)).collect(Collectors.toList());
         return new MaterialVo(material, areas, peopleService.findById(material.getPeopleId()));
     }
 

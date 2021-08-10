@@ -261,7 +261,7 @@ update `people`
     @Update('update `people` set realname=#{param1},id_card=#{param2}  where username=#{param3} and auth!=-1 ')
     boolean updateReal(String realname, String idCard, String username);
 
-    @Update('update `people` set phone=#{phone}  where username=#{param2}')
+    @Update('update `people` set phone=#{param1}  where username=#{param2}')
     boolean updatePhone(String phone, String username);
 
     @Update('update `people` set weight+=(random()-0.3)')

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Repository
 interface MaterialMapper {
-    @Insert('insert into `material`(people_id,path,area) values (#{peopleId},#{path},#{area}) ')
+    @Insert('insert into `material`(people_id,path,area_temp) values (#{peopleId},#{path},#{areaTemp}) ')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertMaterial(Material material);
 

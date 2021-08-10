@@ -32,7 +32,7 @@ public class MaterialService {
     @Transactional(rollbackFor = Exception.class)
     public boolean throughBatchArea(Integer materialId, Integer flag) throws JsonProcessingException {
         Material material = materialMapper.findById(materialId);
-        for (Integer areaId : om.readValue(material.getArea(), Integer[].class)) {
+        for (Integer areaId : om.readValue(material.getAreaTemp(), Integer[].class)) {
             materialMapper.throughArea(material.getPeopleId(), areaId);
         }
         materialMapper.updateFlag(materialId, flag);

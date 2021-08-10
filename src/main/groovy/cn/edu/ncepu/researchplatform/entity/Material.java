@@ -5,6 +5,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Validated
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -13,13 +14,14 @@ public class Material {
     private Integer id;
     private Integer peopleId;
     private String path;
-    private String area;
-
+    private String areaTemp;
+    private List<Area> areas;
     /**
      * 0正在1通过-1失败
      */
     private Integer flag;
     private LocalDateTime gmtCreate;
+
     public LocalDateTime getGmtCreate() {
         return gmtCreate;
     }
@@ -48,12 +50,12 @@ public class Material {
         this.path = path;
     }
 
-    public String getArea() {
-        return area;
+    public String getAreaTemp() {
+        return areaTemp;
     }
 
-    public void setArea(String area) {
-        this.area = area;
+    public void setAreaTemp(String area) {
+        this.areaTemp = area;
     }
 
     public Integer getFlag() {
@@ -62,6 +64,14 @@ public class Material {
 
     public void setFlag(Integer flag) {
         this.flag = flag;
+    }
+
+    public List<Area> getAreas() {
+        return areas;
+    }
+
+    public void setAreas(List<Area> areas) {
+        this.areas = areas;
     }
 
     public void setGmtCreate(LocalDateTime gmtCreate) {
