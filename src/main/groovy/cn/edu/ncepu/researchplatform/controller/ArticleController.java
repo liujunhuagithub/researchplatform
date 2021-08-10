@@ -14,6 +14,7 @@ import cn.hutool.extra.servlet.ServletUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,6 +69,8 @@ public class ArticleController {
     }
 
     @PostMapping("/article")
+    @Transactional(rollbackFor = Exception.class)
+
 //    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
     public Integer 新增article(Article article, MultipartFile articleFile) throws IOException {
         String uuid = UUID.randomUUID().toString();
