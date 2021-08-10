@@ -15,7 +15,6 @@ public class Material {
     private Integer peopleId;
     private String path;
     private String areaTemp;
-    private List<Area> areas;
     /**
      * 0正在1通过-1失败
      */
@@ -64,14 +63,6 @@ public class Material {
 
     public void setFlag(Integer flag) {
         this.flag = flag;
-    }
-
-    public List<Area> getAreas() {
-        return areas;
-    }
-
-    public void setAreas(List<Area> areas) {
-        this.areas = areas;
     }
 
     public void setGmtCreate(LocalDateTime gmtCreate) {

@@ -33,7 +33,6 @@ public class MaterialVo extends Material {
         this.people = people;
     }
 
-    @Override
     public List<Area> getAreas() {
         return areas;
     }
@@ -46,7 +45,6 @@ public class MaterialVo extends Material {
         this.status = status;
     }
 
-    @Override
     public void setAreas(List<Area> areas) {
         this.areas = areas;
     }

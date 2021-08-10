@@ -56,7 +56,6 @@ public class MaterialController {
         material.setFlag(0);
         String path = uuid + "." + materialFile.getOriginalFilename().split("\\.")[1];
         material.setPath(path);
-        material.setAreaTemp(om.writeValueAsString(material.getAreas().stream().map(m->m.getId()).collect(Collectors.toList())));
         Integer newId = materialService.insertMaterial(material);
         saveFile.renameTo(Paths.get(pathPre, "ResearchPlatformFiles", "material", path).toFile());
         return newId;
