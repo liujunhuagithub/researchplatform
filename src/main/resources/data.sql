@@ -1,9 +1,9 @@
 insert ignore into  `people`(id,username,`password`,auth) VALUES(1,'root','$2a$12$W9fILdbgUfP77w2Z0snYGu70vaECo6oLcs8n4Kgv3Bhrdy1uxO3GG',3);
 INSERT ignore INTO `area` VALUES (1, '农林牧渔、卫生、科学研究', 0, 0);
 INSERT ignore INTO `area` VALUES (2, '建筑、能源、冶炼、交通运输', 0, 0);
-INSERT ignore INTO `area` VALUES (5, '制造、信息技术、贸易', 0, 0);
-INSERT ignore INTO `area` VALUES (6, '党政、社团、国防、法律、金融', 0, 0);
-INSERT ignore INTO `area` VALUES (7, '教育、公共文化、社会服务', 0, 0);
+INSERT ignore INTO `area` VALUES (3, '制造、信息技术、贸易', 0, 0);
+INSERT ignore INTO `area` VALUES (4, '党政、社团、国防、法律、金融', 0, 0);
+INSERT ignore INTO `area` VALUES (5, '教育、公共文化、社会服务', 0, 0);
 INSERT ignore INTO `area` VALUES (8, '农业', 1, 0);
 INSERT ignore INTO `area` VALUES (9, '食品', 1, 0);
 INSERT ignore INTO `area` VALUES (10, '医疗', 1, 0);
