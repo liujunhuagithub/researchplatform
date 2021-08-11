@@ -4,6 +4,7 @@ import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.mapper.AreaMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
+import cn.edu.ncepu.researchplatform.service.AreaService;
 import cn.edu.ncepu.researchplatform.service.ScheduleService;
 import cn.hutool.core.util.PhoneUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -35,10 +36,13 @@ class ResearchplatformApplicationTests {
     @Autowired
     @Qualifier("customizerPasseordEncoder")
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    AreaService areaService;
     @Test
     @Rollback(value = false)
     void contextLoads() throws JsonProcessingException {
         System.out.println("----------");
-        System.out.println(passwordEncoder.encode("root"));    }
+        System.out.println(passwordEncoder.encode("root"));
+        System.out.println(om.writeValueAsString(areaService.findTree()));}
 
 }
