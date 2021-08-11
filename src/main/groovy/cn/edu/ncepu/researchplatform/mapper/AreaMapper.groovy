@@ -23,7 +23,7 @@ interface AreaMapper {
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertArea(Area area);
 
-    @Update('update `area` set `disabled`=#{param1} where id=#{param2}')
+    @Update('update `area` set `disabled`=#{param1} where id=#{param2} and id >64')
     boolean updateDisabled(Integer disabled, Integer id);
 
 }

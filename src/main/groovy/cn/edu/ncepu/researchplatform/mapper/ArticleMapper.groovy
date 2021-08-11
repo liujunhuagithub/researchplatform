@@ -113,7 +113,7 @@ select count(id) from `article`
     @Select('select * from `article`  where calculate=1 order by rand() limit 1')
     Article findCalculatedArticle();
 
-    @Update('update `article` set score=(select sum(score_item) from evaluate where article_id=#{param1} where gmt_delete is null)')
+    @Update('update `article` set score=(select sum(score_item) from evaluate where article_id=#{param1} and gmt_delete is null)')
     boolean updateScore(Integer articleId);
 
     @Update('update `article` set weight+=(random()-0.3)')
