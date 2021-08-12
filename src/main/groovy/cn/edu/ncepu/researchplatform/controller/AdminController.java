@@ -77,7 +77,7 @@ public class AdminController {
         return materialService.throughBatchArea(materialId, flag);
     }
 
-    @GetMapping("/material}")
+    @GetMapping("/material")
     public MaterialPageVo 查询某people的material(MaterialDto dto) {
         return materialService.findByPage(dto);
     }

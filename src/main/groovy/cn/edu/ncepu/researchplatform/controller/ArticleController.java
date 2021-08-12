@@ -7,6 +7,7 @@ import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.entity.Article;
 import cn.edu.ncepu.researchplatform.entity.dto.ArticleDto;
 import cn.edu.ncepu.researchplatform.entity.vo.ArticleVo;
+import cn.edu.ncepu.researchplatform.security.PeopleDetails;
 import cn.edu.ncepu.researchplatform.service.AreaService;
 import cn.edu.ncepu.researchplatform.service.ArticleService;
 import cn.edu.ncepu.researchplatform.service.OtherService;
@@ -62,11 +63,16 @@ public class ArticleController {
     }
 
     @GetMapping("/article")
-    public ArticleVo 条件查询(ArticleDto dto) {
-        if (!Utils.isAdmin()) {
+    public ArticleVo 条件查询(ArticleDto dto, String username) {
+        PeopleDetails author = peopleService.findByUsername(username);
+        if (author != null) {
+            dto.setAuthorId(author.getId());
+        }
+        if (!(Utils.isAdmin()||Utils.isCurrent(username))) {
             dto.setFlag(1);
 //已删除如何处理？
         }
+
         return articleService.findByCondition(dto);
     }
 
