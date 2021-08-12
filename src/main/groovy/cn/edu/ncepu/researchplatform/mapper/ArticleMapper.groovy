@@ -37,7 +37,7 @@ interface ArticleMapper {
     @Update('update `article` set `gmt_delete`=CURRENT_TIMESTAMP where id=#{param1} and `author_id`=#{param2}')
     boolean deleteByIdAuthorId(Integer id, Integer authorId);
 
-    @Insert('insert into `article`(author_id,title,ref,path) values(#{authorId},#{title},#{ref},#{path})')
+    @Insert('insert into `article`(author_id,title,abstracts,ref,path) values(#{authorId},#{title},#{abstracts},#{ref},#{path})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insert(Article article);
 
