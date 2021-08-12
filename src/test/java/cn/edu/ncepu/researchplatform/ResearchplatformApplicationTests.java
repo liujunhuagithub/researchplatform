@@ -42,7 +42,7 @@ class ResearchplatformApplicationTests {
     @Rollback(value = false)
     void contextLoads() throws JsonProcessingException {
         System.out.println("----------");
-        System.out.println(passwordEncoder.encode("root"));
-        System.out.println(om.writeValueAsString(areaService.findTree()));}
+        Integer[] integers = om.readValue("[\"3\", \"4\"]", Integer[].class);
+    }
 
 }

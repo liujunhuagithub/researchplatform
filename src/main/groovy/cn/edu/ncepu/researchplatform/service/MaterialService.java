@@ -1,6 +1,8 @@
 package cn.edu.ncepu.researchplatform.service;
 
 import cn.edu.ncepu.researchplatform.entity.Material;
+import cn.edu.ncepu.researchplatform.entity.dto.MaterialDto;
+import cn.edu.ncepu.researchplatform.entity.vo.MaterialPageVo;
 import cn.edu.ncepu.researchplatform.mapper.MaterialMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,6 +27,7 @@ public class MaterialService {
     private ObjectMapper om;
     @Value("${customize.save-location}")
     private String pathPre;
+
     public Integer insertMaterial(Material material) {
         return materialMapper.insertMaterial(material);
     }
@@ -32,7 +35,7 @@ public class MaterialService {
     @Transactional(rollbackFor = Exception.class)
     public boolean throughBatchArea(Integer materialId, Integer flag) throws JsonProcessingException {
         Material material = materialMapper.findById(materialId);
-        if (flag.equals(1)){
+        if (flag.equals(1)) {
             for (Integer areaId : om.readValue(material.getAreaTemp(), Integer[].class)) {
                 materialMapper.throughArea(material.getPeopleId(), areaId);
             }
@@ -44,7 +47,17 @@ public class MaterialService {
         }
         return true;
     }
-    @Cacheable(value = "material",key = "#id")
+
+    public MaterialPageVo findByPage(MaterialDto dto) {
+        MaterialPageVo vo = new MaterialPageVo();
+        vo.setCurrent(dto.getCurrent());
+        vo.setSize(dto.getSize());
+        vo.setMaterials(materialMapper.findByCondition(dto));
+        vo.setTotal(materialMapper.findCountByCondition(dto));
+        return vo;
+    }
+
+    @Cacheable(value = "material", key = "#id")
     public Material findById(Integer id) {
         return materialMapper.findById(id);
     }
@@ -54,7 +67,7 @@ public class MaterialService {
     }
 
     public boolean deleteById(Integer id, Integer peopleId) {
-        Paths.get(pathPre, "ResearchPlatformFiles", "material",materialMapper.findById(id).getPath()).toFile().delete();
+        Paths.get(pathPre, "ResearchPlatformFiles", "material", materialMapper.findById(id).getPath()).toFile().delete();
         return materialMapper.deleteById(id, peopleId);
     }
 }

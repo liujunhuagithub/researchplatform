@@ -1,6 +1,7 @@
 package cn.edu.ncepu.researchplatform.mapper
 
 import cn.edu.ncepu.researchplatform.entity.Material
+import cn.edu.ncepu.researchplatform.entity.dto.MaterialDto
 import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Options
@@ -27,8 +28,32 @@ interface MaterialMapper {
 
     @Select('select * from `material` where id=#{param1}')
     Material findById(Integer id);
+
     @Select('select * from `material` where people_id=#{param1}')
     List<Material> findByPeopleId(Integer PeopleId);
+
+    @Select('''
+<script>
+select * from `material`
+<where>
+    <if test=" flag !=null ">
+       flag=#{flag}
+    </if>
+</where>
+limit ${(current-1)*size},#{size}
+</script>''')
+    List<Material> findByCondition(MaterialDto dto);
+
+    @Select('''
+<script>
+select count(id) from `material` 
+<where>
+    <if test=" flag !=null ">
+       flag=#{flag}
+    </if>
+</where>
+</script>''')
+    Integer findCountByCondition(MaterialDto dto);
 }
 
 

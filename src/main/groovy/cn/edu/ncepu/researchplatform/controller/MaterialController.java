@@ -75,7 +75,7 @@ public class MaterialController {
     }
 
     @GetMapping("/poeple/{username}/material}")
-    public List<Material> 查询moupeople的material(@PathVariable String username) throws JsonProcessingException {
+    public List<Material> 查询某people的material(@PathVariable String username) throws JsonProcessingException {
         return materialService.findByPeopleId(peopleService.findByUsername(username).getId());
     }
 

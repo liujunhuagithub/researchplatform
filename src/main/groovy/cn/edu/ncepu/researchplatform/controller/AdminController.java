@@ -3,8 +3,11 @@ package cn.edu.ncepu.researchplatform.controller;
 import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
 import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.entity.Evaluate;
+import cn.edu.ncepu.researchplatform.entity.Material;
 import cn.edu.ncepu.researchplatform.entity.Summary;
+import cn.edu.ncepu.researchplatform.entity.dto.MaterialDto;
 import cn.edu.ncepu.researchplatform.entity.dto.SummaryDto;
+import cn.edu.ncepu.researchplatform.entity.vo.MaterialPageVo;
 import cn.edu.ncepu.researchplatform.entity.vo.SummaryDetailVo;
 import cn.edu.ncepu.researchplatform.entity.vo.SummaryPageVo;
 import cn.edu.ncepu.researchplatform.service.*;
@@ -72,6 +75,11 @@ public class AdminController {
         Integer flag = params.get("flag");
         Assert.isTrue(flag.equals(-1) || flag.equals(1), CustomExceptionType.INPUT_ERROE.message);
         return materialService.throughBatchArea(materialId, flag);
+    }
+
+    @GetMapping("/material}")
+    public MaterialPageVo 查询某people的material(MaterialDto dto) {
+        return materialService.findByPage(dto);
     }
 
     @GetMapping("/summary/{summaryId}")

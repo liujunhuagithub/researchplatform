@@ -13,6 +13,7 @@ public class Article {
     private Integer authorId;
     private People author;
     private String title;
+    private String abstracts;
     private String ref;
     private String path;
     private Double weight;
@@ -83,6 +84,14 @@ public class Article {
 
     public List<Area> getAreas() {
         return areas;
+    }
+
+    public String getAbstracts() {
+        return abstracts;
+    }
+
+    public void setAbstracts(String abstracts) {
+        this.abstracts = abstracts;
     }
 
     public void setAreas(List<Area> areas) {
