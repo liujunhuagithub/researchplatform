@@ -19,7 +19,7 @@ interface MaterialMapper {
     @Insert('insert into `people_area` values (#{param1},#{param2})')
     boolean throughArea(Integer peopleId, Integer areaId);
 
-    @Update('update `material` set flag=flag where id=#{param1}')
+    @Update('update `material` set flag=#{param2} where id=#{param1}')
     boolean updateFlag(Integer materialId, Integer flag);
 
     @Delete('delete from `material`  where id=#{param1} and people_id=#{param2}')

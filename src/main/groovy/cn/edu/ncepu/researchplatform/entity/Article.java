@@ -1,10 +1,8 @@
 package cn.edu.ncepu.researchplatform.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.validation.annotation.Validated;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 

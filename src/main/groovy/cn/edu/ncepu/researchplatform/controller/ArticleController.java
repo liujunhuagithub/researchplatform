@@ -3,14 +3,17 @@ package cn.edu.ncepu.researchplatform.controller;
 import cn.edu.ncepu.researchplatform.common.R;
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
+import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.entity.Article;
 import cn.edu.ncepu.researchplatform.entity.dto.ArticleDto;
 import cn.edu.ncepu.researchplatform.entity.vo.ArticleVo;
+import cn.edu.ncepu.researchplatform.service.AreaService;
 import cn.edu.ncepu.researchplatform.service.ArticleService;
 import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import cn.hutool.extra.servlet.ServletUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,8 +27,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 public class ArticleController {
@@ -35,6 +40,10 @@ public class ArticleController {
     private PeopleService peopleService;
     @Value("${customize.save-location}")
     private String pathPre;
+    @Autowired
+    private AreaService areaService;
+    @Autowired
+    private ObjectMapper om;
 
     @PreAuthorize("#username== authentication.name or hasAuthority('admin')")
     @DeleteMapping("/people/{username}/article/{articleId}")
@@ -70,9 +79,8 @@ public class ArticleController {
 
     @PostMapping("/article")
     @Transactional(rollbackFor = Exception.class)
-
 //    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
-    public Integer 新增article(Article article, MultipartFile articleFile) throws IOException {
+    public Integer 新增article(Article article, String areaTemp, MultipartFile articleFile) throws IOException {
         String uuid = UUID.randomUUID().toString();
         File saveFile = Paths.get(pathPre, "ResearchPlatformFiles", "article", uuid + ".temp").toFile();
         if (!saveFile.getParentFile().exists()) {
@@ -82,6 +90,8 @@ public class ArticleController {
         if (OtherService.isIllegalFile(saveFile)) {
             throw CustomException.SENSITIVE_ERROR_Exception;
         }
+        List<Area> areas = Arrays.stream(om.readValue(areaTemp, Integer[].class)).map(i -> areaService.findAllArea().get(i)).collect(Collectors.toList());
+        article.setAreas(areas);
         article.setAuthorId(peopleService.findByUsername(Utils.getCurrent()).getId());
         String path = uuid + "." + articleFile.getOriginalFilename().split("\\.")[1];
         article.setPath(path);
