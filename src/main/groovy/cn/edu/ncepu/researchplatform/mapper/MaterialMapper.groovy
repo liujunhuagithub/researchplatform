@@ -17,10 +17,10 @@ interface MaterialMapper {
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertMaterial(Material material);
 
-    @Insert('insert into `people_area` values (#{param1},#{param2})')
+    @Insert('insert ignore into `people_area` values (#{param1},#{param2})')
     boolean throughArea(Integer peopleId, Integer areaId);
 
-    @Update('update `material` set flag=#{param2} where id=#{param1}')
+    @Update('update `material` set flag=#{param2} where id=#{param1} and flag=0 ')
     boolean updateFlag(Integer materialId, Integer flag);
 
     @Delete('delete from `material`  where id=#{param1} and people_id=#{param2}')

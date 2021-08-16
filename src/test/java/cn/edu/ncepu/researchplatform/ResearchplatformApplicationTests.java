@@ -42,7 +42,8 @@ class ResearchplatformApplicationTests {
     @Rollback(value = false)
     void contextLoads() throws JsonProcessingException {
         System.out.println("----------");
-        Integer[] integers = om.readValue("[\"3\", \"4\"]", Integer[].class);
+        Integer[] integers = om.readValue("[12]", Integer[].class);
+        System.out.println(passwordEncoder.encode("root"));
     }
 
 }

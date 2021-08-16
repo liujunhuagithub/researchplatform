@@ -36,6 +36,7 @@ public class MaterialService {
     public boolean throughBatchArea(Integer materialId, Integer flag) throws JsonProcessingException {
         Material material = materialMapper.findById(materialId);
         if (flag.equals(1)) {
+            Integer[] integers = om.readValue(material.getAreaTemp(), Integer[].class);
             for (Integer areaId : om.readValue(material.getAreaTemp(), Integer[].class)) {
                 materialMapper.throughArea(material.getPeopleId(), areaId);
             }
