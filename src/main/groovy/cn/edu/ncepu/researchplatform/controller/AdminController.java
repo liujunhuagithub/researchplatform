@@ -51,7 +51,7 @@ public class AdminController {
         return areaService.updateDisabled(flag, areaId);
     }
 
-    @PutMapping("/article/{articleId}")
+    @PutMapping("/article/{articleId}/flag")
     public boolean 修改article_flag参数名flag为负一或一(@RequestBody Map<String, Integer> params, @PathVariable Integer articleId) {
         Integer flag = params.get("flag");
         Assert.isTrue(flag.equals(-1) || flag.equals(1), CustomExceptionType.INPUT_ERROE.message);
