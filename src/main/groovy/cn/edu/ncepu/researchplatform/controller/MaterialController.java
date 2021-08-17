@@ -82,6 +82,7 @@ public class MaterialController {
     @GetMapping("/material/content/{materialId}")
     public void 查询文件ById(@PathVariable Integer materialId, HttpServletResponse response) throws JsonProcessingException {
         Material material = materialService.findById(materialId);
+        response.setHeader("Access-Control-Expose-Headers","Content-Disposition");
         ServletUtil.write(response, Paths.get(pathPre, "ResearchPlatformFiles", "material", material.getPath()).toFile());
     }
 }
