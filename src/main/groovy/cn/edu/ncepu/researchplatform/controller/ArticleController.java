@@ -80,6 +80,7 @@ public class ArticleController {
     public void 查询article正文(@PathVariable Integer articleId, HttpServletResponse response) {
         Article article = articleService.findArticleById(articleId);
         Assert.isTrue(Utils.isAdmin() || article.getGmtDelete() == null, CustomExceptionType.AUTH_ERROR.message);
+        response.setHeader("Access-Control-Expose-Headers","Content-Disposition");
         ServletUtil.write(response, Paths.get(pathPre, "ResearchPlatformFiles", "article", article.getPath()).toFile());
     }
 
