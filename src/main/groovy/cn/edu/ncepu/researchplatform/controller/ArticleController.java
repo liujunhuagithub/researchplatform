@@ -68,7 +68,7 @@ public class ArticleController {
         if (author != null) {
             dto.setAuthorId(author.getId());
         }
-        if (!(Utils.isAdmin()||Utils.isCurrent(username))) {
+        if (!(Utils.isAdmin() || Utils.isCurrent(username))) {
             dto.setFlag(1);
 //已删除如何处理？
         }
@@ -76,11 +76,18 @@ public class ArticleController {
         return articleService.findByCondition(dto);
     }
 
+    @GetMapping("/article/personaliseEvaluate")
+    public ArticleVo 多个article用于评价(ArticleDto dto) {
+        PeopleDetails author = peopleService.findByUsername(Utils.getCurrent());
+        dto.setAuthorId(author.getId());
+        return articleService.personaliseEvaluate(dto);
+    }
+
     @GetMapping("/article/content/{articleId}")
     public void 查询article正文(@PathVariable Integer articleId, HttpServletResponse response) {
         Article article = articleService.findArticleById(articleId);
         Assert.isTrue(Utils.isAdmin() || article.getGmtDelete() == null, CustomExceptionType.AUTH_ERROR.message);
-        response.setHeader("Access-Control-Expose-Headers","Content-Disposition");
+        response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
         ServletUtil.write(response, Paths.get(pathPre, "ResearchPlatformFiles", "article", article.getPath()).toFile());
     }
 

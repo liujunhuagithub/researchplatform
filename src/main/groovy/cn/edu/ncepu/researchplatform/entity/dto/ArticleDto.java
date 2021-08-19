@@ -12,6 +12,7 @@ public class ArticleDto extends Article {
     private Integer current = 1;
     private Integer size = 25;
     private String areaname;
+    private Integer areaId;
 
     public LocalDateTime getLc() {
         return lc;
@@ -59,5 +60,21 @@ public class ArticleDto extends Article {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    public String getAreaname() {
+        return areaname;
+    }
+
+    public void setAreaname(String areaname) {
+        this.areaname = areaname;
+    }
+
+    public Integer getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(Integer areaId) {
+        this.areaId = areaId;
     }
 }

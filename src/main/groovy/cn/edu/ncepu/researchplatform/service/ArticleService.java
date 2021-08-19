@@ -1,5 +1,6 @@
 package cn.edu.ncepu.researchplatform.service;
 
+import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.entity.Article;
 import cn.edu.ncepu.researchplatform.entity.dto.ArticleDto;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleService {
@@ -61,5 +64,16 @@ public class ArticleService {
 
     public boolean isPeopleContainArea(List<Area> intentAreas) {
         return areaService.isAreaContain(areaMapper.findPeopleAreas(peopleService.findByUsername(Utils.getCurrent()).getId()), intentAreas);
+    }
+
+    public ArticleVo personaliseEvaluate(ArticleDto dto) {
+        List<Integer> areas = areaMapper.findPeopleAreas(dto.getAuthorId()).stream().map(Area::getId).collect(Collectors.toList());
+        if (dto.getAreaId() == null) {
+            dto.setAreaId(areas.get(new Random().nextInt(areas.size())));
+        } else if(!areas.contains(dto.getAreaId())) {
+            throw CustomException.AREA_ERROR_Exception;
+        }
+        List<Article> articles = articleMapper.findByPersonalise(dto);
+        return new ArticleVo(null, null, dto.getSize(), articles);
     }
 }
