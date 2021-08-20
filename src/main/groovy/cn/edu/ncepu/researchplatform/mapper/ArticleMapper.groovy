@@ -5,6 +5,7 @@ import cn.edu.ncepu.researchplatform.entity.dto.ArticleDto
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.One
 import org.apache.ibatis.annotations.Options
+import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.annotations.Result
 import org.apache.ibatis.annotations.Results
 import org.apache.ibatis.annotations.Select
@@ -39,10 +40,10 @@ interface ArticleMapper {
 
     @Insert('insert into `article`(author_id,title,abstracts,ref,path) values(#{authorId},#{title},#{abstracts},#{ref},#{path})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
-    Integer insert(Article article);
+    void insert(Article article);
 
     @Insert('insert into `article_area`(article_id,area_id) values(#{param1},#{param2})')
-    boolean insertArea(Integer articleId, Integer areaId);
+    boolean insertArea(@Param("articleId")Integer articleId, Integer areaId);
 
     @Select('''
 <script>

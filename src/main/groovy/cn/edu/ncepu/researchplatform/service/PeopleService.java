@@ -39,7 +39,10 @@ public class PeopleService {
 
     @Cacheable(key = "#username")
     public People findAllInfo(String username) {
-        return peopleMapper.findALLInfo(username);
+
+        People people = peopleMapper.findALLInfo(username);
+        people.setAreas(areaMapper.findPeopleAreas(people.getId()));
+        return people;
     }
 
     @Async

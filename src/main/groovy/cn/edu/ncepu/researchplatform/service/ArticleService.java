@@ -51,7 +51,8 @@ public class ArticleService {
     }
 
     public Integer insert(Article article) {
-        Integer newId = articleMapper.insert(article);
+        articleMapper.insert(article);
+        Integer newId = article.getId();
         article.getAreas().forEach(a -> articleMapper.insertArea(newId, a.getId()));
         return newId;
     }
@@ -70,7 +71,7 @@ public class ArticleService {
         List<Integer> areas = areaMapper.findPeopleAreas(dto.getAuthorId()).stream().map(Area::getId).collect(Collectors.toList());
         if (dto.getAreaId() == null) {
             dto.setAreaId(areas.get(new Random().nextInt(areas.size())));
-        } else if(!areas.contains(dto.getAreaId())) {
+        } else if (!areas.contains(dto.getAreaId())) {
             throw CustomException.AREA_ERROR_Exception;
         }
         List<Article> articles = articleMapper.findByPersonalise(dto);
