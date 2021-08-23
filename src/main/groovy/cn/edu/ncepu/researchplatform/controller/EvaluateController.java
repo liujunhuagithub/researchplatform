@@ -8,6 +8,7 @@ import cn.edu.ncepu.researchplatform.entity.vo.EvaluateVo;
 import cn.edu.ncepu.researchplatform.service.EvaluateService;
 import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
+import cn.edu.ncepu.researchplatform.service.SummaryService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,6 +32,8 @@ public class EvaluateController {
     private PeopleService peopleService;
     @Autowired
     private ObjectMapper om;
+    @Autowired
+    private SummaryService summaryService;
 
     @PreAuthorize("#username==authentication.name or hasAuthority('admin')")
     @DeleteMapping("/people/{username}/evaluate/{evaluateId}")
@@ -86,18 +89,28 @@ public class EvaluateController {
     }
 
     @PostMapping("/summary")
-    public boolean 新增summary(@RequestBody Map<Integer, Evaluate> evaluates) throws JsonProcessingException {
-        Summary _s = new Summary();
-        TreeMap<Integer, Integer> tempMap = new TreeMap<>(Integer::compareTo);
-        for (Map.Entry<Integer, Evaluate> entry : evaluates.entrySet()) {
-            Integer key = entry.getKey();
-            tempMap.put(key, evaluates.get(key).getId());
-        }
+    @Transactional(rollbackFor = Exception.class)
+    public boolean Postsummary(@RequestBody Map<Integer, Evaluate> evaluates) throws JsonProcessingException {
+        Integer peopleId = peopleService.findByUsername(Utils.getCurrent()).getId();
 
-        String content = om.writeValueAsString(tempMap);
-        _s.setPeopleId(peopleService.findByUsername(Utils.getCurrent()).getId());
-        _s.setContent(content);
-        return evaluateService.insertBatchSummary(_s, evaluates.values());
+        TreeMap<Integer, Evaluate> tempMap = new TreeMap<>(Integer::compareTo);
+        TreeMap<Integer, Integer> _content = new TreeMap<>(Integer::compareTo);
+
+        evaluates.forEach(tempMap::put);
+        evaluateService.insertBatchEvaluate(peopleId, tempMap);
+        evaluates.forEach((integer, evaluate) -> _content.put(integer, evaluate.getId()));
+
+        Summary summary = new Summary();
+        String content = om.writeValueAsString(_content);
+        summary.setPeopleId(peopleId);
+        summary.setContent(content);
+        summaryService.insert(summary);
+        Integer summaryId = summary.getId();
+        evaluates.forEach((integer, evaluate) -> {
+            evaluate.setSummaryId(summaryId);
+            summaryService.updateEvaluateSummaryId(evaluate);
+        });
+        return true;
     }
 
     @PutMapping("/evaluate/{evaluateId}/report")

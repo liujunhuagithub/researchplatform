@@ -48,9 +48,11 @@ limit ${(current-1)*size},#{size}
     @Select('select count(id) from `evaluate` where gmt_delete is null and people_id=#{param1} ')
     Integer findCountByPeopleId(Integer peopleId);
 
-    @Insert('insert into `evaluate`(people_id,article_id,summary_id,niming,parent_id,path) values(#{peopleId},#{articleId},#{summaryId},#{niming},#{parentId},#{path})')
+    @Insert('insert into `evaluate`(people_id,article_id,niming,parent_id,path) values(#{peopleId},#{articleId},#{niming},#{parentId},#{path})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertEvaluate(Evaluate evaluate);
+
+
 
     @Insert('insert into `evaluate`(people_id,article_id,parent_id,path) values(#{peopleId},#{articleId},},#{parentId},#{path})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)

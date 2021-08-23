@@ -1,11 +1,13 @@
 package cn.edu.ncepu.researchplatform.service;
 
+import cn.edu.ncepu.researchplatform.entity.Evaluate;
 import cn.edu.ncepu.researchplatform.entity.Summary;
 import cn.edu.ncepu.researchplatform.entity.dto.SummaryDto;
 import cn.edu.ncepu.researchplatform.entity.vo.SummaryDetailVo;
 import cn.edu.ncepu.researchplatform.entity.vo.SummaryPageVo;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import cn.edu.ncepu.researchplatform.mapper.SummaryMapper;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,4 +34,11 @@ public class SummaryService {
         return new SummaryPageVo(total, dto.getCurrent(), dto.getSize(), voList);
     }
 
+    public boolean updateEvaluateSummaryId(Evaluate evaluate) {
+        return summaryMapper.updateEvaluateSummaryId(evaluate);
+    }
+
+    public Integer insert(Summary summary) {
+        return summaryMapper.insert(summary);
+    }
 }

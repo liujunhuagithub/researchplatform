@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.TreeMap;
 
 @Service
 @CacheConfig(cacheNames = "evaluate")
@@ -82,14 +83,13 @@ public class EvaluateService {
         return evaluateMapper.findDisscussByParentId(parentId, current, size);
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    public boolean insertBatchSummary(Summary summary, Collection<Evaluate> evaluates) {
-        Integer summaryId = summaryMapper.insert(summary);
-        for (Evaluate evaluate : evaluates) {
-            evaluate.setSummaryId(summaryId);
+    public boolean insertBatchEvaluate(Integer peopleId, TreeMap<Integer, Evaluate> evaluates) {
+        evaluates.forEach((integer, evaluate) -> {
+            evaluate.setPeopleId(peopleId);
             evaluateMapper.insertEvaluate(evaluate);
             evaluateMapper.updateArticleCalculateByArticleId(evaluate.getArticleId(), 1);
-        }
+        });
+
         return true;
     }
 
