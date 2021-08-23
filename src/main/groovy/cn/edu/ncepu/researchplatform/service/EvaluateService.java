@@ -85,6 +85,9 @@ public class EvaluateService {
 
     public boolean insertBatchEvaluate(Integer peopleId, TreeMap<Integer, Evaluate> evaluates) {
         evaluates.forEach((integer, evaluate) -> {
+            if (evaluate.getNiming()==null){
+                evaluate.setNiming(false);
+            }
             evaluate.setPeopleId(peopleId);
             evaluateMapper.insertEvaluate(evaluate);
             evaluateMapper.updateArticleCalculateByArticleId(evaluate.getArticleId(), 1);
