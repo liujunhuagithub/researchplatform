@@ -24,34 +24,7 @@ SELECT
 summary.id as id, 
 summary.people_id as people_id,
 summary.gmt_create as gmt_create, 
-summary.content as content
-FROM
-summary
-INNER JOIN
-people
-ON 
-summary.people_id = people.id
-<where>       
-            <if test="lc!=null">
-                and gmt_create &gt;=#{lc}
-            </if>
-             <if test="rc!=null">
-                and gmt_create &lt;=#{rc}
-            </if>
-            <if test="username !=null and username !=''">
-                and people.username like #{username}
-            </if>
-</where>
-limit ${(current-1)*size},#{size}
-</script>''')
-    List<Summary> findByCondition(SummaryDto dto);
-
-    @Select('''
-<script>
-SELECT
-summary.id as id, 
-summary.gmt_create as gmt_create, 
-summary.content as content, 
+summary.content as content,
 people.username as username, 
 people.nickname as nickname
 FROM
@@ -68,7 +41,32 @@ summary.people_id = people.id
                 and gmt_create &lt;=#{rc}
             </if>
             <if test="username !=null and username !=''">
-                and people.username like #{username}
+                and username like #{username}
+            </if>
+</where>
+limit ${(current-1)*size},#{size}
+</script>''')
+    List<Summary> findByCondition(SummaryDto dto);
+
+    @Select('''
+<script>
+SELECT
+count(*)
+FROM
+summary
+INNER JOIN
+people
+ON 
+summary.people_id = people.id
+<where>       
+            <if test="lc!=null">
+                and gmt_create &gt;=#{lc}
+            </if>
+             <if test="rc!=null">
+                and gmt_create &lt;=#{rc}
+            </if>
+            <if test="username !=null and username !=''">
+                and username like #{username}
             </if>
 </where>
 </script>''')
