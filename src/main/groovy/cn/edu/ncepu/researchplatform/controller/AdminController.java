@@ -65,8 +65,10 @@ public class AdminController {
     }
 
     @PutMapping("/evaluate/{id}/illegal")
-    public boolean 封杀evaluate无需参数(@PathVariable Integer id) {
-        return evaluateService.updateFlag(id, -1);
+    public boolean 审核evaluate(@PathVariable Integer id,@RequestBody Map<String, Integer> params) {
+        Integer flag = params.get("flag");
+        Assert.isTrue(flag.equals(-1) || flag.equals(0), CustomExceptionType.INPUT_ERROE.message);
+        return evaluateService.updateFlag(id, flag);
     }
 
 

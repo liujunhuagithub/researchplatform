@@ -88,6 +88,9 @@ public class EvaluateService {
             if (evaluate.getNiming()==null){
                 evaluate.setNiming(false);
             }
+            if (evaluate.getParentId()==null){
+                evaluate.setParentId(0);
+            }
             evaluate.setPeopleId(peopleId);
             evaluateMapper.insertEvaluate(evaluate);
             evaluateMapper.updateArticleCalculateByArticleId(evaluate.getArticleId(), 1);
