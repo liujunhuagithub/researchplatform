@@ -10,7 +10,6 @@ sourceCompatibility = '1.8'
 
 repositories {
     mavenLocal()
-    maven { url 'https://maven.aliyun.com/repository/public/' }
     mavenCentral()
 }
 
@@ -31,7 +30,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }
-sourceSets.main.resources.srcDirs = ["src/main/groovy", "src/main/resources"]
 test {
     useJUnitPlatform()
 }
