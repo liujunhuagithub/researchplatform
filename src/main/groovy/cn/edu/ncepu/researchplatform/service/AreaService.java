@@ -11,10 +11,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,7 +36,10 @@ public class AreaService {
     }
 
     public boolean isAreaContain(List<Area> peopleAreas, List<Area> targetAreas) {
-        targetAreas.retainAll(peopleAreas);
+        Set<Integer> ps = peopleAreas.stream().map(Area::getParentId).collect(Collectors.toSet());
+        Set<Integer> ts = targetAreas.stream().map(Area::getParentId).collect(Collectors.toSet());
+
+        ps.retainAll(ts);
         if (targetAreas.size() == 0) {
             throw CustomException.AREA_ERROR_Exception;
         }
