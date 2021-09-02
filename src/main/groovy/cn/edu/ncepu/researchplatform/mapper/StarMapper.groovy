@@ -16,7 +16,7 @@ interface StarMapper {
     @Update('update `star` set flag=#{param3} where evaluate_id=#{param1} and people_id =#{param2}')
     boolean updateStar(Integer evaluateId, Integer peopleId, Integer flag);
 
-    @Select('select * from `star where evaluate_id=#{param1} and people_id =#{param2} ')
+    @Select('select * from `star` where evaluate_id=#{param1} and people_id =#{param2} ')
     Star findOne(Integer evaluateId, Integer peopleId);
 @Delete('delete from `star` where flag=0')
     boolean deleteInvalidStar();

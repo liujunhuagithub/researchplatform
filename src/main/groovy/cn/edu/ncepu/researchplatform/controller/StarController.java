@@ -17,7 +17,7 @@ public class StarController {
     private EvaluateService evaluateService;
 
     @PostMapping("/star/{evaluateId}")
-    @PreAuthorize("#starService.isContainArea(#evaluateId)")
+//    @PreAuthorize("#starService.isContainArea(#evaluateId)")
     public boolean 点赞反对取消tar(@PathVariable Integer evaluateId, @RequestBody Map<String, Integer> params) {
         boolean r = starService.saveStar(evaluateId, params.get("flag"));
         starService.notifyAuthorStar(evaluateId);
