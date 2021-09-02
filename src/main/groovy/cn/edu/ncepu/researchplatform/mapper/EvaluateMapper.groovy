@@ -22,7 +22,7 @@ interface EvaluateMapper {
     @Update('update  `evaluate` set `gmt_delete`=CURRENT_TIMESTAMP  where `gmt_delete` IS NULL and article_id in (select id from `article` where gmt_delete is not null)')
     Integer deleteArticleAboutEvaluate();
 
-    @Select('select evaluate_id from `star` where people_id=#{param2} and evaluate_id in (select id from `evaluate` where article_id= #{param1} and gmt_delete is null )')
+    @Select('select evaluate_id from `star` where flag!=0 and people_id=#{param2} and evaluate_id in (select id from `evaluate` where article_id= #{param1} and gmt_delete is null )')
     List<Integer> findBypeopleToArticle(Integer articleId, Integer poepleId);
 
     @Select('''<script>
