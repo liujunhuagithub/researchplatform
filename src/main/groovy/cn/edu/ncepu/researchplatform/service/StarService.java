@@ -35,6 +35,7 @@ public class StarService {
     @Autowired
     @Lazy
     private AreaService areaService;
+
     @Transactional(rollbackFor = Exception.class)
     public boolean saveStar(Integer evaluateId, Integer flag) {
         Integer peopleId = peopleService.findByUsername(Utils.getCurrent()).getId();
@@ -42,7 +43,8 @@ public class StarService {
         if (star == null) {
             return starMapper.saveStar(evaluateId, peopleId, flag);
         }
-        return starMapper.updateStar(evaluateId, peopleId, flag);
+        starMapper.updateStar(evaluateId, peopleId, flag);
+        return starMapper.updateEvaluateStar(evaluateId);
     }
 
     @Transactional(rollbackFor = Exception.class, readOnly = true)
@@ -50,7 +52,7 @@ public class StarService {
         Integer article_id = articleMapper.findIdaboutEvaluate(evaluateId);
         List<Area> articleAreas = areaMapper.findArticleAreas(article_id);
         List<Area> peopleAreas = areaMapper.findPeopleAreas(peopleService.findByUsername(Utils.getCurrent()).getId());
-        return areaService.isAreaContain(peopleAreas,articleAreas);
+        return areaService.isAreaContain(peopleAreas, articleAreas);
     }
 
     @Async

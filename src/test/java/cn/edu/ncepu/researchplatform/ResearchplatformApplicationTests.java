@@ -38,6 +38,9 @@ class ResearchplatformApplicationTests {
     private PasswordEncoder passwordEncoder;
     @Autowired
     AreaService areaService;
+
+    @Value("${customize.rank-size}")
+    private Integer rankSize;
     @Test
     @Rollback(value = false)
     void contextLoads() throws JsonProcessingException {

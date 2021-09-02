@@ -20,6 +20,9 @@ interface StarMapper {
     Star findOne(Integer evaluateId, Integer peopleId);
 @Delete('delete from `star` where flag=0')
     boolean deleteInvalidStar();
+
+    @Update('update `evaluate` set star=(select sum(`flag`) from star where evaluate_id=#{param1}) where id=#{param1}')
+    boolean updateEvaluateStar(Integer evaluateId);
 }
 
 
