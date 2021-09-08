@@ -12,6 +12,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
@@ -34,7 +35,7 @@ public class PeopleService {
     }
 
     public byte[] findIcon(String username) {
-        return peopleMapper.findIcon(username);
+        return peopleMapper.findIcon(username).getBytes(StandardCharsets.UTF_8);
     }
     public boolean updateIcon(String username,byte[] icon) {
         return peopleMapper.updateIcon(username,icon);

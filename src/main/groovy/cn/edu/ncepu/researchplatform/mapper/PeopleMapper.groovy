@@ -179,9 +179,9 @@ people.id = people_area.people_id
     boolean updateAuth(Integer id, Integer auth);
 
     @Select('select icon from people where username=#{param1} ')
-    byte[] findIcon(String username);
+    String findIcon(String username);
 
-    @Select('update `people` set icon=#{param2} where username=#{param1} ')
+    @Update('update `people` set icon=#{param2} where username=#{param1} ')
     boolean updateIcon(String username,byte[] icon);
 
     @Results(id = "BasePeopleMap", value = [

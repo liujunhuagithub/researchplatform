@@ -95,7 +95,7 @@ public class PeopleController {
         return peopleService.updateReal(realname, idCard, username);
     }
 
-    @PutMapping("/poeple/{username}/icon")
+    @PutMapping("/people/{username}/icon")
     @PreAuthorize("#username==authentication.name or hasAuthority('admin')")
     public boolean 修改icon(@PathVariable String username, MultipartFile iconFile) throws IOException {
         return peopleService.updateIcon(username, iconFile.getBytes());
