@@ -66,7 +66,7 @@ select * from `article`
             </if>
             
             <if test="title !=null and title !=''">
-                and `title` like contact('%',#{title},'%')
+                and `title` like concat('%',#{title},'%')
             </if>
             <if test=" flag !=null ">
               and   flag=#{flag}
@@ -101,7 +101,7 @@ select count(id) from `article`
             </if>
             
             <if test="title !=null and title !=''">
-                and `title` like contact('%',#{title},'%')
+                and `title` like concat('%',#{title},'%')
             </if>
             <if test=" flag !=null ">
               and   flag=#{flag}
