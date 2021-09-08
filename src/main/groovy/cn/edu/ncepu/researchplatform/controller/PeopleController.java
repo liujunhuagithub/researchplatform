@@ -12,8 +12,10 @@ import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RestController
 public class PeopleController {
@@ -38,8 +40,7 @@ public class PeopleController {
 
     @GetMapping("/people/{username}/icon")
     public R 查询某人icon(@PathVariable String username) {
-        String icon = peopleService.findIcon(username);
-        return R.success(icon);
+        return R.success(peopleService.findIcon(username));
     }
 
     @GetMapping("/people")
@@ -92,5 +93,11 @@ public class PeopleController {
             throw CustomException.INPUT_ERROE_Exception;
         }
         return peopleService.updateReal(realname, idCard, username);
+    }
+
+    @PutMapping("/poeple/{username}/icon")
+    @PreAuthorize("#username==authentication.name or hasAuthority('admin')")
+    public boolean 修改icon(@PathVariable String username, MultipartFile iconFile) throws IOException {
+        return peopleService.updateIcon(username, iconFile.getBytes());
     }
 }

@@ -33,10 +33,12 @@ public class PeopleService {
         return peopleMapper.updateAuth(id, auth);
     }
 
-    public String findIcon(String username) {
+    public byte[] findIcon(String username) {
         return peopleMapper.findIcon(username);
     }
-
+    public boolean updateIcon(String username,byte[] icon) {
+        return peopleMapper.updateIcon(username,icon);
+    }
     @Cacheable(key = "#username")
     public People findAllInfo(String username) {
 

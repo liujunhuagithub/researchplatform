@@ -51,9 +51,6 @@ public class People {
 
     private String info;
 
-
-    private String icon;
-
     private LocalDateTime gmtCreate;
 
 
@@ -177,9 +174,6 @@ public class People {
         this.info = info;
     }
 
-    public String getIcon() {
-        return icon;
-    }
 
     public String getAreaString() {
         return areaString;
@@ -187,10 +181,6 @@ public class People {
 
     public void setAreaString(String areaString) {
         this.areaString = areaString;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
     }
 
     public void setGmtCreate(LocalDateTime gmtCreate) {
