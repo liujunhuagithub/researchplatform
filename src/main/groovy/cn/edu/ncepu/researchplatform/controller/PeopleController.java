@@ -11,6 +11,7 @@ import cn.edu.ncepu.researchplatform.service.PeopleService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,8 +40,8 @@ public class PeopleController {
     }
 
     @GetMapping("/people/{username}/icon")
-    public byte[] 查询某人icon(@PathVariable String username) {
-        return peopleService.findIcon(username);
+    public R 查询某人icon(@PathVariable String username) {
+        return R.success(peopleService.findIcon(username));
     }
 
     @GetMapping("/people")
@@ -98,6 +99,6 @@ public class PeopleController {
     @PutMapping("/people/{username}/icon")
     @PreAuthorize("#username==authentication.name or hasAuthority('admin')")
     public boolean 修改icon(@PathVariable String username, MultipartFile iconFile) throws IOException {
-        return peopleService.updateIcon(username, iconFile.getBytes());
+        return peopleService.updateIcon(username, Base64Utils.encodeToString(iconFile.getBytes()) );
     }
 }

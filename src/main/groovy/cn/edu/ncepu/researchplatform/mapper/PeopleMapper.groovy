@@ -182,7 +182,7 @@ people.id = people_area.people_id
     String findIcon(String username);
 
     @Update('update `people` set icon=#{param2} where username=#{param1} ')
-    boolean updateIcon(String username,byte[] icon);
+    boolean updateIcon(String username,String icon);
 
     @Results(id = "BasePeopleMap", value = [
             @Result(property = "id", column = "id", id = true),

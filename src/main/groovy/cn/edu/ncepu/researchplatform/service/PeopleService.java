@@ -34,10 +34,10 @@ public class PeopleService {
         return peopleMapper.updateAuth(id, auth);
     }
 
-    public byte[] findIcon(String username) {
-        return peopleMapper.findIcon(username).getBytes(StandardCharsets.UTF_8);
+    public String findIcon(String username) {
+        return peopleMapper.findIcon(username);
     }
-    public boolean updateIcon(String username,byte[] icon) {
+    public boolean updateIcon(String username,String icon) {
         return peopleMapper.updateIcon(username,icon);
     }
     @Cacheable(key = "#username")
