@@ -244,7 +244,7 @@ FROM
 update `people` 
 <set>  
         <if test="nickname!= null and nickname != '' ">  
-               nickname=#{nickname},
+               nickname  like contact('%',#{nickname},'%'),
         </if>  
         <if test="organization!= null and organization!= '' ">  
            organization=#{organization},  
