@@ -1,6 +1,7 @@
 package cn.edu.ncepu.researchplatform.entity;
 
 import cn.hutool.core.util.DesensitizedUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.validation.annotation.Validated;
 
@@ -17,7 +18,7 @@ public class People {
 
     private String username;
 
-
+    @JsonIgnore
     private String password;
 
     /**

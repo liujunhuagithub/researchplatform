@@ -93,7 +93,7 @@ public class ArticleController {
 
     @PostMapping("/article")
     @Transactional(rollbackFor = Exception.class)
-//    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
+    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
     public Integer 新增article(Article article, String areaTemp, MultipartFile articleFile) throws IOException {
         String uuid = UUID.randomUUID().toString();
         File saveFile = Paths.get(pathPre, "ResearchPlatformFiles", "article", uuid + ".temp").toFile();

@@ -49,8 +49,8 @@ public class StarService {
 
     @Transactional(rollbackFor = Exception.class, readOnly = true)
     public boolean isContainArea(Integer evaluateId) {
-        Integer article_id = articleMapper.findIdaboutEvaluate(evaluateId);
-        List<Area> articleAreas = areaMapper.findArticleAreas(article_id);
+        Integer articleId = articleMapper.findIdaboutEvaluate(evaluateId);
+        List<Area> articleAreas = areaMapper.findArticleAreas(articleId);
         List<Area> peopleAreas = areaMapper.findPeopleAreas(peopleService.findByUsername(Utils.getCurrent()).getId());
         return areaService.isAreaContain(peopleAreas, articleAreas);
     }
