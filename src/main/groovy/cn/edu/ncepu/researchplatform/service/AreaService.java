@@ -40,7 +40,7 @@ public class AreaService {
         Set<Integer> ts = targetAreas.stream().map(Area::getParentId).collect(Collectors.toSet());
 
         ps.retainAll(ts);
-        if (targetAreas.size() == 0) {
+        if (ps.size() == 0) {
             throw CustomException.AREA_ERROR_Exception;
         }
         return true;
@@ -48,7 +48,7 @@ public class AreaService {
 
     public Tree<Integer> findTree() {
         List<TreeNode<Integer>> nodeList = new LinkedList<>();
-        areaMapper.findAllArea().stream().forEach(area -> nodeList.add(new TreeNode<>(area.getId(), area.getParentId(), area.getName(), 0)));
+        areaMapper.findAllArea().forEach(area -> nodeList.add(new TreeNode<>(area.getId(), area.getParentId(), area.getName(), 0)));
         return TreeUtil.buildSingle(nodeList);
     }
 }
