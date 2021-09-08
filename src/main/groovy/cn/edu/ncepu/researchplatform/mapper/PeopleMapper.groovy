@@ -267,9 +267,9 @@ update `people`
     @Update('update `people` set phone=#{param1}  where username=#{param2}')
     boolean updatePhone(String phone, String username);
 
-    @Update('update `people` set weight+=(random()-0.3)')
-    boolean updateWeight();
+    @Update('update `people` set weight+=#{param1}')
+    boolean updateWeight(Integer incr);
 
-    @Select('select * from `people` order by rand() limit 100')
+    @Select('select * from `people` order by `exp` limit 100')
     List<People> rankPeople();
 }

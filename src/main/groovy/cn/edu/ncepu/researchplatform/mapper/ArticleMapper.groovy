@@ -117,8 +117,8 @@ select count(id) from `article`
     @Update('update `article` set score=(select sum(score_item) from evaluate where article_id=#{param1} and gmt_delete is null)')
     boolean updateScore(Integer articleId);
 
-    @Update('update `article` set weight+=(random()-0.3)')
-    boolean updateWeight();
+    @Update('update `article` set weight+=#{param1}')
+    boolean updateWeight(Integer incr);
 
     @Select('select `path` from `article` where gmt_delete <=#{param1}')
     List<String> findPathByDeleted(LocalDateTime time);

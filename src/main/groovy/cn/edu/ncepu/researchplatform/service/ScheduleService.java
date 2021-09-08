@@ -12,6 +12,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 
 @Service
@@ -45,12 +46,12 @@ public class ScheduleService {
 
     @Scheduled(cron = "@monthly")
     public void updatePeopleWeight() {
-        peopleMapper.updateWeight();
+        peopleMapper.updateWeight(new Random().nextInt(10));
     }
 
     @Scheduled(cron = "@monthly")
     public void updateArticleWeight() {
-        articleMapper.updateWeight();
+        articleMapper.updateWeight(new Random().nextInt(10));
     }
 
     //待优化
