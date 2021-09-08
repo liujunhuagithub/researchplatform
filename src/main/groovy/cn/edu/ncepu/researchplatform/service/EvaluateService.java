@@ -49,7 +49,9 @@ public class EvaluateService {
     @Transactional(rollbackFor = Exception.class)
     public boolean updateFlag(Integer id, Integer flag) {
         evaluateMapper.updateArticleCalculateByEvaluateId(id, 1);
-        evaluateMapper.deleteById(id);
+        if (flag.equals(-1)) {
+            evaluateMapper.deleteById(id);
+        }
         return evaluateMapper.updateFlag(id, flag);
     }
 
@@ -85,10 +87,10 @@ public class EvaluateService {
 
     public boolean insertBatchEvaluate(Integer peopleId, TreeMap<Integer, Evaluate> evaluates) {
         evaluates.forEach((integer, evaluate) -> {
-            if (evaluate.getNiming()==null){
+            if (evaluate.getNiming() == null) {
                 evaluate.setNiming(false);
             }
-            if (evaluate.getParentId()==null){
+            if (evaluate.getParentId() == null) {
                 evaluate.setParentId(0);
             }
             evaluate.setPeopleId(peopleId);
