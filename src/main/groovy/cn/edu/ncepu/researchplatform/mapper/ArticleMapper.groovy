@@ -70,6 +70,9 @@ select * from `article`
             </if>
             <if test=" flag !=null ">
               and   flag=#{flag}
+            </if>            
+            <if test=" authorId !=null ">
+              and   author_id=#{authorId}
             </if>
         </where>
         limit ${(current-1)*size},#{size}
@@ -102,6 +105,9 @@ select count(id) from `article`
             </if>
             <if test=" flag !=null ">
               and   flag=#{flag}
+            </if>            
+            <if test=" authorId !=null ">
+              and   author_id=#{authorId}
             </if>
         </where>
 </script>
