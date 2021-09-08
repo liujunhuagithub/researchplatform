@@ -39,8 +39,8 @@ public class PeopleController {
     }
 
     @GetMapping("/people/{username}/icon")
-    public R 查询某人icon(@PathVariable String username) {
-        return R.success(peopleService.findIcon(username));
+    public byte[] 查询某人icon(@PathVariable String username) {
+        return peopleService.findIcon(username);
     }
 
     @GetMapping("/people")
