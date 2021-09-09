@@ -10,6 +10,7 @@ import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.service.PeopleService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class PeopleController {
         return people;
     }
 
-    @GetMapping("/people/{username}/icon")
+    @GetMapping(value = "/people/{username}/icon",produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] 查询某人icon(@PathVariable String username) {
         return Base64Utils.decodeFromString(peopleService.findIcon(username));
     }
