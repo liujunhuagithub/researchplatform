@@ -5,6 +5,7 @@ import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.entity.Evaluate;
 import cn.edu.ncepu.researchplatform.entity.People;
 import cn.edu.ncepu.researchplatform.entity.Summary;
+import cn.edu.ncepu.researchplatform.entity.dto.EvaluateDto;
 import cn.edu.ncepu.researchplatform.entity.vo.EvaluatePageVo;
 import cn.edu.ncepu.researchplatform.mapper.*;
 import cn.edu.ncepu.researchplatform.security.PeopleDetails;
@@ -116,5 +117,11 @@ public class EvaluateService {
         List<Evaluate> evaluates = evaluateMapper.findByPeopleId(peopleId, current, size);
         Integer total = evaluateMapper.findCountByPeopleId(peopleId);
         return new EvaluatePageVo(total, current, size, evaluates);
+    }
+
+    public EvaluatePageVo findByPage(EvaluateDto dto) {
+        List<Evaluate> evaluates = evaluateMapper.findByPage(dto);
+        Integer total = evaluateMapper.findByPageCount(dto);
+        return new EvaluatePageVo(total, dto.getCurrent(), dto.getSize(), evaluates);
     }
 }

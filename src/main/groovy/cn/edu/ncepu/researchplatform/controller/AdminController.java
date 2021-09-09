@@ -5,8 +5,10 @@ import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.entity.Evaluate;
 import cn.edu.ncepu.researchplatform.entity.Material;
 import cn.edu.ncepu.researchplatform.entity.Summary;
+import cn.edu.ncepu.researchplatform.entity.dto.EvaluateDto;
 import cn.edu.ncepu.researchplatform.entity.dto.MaterialDto;
 import cn.edu.ncepu.researchplatform.entity.dto.SummaryDto;
+import cn.edu.ncepu.researchplatform.entity.vo.EvaluatePageVo;
 import cn.edu.ncepu.researchplatform.entity.vo.MaterialPageVo;
 import cn.edu.ncepu.researchplatform.entity.vo.SummaryDetailVo;
 import cn.edu.ncepu.researchplatform.entity.vo.SummaryPageVo;
@@ -82,6 +84,11 @@ public class AdminController {
     @GetMapping("/material")
     public MaterialPageVo 条件查询material(MaterialDto dto) {
         return materialService.findByPage(dto);
+    }
+
+    @GetMapping("/evaluate")
+    public EvaluatePageVo 条件查询evaluate(EvaluateDto  dto) {
+        return evaluateService.findByPage(dto);
     }
 
     @GetMapping("/summary/{summaryId}")

@@ -1,6 +1,7 @@
 package cn.edu.ncepu.researchplatform.mapper
 
 import cn.edu.ncepu.researchplatform.entity.Evaluate
+import cn.edu.ncepu.researchplatform.entity.dto.EvaluateDto
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Options
 import org.apache.ibatis.annotations.Param
@@ -38,6 +39,38 @@ limit ${(current-1)*size},#{size}
 </script>''')
     List<Evaluate> findEvaluateByArticleId(Integer articleId, boolean isAuthor, @Param("current") Integer current, @Param("size") Integer size);
 
+    @Select('''<script>
+select * from `evaluate` 
+<where>
+<if test="flag!=null">
+and flag=#{flag}
+</if>
+<if test="articleId!=null">
+and articleId=#{articleId}
+</if>
+<if test="peopleId!=null">
+and peopleId=#{peopleId}
+</if>
+</where>
+limit ${(current-1)*size},#{size}
+</script>''')
+    List<Evaluate> findByPage(EvaluateDto dto)
+    @Select('''<script>
+select count(id) from `evaluate` 
+<where>
+<if test="flag!=null">
+and flag=#{flag}
+</if>
+<if test="articleId!=null">
+and articleId=#{articleId}
+</if>
+<if test="peopleId!=null">
+and peopleId=#{peopleId}
+</if>
+</where>
+</script>''')
+    Integer findByPageCount(EvaluateDto dto)
+
     @Select('select * from `evaluate` where gmt_delete is null and parent_id=#{param1} limit ${(current-1)*size},#{size}')
     List<Evaluate> findDisscussByParentId(Integer parentId, @Param("current") Integer current, @Param("size") Integer size);
 
@@ -51,7 +84,6 @@ limit ${(current-1)*size},#{size}
     @Insert('insert into `evaluate`(people_id,article_id,niming,parent_id,content) values(#{peopleId},#{articleId},#{niming},#{parentId},#{content})')
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertEvaluate(Evaluate evaluate);
-
 
 
     @Insert('insert into `evaluate`(people_id,article_id,parent_id,path) values(#{peopleId},#{articleId},},#{parentId},#{path})')
@@ -72,6 +104,7 @@ limit ${(current-1)*size},#{size}
 
     @Update('update evaluate set gmt_delete=CURRENT_TIMESTAMP where id=#{param1}')
     boolean deleteById(Integer evaluateId);
+
     @Update('update evaluate set gmt_delete=CURRENT_TIMESTAMP where flag=-1 and gmt_delete is null')
     boolean deleteIlleageEvaluate();
 }
