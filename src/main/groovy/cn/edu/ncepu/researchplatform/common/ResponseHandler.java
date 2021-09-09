@@ -25,7 +25,7 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        if (body instanceof R) {
+        if (body instanceof R||body instanceof byte[]) {
             response.setStatusCode(HttpStatus.OK);
             return body;
         }
