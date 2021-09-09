@@ -48,7 +48,7 @@ interface ArticleMapper {
     @Select('''
 <script>
 select * from `article`
-<if test="areaId != null">
+<if test="areaId!=null">
 join `article_area` on article.id = article_area.article_id
 </if>
         <where>
