@@ -40,7 +40,7 @@ public class PeopleController {
         return people;
     }
 
-    @GetMapping(value = "/people/{username}/icon",produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(value = "/people/{username}/icon",produces = {MediaType.IMAGE_PNG_VALUE,MediaType.IMAGE_JPEG_VALUE})
     public byte[] 查询某人icon(@PathVariable String username) {
         return Base64Utils.decodeFromString(peopleService.findIcon(username));
     }
