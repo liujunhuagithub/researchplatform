@@ -59,6 +59,7 @@ public class ArticleService {
 
     public ArticleVo findByCondition(ArticleDto dto) {
         List<Article> articles = articleMapper.findByCondition(dto);
+        articles.forEach(article -> article.setAreas(areaMapper.findArticleAreas(article.getId())));
         Integer total = articleMapper.findCountByCondition(dto);
         return new ArticleVo(total, dto.getCurrent(), dto.getSize(), articles);
     }

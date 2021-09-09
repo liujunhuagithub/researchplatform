@@ -48,6 +48,9 @@ interface ArticleMapper {
     @Select('''
 <script>
 select * from `article`
+<if test="areaId != null">
+join `article_area` on article.id = article_area.article_id
+</if>
         <where>
             <if test="!@cn.edu.ncepu.researchplatform.utils.Utils@isAdmin()">
                 and gmt_delete is null
@@ -74,6 +77,9 @@ select * from `article`
             <if test=" authorId !=null ">
               and   author_id=#{authorId}
             </if>
+            <if test="areaId != null">
+              and   article_area.area_id in ( select id from area where parent_id=#{areaId} or id=#{areaId} )
+            </if>
         </where>
         limit ${(current-1)*size},#{size}
 </script>
@@ -83,6 +89,9 @@ select * from `article`
     @Select('''
 <script>
 select count(id) from `article`
+<if test="areaId != null">
+join `article_area` on article.id = article_area.article_id
+</if>
         <where>
              <if test="!@cn.edu.ncepu.researchplatform.utils.Utils@isAdmin()">
                 and gmt_delete is null
@@ -108,6 +117,9 @@ select count(id) from `article`
             </if>            
             <if test=" authorId !=null ">
               and   author_id=#{authorId}
+            </if>
+             <if test="areaId != null">
+              and   article_area.area_id in ( select id from area where parent_id=#{areaId} or id=#{areaId} )
             </if>
         </where>
 </script>
