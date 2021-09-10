@@ -13,7 +13,7 @@ public class OtherService {
     @Autowired
     @Qualifier("code")
     private Cache codeCache;
-
+public static String sp="`";
     public String phoneCode(String phone) {
         //暂定phone前6位
         return phone.substring(0, 6);

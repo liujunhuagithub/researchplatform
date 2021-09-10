@@ -121,6 +121,7 @@ public class EvaluateService {
 
     public EvaluatePageVo findByPage(EvaluateDto dto) {
         List<Evaluate> evaluates = evaluateMapper.findByPage(dto);
+        evaluates.forEach(evaluate -> evaluate.setContent(evaluate.getContent()+OtherService.sp+articleMapper.findById(evaluate.getArticleId()).getTitle()));
         Integer total = evaluateMapper.findByPageCount(dto);
         return new EvaluatePageVo(total, dto.getCurrent(), dto.getSize(), evaluates);
     }

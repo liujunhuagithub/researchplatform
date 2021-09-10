@@ -5,6 +5,7 @@ import cn.edu.ncepu.researchplatform.entity.Summary;
 import cn.edu.ncepu.researchplatform.entity.dto.SummaryDto;
 import cn.edu.ncepu.researchplatform.entity.vo.SummaryDetailVo;
 import cn.edu.ncepu.researchplatform.entity.vo.SummaryPageVo;
+import cn.edu.ncepu.researchplatform.mapper.ArticleMapper;
 import cn.edu.ncepu.researchplatform.mapper.EvaluateMapper;
 import cn.edu.ncepu.researchplatform.mapper.PeopleMapper;
 import cn.edu.ncepu.researchplatform.mapper.SummaryMapper;
@@ -30,7 +31,8 @@ public class SummaryService {
     private ObjectMapper om;
     @Autowired
     private EvaluateMapper evaluateMapper;
-
+    @Autowired
+    private ArticleMapper articleMapper;
     public Summary findById(Integer summaryId) {
         return summaryMapper.findById(summaryId);
     }
@@ -48,10 +50,11 @@ public class SummaryService {
                     }
 
                     Map<Integer, Object> rMap = new HashMap();
-//                    tempMap.forEach((k, v) ->{
-//                        System.out.println(k+"  "+v+"-----------");
-//                    });
-                    tempMap.forEach((k, v) -> rMap.put(Integer.parseInt(k.toString()), evaluateMapper.findById(Integer.parseInt(v.toString())))
+                    tempMap.forEach((k, v) -> {
+                        Evaluate evaluate = evaluateMapper.findById(Integer.parseInt(v.toString()));
+                        evaluate.setContent(evaluate.getContent()+OtherService.sp+articleMapper.findById(evaluate.getArticleId()).getTitle());
+                        rMap.put(Integer.parseInt(k.toString()), evaluate);
+                            }
                     );
 
                     return new SummaryDetailVo(summary, peopleMapper.findById(summary.getPeopleId()), rMap);
