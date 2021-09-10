@@ -138,7 +138,7 @@ join `article_area` on article.id = article_area.article_id
     @Update('update `article` set weight=weight+#{param1}')
     boolean updateWeight(Integer incr);
 
-    @Select('select `path` from `article` where gmt_delete &lt;=#{param1}')
+    @Select('select `path` from `article` where gmt_delete <=#{param1}')
     List<String> findPathByDeleted(LocalDateTime time);
 
     @Select(' select * from `article`  where id in (select article_id from article_area where area_id=#{areaId}) order by rand() limit  #{size} ' )
