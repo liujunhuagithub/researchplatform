@@ -46,34 +46,31 @@ public class ScheduleService {
 
     @Scheduled(cron = "@monthly")
     public void updatePeopleWeight() {
-        peopleMapper.updateWeight(new Random().nextInt(10));
+        peopleMapper.updateWeight(new Random().nextInt(10) - 5);
     }
 
     @Scheduled(cron = "@monthly")
     public void updateArticleWeight() {
-        articleMapper.updateWeight(new Random().nextInt(10));
+        articleMapper.updateWeight(new Random().nextInt(10) - 5);
     }
 
-    //待优化
+
     @Scheduled(cron = "@daily")
     public void updateArticleScore() {
-        while (true) {
-            Article needCalculateArticle = articleMapper.findCalculatedArticle();
-            if (needCalculateArticle == null) {
-                break;
-            }
+        articleMapper.findCalculatedArticle().forEach(needCalculateArticle -> {
             articleMapper.updateScore(needCalculateArticle.getId());
             evaluateMapper.updateArticleCalculateByArticleId(needCalculateArticle.getId(), 0);
-        }
+        });
     }
 
-    @Scheduled(cron = "@weekly")
+    @Scheduled(cron = "@daily")
     public void deleteArticleAboutEvaluate() {
         evaluateMapper.deleteArticleAboutEvaluate();
     }
 
-    @Scheduled(cron = "@weekly")
+    @Scheduled(cron = "@daily")
     public void updateScoreItem() {
+        evaluateMapper.updateScoreItem();
     }
 
     @Scheduled(cron = "@daily")

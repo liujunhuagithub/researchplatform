@@ -44,9 +44,7 @@ class ResearchplatformApplicationTests {
     @Test
     @Rollback(value = false)
     void contextLoads() throws JsonProcessingException {
-        System.out.println("----------");
-        Integer[] integers = om.readValue("[12]", Integer[].class);
-        System.out.println(passwordEncoder.encode("root"));
+        scheduleService.deleteExpireArticleFile();
     }
 
 }

@@ -107,6 +107,8 @@ and peopleId=#{peopleId}
 
     @Update('update evaluate set gmt_delete=CURRENT_TIMESTAMP where flag=-1 and gmt_delete is null')
     boolean deleteIlleageEvaluate();
+    @Update('update  evaluate set score_item=((rand()-0.5)*star)')
+    boolean updateScoreItem()
 }
 
 

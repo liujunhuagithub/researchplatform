@@ -129,16 +129,16 @@ join `article_area` on article.id = article_area.article_id
     @Select('select * from `article` order by `score` limit 100')
     List<Article> rankArticle();
 
-    @Select('select * from `article`  where calculate=1 order by rand() limit 1')
-    Article findCalculatedArticle();
+    @Select('select * from `article`  where calculate=1 ')
+    List<Article> findCalculatedArticle();
 
     @Update('update `article` set score=(select sum(score_item) from evaluate where article_id=#{param1} and gmt_delete is null)')
     boolean updateScore(Integer articleId);
 
-    @Update('update `article` set weight+=#{param1}')
+    @Update('update `article` set weight=weight+#{param1}')
     boolean updateWeight(Integer incr);
 
-    @Select('select `path` from `article` where gmt_delete <=#{param1}')
+    @Select('select `path` from `article` where gmt_delete &lt;=#{param1}')
     List<String> findPathByDeleted(LocalDateTime time);
 
     @Select(' select * from `article`  where id in (select article_id from article_area where area_id=#{areaId}) order by rand() limit  #{size} ' )

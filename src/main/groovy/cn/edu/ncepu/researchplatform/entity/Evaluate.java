@@ -14,7 +14,7 @@ public class Evaluate implements Serializable {
     private Integer peopleId;
     private Integer articleId;
     private String content;
-    private Double weight;
+    private Integer weight;
     private Double scoreItem;
     private Integer star;
     private Integer oppose;
@@ -68,11 +68,11 @@ public class Evaluate implements Serializable {
         this.content = content;
     }
 
-    public Double getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 

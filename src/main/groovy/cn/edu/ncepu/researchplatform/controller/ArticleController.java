@@ -1,6 +1,5 @@
 package cn.edu.ncepu.researchplatform.controller;
 
-import cn.edu.ncepu.researchplatform.common.R;
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
 import cn.edu.ncepu.researchplatform.entity.Area;

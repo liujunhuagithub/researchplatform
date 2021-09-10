@@ -267,7 +267,7 @@ update `people`
     @Update('update `people` set phone=#{param1}  where username=#{param2}')
     boolean updatePhone(String phone, String username);
 
-    @Update('update `people` set weight+=#{param1}')
+    @Update('update `people` set weight=weight+#{param1}')
     boolean updateWeight(Integer incr);
 
     @Select('select * from `people` order by `exp` limit 100')

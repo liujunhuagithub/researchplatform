@@ -30,7 +30,7 @@ public class People {
     private List<Area> areas;
     private String areaString;
 
-    private Double weight;
+    private Integer weight;
 
     private String nickname;
 
@@ -103,11 +103,11 @@ public class People {
         this.areas = areas;
     }
 
-    public Double getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 

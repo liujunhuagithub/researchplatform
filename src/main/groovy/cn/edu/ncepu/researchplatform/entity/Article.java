@@ -16,7 +16,7 @@ public class Article {
     private String abstracts;
     private String ref;
     private String path;
-    private Double weight;
+    private Integer weight;
     private Double score;
     private List<Area> areas;
     /**
@@ -66,11 +66,11 @@ public class Article {
         this.path = path;
     }
 
-    public Double getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
