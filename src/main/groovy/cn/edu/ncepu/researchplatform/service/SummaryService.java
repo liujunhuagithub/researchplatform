@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -29,6 +30,7 @@ public class SummaryService {
     private ObjectMapper om;
     @Autowired
     private EvaluateMapper evaluateMapper;
+
     public Summary findById(Integer summaryId) {
         return summaryMapper.findById(summaryId);
     }
@@ -38,16 +40,21 @@ public class SummaryService {
         Integer total = summaryMapper.findCountByCondition(dto);
         List<SummaryDetailVo> voList = summaries.stream()
                 .map(summary -> {
-                    TreeMap<Integer, Object> tempMap = null;
+                    TreeMap tempMap = null;
                     try {
                         tempMap = om.readValue(summary.getContent(), TreeMap.class);
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                    for (Map.Entry<Integer, Object> entry : tempMap.entrySet()) {
-                        tempMap.put(entry.getKey(), evaluateMapper.findById((Integer) (entry.getValue())));
-                    }
-                    return new SummaryDetailVo(summary, peopleMapper.findById(summary.getPeopleId()), tempMap);
+
+                    Map<Integer, Object> rMap = new HashMap();
+//                    tempMap.forEach((k, v) ->{
+//                        System.out.println(k+"  "+v+"-----------");
+//                    });
+                    tempMap.forEach((k, v) -> rMap.put(Integer.parseInt(k.toString()), evaluateMapper.findById(Integer.parseInt(v.toString())))
+                    );
+
+                    return new SummaryDetailVo(summary, peopleMapper.findById(summary.getPeopleId()), rMap);
                 })
                 .collect(Collectors.toList());
         return new SummaryPageVo(total, dto.getCurrent(), dto.getSize(), voList);
