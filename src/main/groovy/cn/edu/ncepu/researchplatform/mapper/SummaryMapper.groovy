@@ -43,6 +43,7 @@ summary.people_id = people.id
             <if test="username !=null and username !=''">
                 and username like #{username}
             </if>
+            
 </where>
 limit ${(current-1)*size},#{size}
 </script>''')

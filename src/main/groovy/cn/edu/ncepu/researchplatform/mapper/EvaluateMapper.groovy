@@ -51,6 +51,7 @@ and articleId=#{articleId}
 <if test="peopleId!=null">
 and peopleId=#{peopleId}
 </if>
+and gmt_delete is null
 </where>
 limit ${(current-1)*size},#{size}
 </script>''')
@@ -67,6 +68,7 @@ and articleId=#{articleId}
 <if test="peopleId!=null">
 and peopleId=#{peopleId}
 </if>
+and gmt_delete is null
 </where>
 </script>''')
     Integer findByPageCount(EvaluateDto dto)
