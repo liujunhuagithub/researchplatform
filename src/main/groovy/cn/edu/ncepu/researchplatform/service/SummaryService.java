@@ -38,15 +38,16 @@ public class SummaryService {
         Integer total = summaryMapper.findCountByCondition(dto);
         List<SummaryDetailVo> voList = summaries.stream()
                 .map(summary -> {
-                    TreeMap<Integer, Integer>  tempMap=null;
+                    TreeMap<Integer, Object> tempMap = null;
                     try {
                         tempMap = om.readValue(summary.getContent(), TreeMap.class);
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                    TreeMap<Integer, Object> r = new TreeMap<Integer, Object>();
-                    tempMap.forEach((k, v) -> r.put(k, evaluateMapper.findById( v)) );
-                    return new SummaryDetailVo(summary, peopleMapper.findById(summary.getPeopleId()), r);
+                    for (Map.Entry<Integer, Object> entry : tempMap.entrySet()) {
+                        tempMap.put(entry.getKey(), evaluateMapper.findById((Integer) (entry.getValue())));
+                    }
+                    return new SummaryDetailVo(summary, peopleMapper.findById(summary.getPeopleId()), tempMap);
                 })
                 .collect(Collectors.toList());
         return new SummaryPageVo(total, dto.getCurrent(), dto.getSize(), voList);
