@@ -244,7 +244,7 @@ FROM
 update `people` 
 <set>  
         <if test="nickname!= null and nickname != '' ">  
-               nickname  like contact('%',#{nickname},'%'),
+               nickname  =#{nickname},
         </if>  
         <if test="organization!= null and organization!= '' ">  
            organization=#{organization},  
@@ -261,7 +261,7 @@ update `people`
 ''')
     boolean updateInfo(People people);
 
-    @Update('update `people` set realname=#{param1},id_card=#{param2}  where username=#{param3} and auth!=-1 ')
+    @Update('update `people` set realname=#{param1},id_card=#{param2}  where username=#{param3} and auth!=-1 and id_card is null ')
     boolean updateReal(String realname, String idCard, String username);
 
     @Update('update `people` set phone=#{param1}  where username=#{param2}')

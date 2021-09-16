@@ -22,7 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier("customUserDetailsService")
@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.httpFirewall(null);
-//        web.ignoring().antMatchers("/**/*.css", "/**/*.jpg", "/**/*.js", "/**/*.png");
+        web.ignoring().antMatchers("/**/*.css", "/**/*.jpg", "/**/*.js", "/**/*.png","/druid/**");
         web.ignoring().antMatchers("/v2/api-docs",//swagger api json
                 "/swagger-resources/configuration/ui",//用来获取支持的动作
                 "/swagger-resources",//用来获取api-docs的URI
@@ -78,7 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             if (exception instanceof DisabledException) {
                 response.getWriter().write(om.writeValueAsString(R.fail(401, "该账号违禁，已被拉黑")));
             }else {
-                response.getWriter().write(om.writeValueAsString(R.fail(401, "登陆失败!")));
+                response.getWriter().write(om.writeValueAsString(R.fail(300, "输入错误!")));
             }
         }).permitAll();
 
@@ -86,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterAfter(jwtFilter, LogoutFilter.class);
 
         http.authorizeRequests()
-                .antMatchers("/login","/phoneCode","/identityCaptchaCode","/register","/password").permitAll()
+                .antMatchers("/","/index","/login","/phoneCode","/identityCaptchaCode","/register","/password").permitAll()
                 .antMatchers("/admin/**").hasAuthority("admin")
                 .antMatchers(HttpMethod.DELETE).authenticated()
                 .antMatchers(HttpMethod.PUT).authenticated()

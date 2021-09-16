@@ -1,4 +1,4 @@
-package cn.edu.ncepu.researchplatform.controller;
+package cn.edu.ncepu.researchplatform.restcontroller;
 
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -90,10 +89,15 @@ public class ArticleController {
         ServletUtil.write(response, Paths.get(pathPre, "ResearchPlatformFiles", "article", article.getPath()).toFile());
     }
 
+
     @PostMapping("/article")
     @Transactional(rollbackFor = Exception.class)
-    @PreAuthorize("#articleService.isPeopleContainArea(#article.areas)")
     public Integer 新增article(Article article, String areaTemp, MultipartFile articleFile) throws IOException {
+        List<Area> areas = Arrays.stream(om.readValue(areaTemp, Integer[].class)).map(i -> areaService.findAllArea().get(i)).collect(Collectors.toList());
+
+        if (!articleService.isPeopleContainArea(areas)){
+            throw CustomException.AUTH_ERROR_Exception;
+        }
         String uuid = UUID.randomUUID().toString();
         File saveFile = Paths.get(pathPre, "ResearchPlatformFiles", "article", uuid + ".temp").toFile();
         if (!saveFile.getParentFile().exists()) {
@@ -103,7 +107,6 @@ public class ArticleController {
         if (OtherService.isIllegalFile(saveFile)) {
             throw CustomException.SENSITIVE_ERROR_Exception;
         }
-        List<Area> areas = Arrays.stream(om.readValue(areaTemp, Integer[].class)).map(i -> areaService.findAllArea().get(i)).collect(Collectors.toList());
         article.setAreas(areas);
         article.setAuthorId(peopleService.findByUsername(Utils.getCurrent()).getId());
         String path = uuid + "." + articleFile.getOriginalFilename().split("\\.")[1];

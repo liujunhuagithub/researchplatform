@@ -1,4 +1,4 @@
-package cn.edu.ncepu.researchplatform.controller;
+package cn.edu.ncepu.researchplatform.restcontroller;
 
 import cn.edu.ncepu.researchplatform.service.WebSocketService;
 import org.springframework.beans.factory.annotation.Autowired;

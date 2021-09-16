@@ -16,7 +16,7 @@ interface AreaMapper {
     @Select('select * from `area` where id in (select area_id from `people_area` where people_id=#{param1})')
     List<Area> findPeopleAreas(Integer peopleId);
 
-    @Select('select * from `area` where disabled=0')
+    @Select('select * from `area` ')
     List<Area> findAllArea();
 
     @Insert('insert into `area`(`name`,`parent_id`) values(#{name},#{parentId})')

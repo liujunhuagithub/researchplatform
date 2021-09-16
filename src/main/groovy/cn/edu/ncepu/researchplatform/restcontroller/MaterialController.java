@@ -1,7 +1,6 @@
-package cn.edu.ncepu.researchplatform.controller;
+package cn.edu.ncepu.researchplatform.restcontroller;
 
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
-import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
 import cn.edu.ncepu.researchplatform.entity.Area;
 import cn.edu.ncepu.researchplatform.entity.Material;
 import cn.edu.ncepu.researchplatform.entity.vo.MaterialVo;
@@ -15,7 +14,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

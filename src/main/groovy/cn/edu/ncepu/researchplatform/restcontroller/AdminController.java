@@ -1,9 +1,7 @@
-package cn.edu.ncepu.researchplatform.controller;
+package cn.edu.ncepu.researchplatform.restcontroller;
 
 import cn.edu.ncepu.researchplatform.common.exception.CustomExceptionType;
 import cn.edu.ncepu.researchplatform.entity.Area;
-import cn.edu.ncepu.researchplatform.entity.Evaluate;
-import cn.edu.ncepu.researchplatform.entity.Material;
 import cn.edu.ncepu.researchplatform.entity.Summary;
 import cn.edu.ncepu.researchplatform.entity.dto.EvaluateDto;
 import cn.edu.ncepu.researchplatform.entity.dto.MaterialDto;
@@ -20,7 +18,6 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin")

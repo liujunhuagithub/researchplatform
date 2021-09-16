@@ -1,5 +1,6 @@
-package cn.edu.ncepu.researchplatform.controller;
+package cn.edu.ncepu.researchplatform.restcontroller;
 
+import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.service.EvaluateService;
 import cn.edu.ncepu.researchplatform.service.StarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,11 @@ public class StarController {
     private EvaluateService evaluateService;
 
     @PostMapping("/star/{evaluateId}")
-    @PreAuthorize("#starService.isContainArea(#evaluateId)")
+//    @PreAuthorize("#starService.isContainArea(#evaluateId)")
     public boolean 点赞反对取消tar(@PathVariable Integer evaluateId, @RequestBody Map<String, Integer> params) {
+        if (!starService.isContainArea(evaluateId)) {
+            throw CustomException.AREA_ERROR_Exception;
+        }
         boolean r = starService.saveStar(evaluateId, params.get("flag"));
         starService.notifyAuthorStar(evaluateId);
         return r;

@@ -30,7 +30,7 @@ public class AreaService {
         return allArea.stream().collect(Collectors.toMap(Area::getId, area -> area));
     }
 
-    @CacheEvict(cacheManager = "rankCacheManager", value = "area", allEntries = true)
+    @CacheEvict(cacheManager = "rankCacheManager", value = "area", key = "'areas'")
     public boolean updateDisabled(Integer disabled, Integer id) {
         return areaMapper.updateDisabled(disabled, id);
     }

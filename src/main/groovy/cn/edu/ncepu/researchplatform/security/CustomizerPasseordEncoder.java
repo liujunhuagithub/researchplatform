@@ -1,14 +1,12 @@
 package cn.edu.ncepu.researchplatform.security;
 
-import cn.edu.ncepu.researchplatform.controller.OtherController;
+import cn.edu.ncepu.researchplatform.restcontroller.OtherController;
 import cn.edu.ncepu.researchplatform.service.OtherService;
 import cn.edu.ncepu.researchplatform.utils.Utils;
 import cn.hutool.core.util.PhoneUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.Cache;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -41,10 +42,11 @@ public class StarService {
         Integer peopleId = peopleService.findByUsername(Utils.getCurrent()).getId();
         Star star = starMapper.findOne(evaluateId, peopleId);
         if (star == null) {
-            return starMapper.saveStar(evaluateId, peopleId, flag);
+            starMapper.saveStar(evaluateId, peopleId, flag);
         }
         starMapper.updateStar(evaluateId, peopleId, flag);
-        return starMapper.updateEvaluateStar(evaluateId);
+        if (flag == 0) flag = -1;
+        return starMapper.updateEvaluateStar(evaluateId, flag);
     }
 
     @Transactional(rollbackFor = Exception.class, readOnly = true)

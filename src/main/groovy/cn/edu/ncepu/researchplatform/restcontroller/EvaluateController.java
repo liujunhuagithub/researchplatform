@@ -1,4 +1,4 @@
-package cn.edu.ncepu.researchplatform.controller;
+package cn.edu.ncepu.researchplatform.restcontroller;
 
 import cn.edu.ncepu.researchplatform.common.exception.CustomException;
 import cn.edu.ncepu.researchplatform.entity.Evaluate;
@@ -13,12 +13,10 @@ import cn.edu.ncepu.researchplatform.utils.Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -67,10 +65,12 @@ public class EvaluateController {
     }
 
     @PostMapping("/discuss")
-    @PreAuthorize("#evaluateService.isArticleContainArea(#evaluate.articleId)")
     public Integer 添加讨论(@RequestBody Evaluate evaluate) {
         if (OtherService.isIllegalEvaluate(evaluate.getContent())) {
             throw CustomException.SENSITIVE_ERROR_Exception;
+        }
+        if (evaluateService.isArticleContainArea(evaluate.getArticleId())) {
+            throw CustomException.AREA_ERROR_Exception;
         }
         evaluate.setPeopleId(peopleService.findByUsername(Utils.getCurrent()).getId());
         return evaluateService.insertDiscuss(evaluate);

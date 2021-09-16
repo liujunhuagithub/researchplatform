@@ -21,8 +21,8 @@ interface StarMapper {
 @Delete('delete from `star` where flag=0')
     boolean deleteInvalidStar();
 
-    @Update('update `evaluate` set star=(select sum(`flag`) from star where evaluate_id=#{param1}) where id=#{param1}')
-    boolean updateEvaluateStar(Integer evaluateId);
+    @Update('update `evaluate` set star=star+#{param2}  where id=#{param1}')
+    boolean updateEvaluateStar(Integer evaluateId,Integer flag);
 }
 
 
