@@ -48,7 +48,6 @@ public class JWTFilter extends OncePerRequestFilter {
                 logger.info("当前访问用户名： {} ", details.getUsername());
                 SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(details.getUsername(), null, details.getAuthorities()));
             }
-//            if (httpServletRequest.getRequestURI().startsWith("/cat")){httpServletResponse.addHeader("Content-Type", MediaType.APPLICATION_PDF_VALUE);}
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         } catch (JwtException expire) {
             httpServletResponse.setContentType("application/json;charset=utf-8");
