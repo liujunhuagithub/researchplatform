@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.httpFirewall(null);
-        web.ignoring().antMatchers("/**/*.css", "/**/*.jpg", "/**/*.js", "/**/*.png","/druid/**");
+        web.ignoring().antMatchers("/**/*.css", "/**/*.jpg", "/**/*.js", "/**/*.png","/druid/**","/cat/**");
         web.ignoring().antMatchers("/v2/api-docs",//swagger api json
                 "/swagger-resources/configuration/ui",//用来获取支持的动作
                 "/swagger-resources",//用来获取api-docs的URI
@@ -93,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST).authenticated()
                 .anyRequest().permitAll();
 
-        http.cors();
+        http.cors().disable();
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

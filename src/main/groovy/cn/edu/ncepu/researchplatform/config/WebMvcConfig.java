@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.time.LocalDate;
@@ -31,6 +32,15 @@ import java.util.Collections;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Value("${spring.jackson.date-format}")
     private String pattern;
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        String property = System.getProperty("user.home");
+        registry.addResourceHandler("/cat/article/**")
+                .addResourceLocations("file:"+System.getProperty("user.home")+"\\ResearchPlatformFiles\\article\\");
+        registry.addResourceHandler("/cat/material/**")
+                .addResourceLocations("file:"+System.getProperty("user.home")+"\\ResearchPlatformFiles\\material\\");
+    }
 
     @Bean
     public CorsFilter corsFilter() {

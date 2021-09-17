@@ -20,6 +20,7 @@
     if (PDFObject.supportsPDFs) {
        PDFObject.embed("[[${contentUrl}]]", "#pdf_viewer");
     } else {
+        alert('浏览器不支持在线预览')
         location.href = "/canvas";
     }
 </script>
