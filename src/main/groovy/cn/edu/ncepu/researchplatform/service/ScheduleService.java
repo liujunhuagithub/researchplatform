@@ -47,6 +47,9 @@ public class ScheduleService {
     @Scheduled(cron = "@monthly")
     public void updatePeopleWeight() {
         peopleMapper.updateWeight(new Random().nextInt(10) - 5);
+    } @Scheduled(cron = "@daily")
+    public void updatePeopleExp() {
+        peopleMapper.updateExp();
     }
 
     @Scheduled(cron = "@monthly")

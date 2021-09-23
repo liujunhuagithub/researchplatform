@@ -270,6 +270,9 @@ update `people`
     @Update('update `people` set weight=weight+#{param1}')
     boolean updateWeight(Integer incr);
 
-    @Select('select * from `people` order by `exp` limit 100')
+    @Update('update `people` set exp=exp+rand()*300')
+    boolean updateExp();
+
+    @Select('select * from `people` where auth!=2 and auth!=3 order by `exp` limit 100')
     List<People> rankPeople();
 }
