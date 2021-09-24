@@ -126,7 +126,7 @@ join `article_area` on article.id = article_area.article_id
 ''')
     Integer findCountByCondition(ArticleDto dto);
 
-    @Select('select * from `article` where flag=1 order by `score` limit 100')
+    @Select('select * from `article` where flag=1 order by `score` desc limit 100')
     List<Article> rankArticle();
 
     @Select('select * from `article`  where flag!=-2 and calculate=1 ')
@@ -141,7 +141,7 @@ join `article_area` on article.id = article_area.article_id
     @Select('select `path` from `article` where gmt_delete <=#{param1}')
     List<String> findPathByDeleted(LocalDateTime time);
 
-    @Select(' select * from `article`  where id in (select article_id from article_area where area_id=#{areaId})  limit  #{size} ' )
+    @Select(' select * from `article`  where id in (select article_id from article_area where area_id=#{areaId}) order by rand() limit  #{size} ' )
     List<Article> findByPersonalise(ArticleDto dto)
 }
 

@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@CacheConfig(cacheNames = "rank", cacheManager = "rankCacheManager")
 public class RankService {
     private static final Logger logger = LoggerFactory.getLogger(RankService.class);
     @Autowired
@@ -33,24 +32,20 @@ public class RankService {
     @Autowired
     private EvaluateMapper evaluateMapper;
 
-    @Cacheable(key = "'peoples'")
     public List<People> peoples() {
         logger.info("生成peoples  rank");
         return peopleMapper.rankPeople();
     }
 
-    @Cacheable(key = "'evaluate'")
     public List<Evaluate> evaluate() {
         return evaluateMapper.rankEvaluate();
     }
 
-    @Cacheable(key = "'article'")
     public List<Article> article() {
         return articleMapper.rankArticle();
 
     }
 
-    @Cacheable(key = "'author'")
     public List<People> author() {
         return peopleMapper.rankPeople();
     }

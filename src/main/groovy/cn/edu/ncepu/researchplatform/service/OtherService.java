@@ -13,7 +13,8 @@ public class OtherService {
     @Autowired
     @Qualifier("code")
     private Cache codeCache;
-public static String sp="`";
+    public static String sp = "`";
+
     public String phoneCode(String phone) {
         //暂定phone前6位
         return phone.substring(0, 6);
@@ -33,8 +34,8 @@ public static String sp="`";
     }
 
     public static boolean isIllegalFile(File file) {
-        //审核Evaluate，暂时95%通过率
-        return Math.random() < 0.05;
+//        return Math.random() < 0.05;
+        return false;
     }
 
 }

@@ -44,7 +44,7 @@ public class ScheduleService {
         evaluateMapper.deleteIlleageEvaluate();
     }
 
-    @Scheduled(cron = "@monthly")
+    @Scheduled(cron = "@daily")
     public void updatePeopleWeight() {
         peopleMapper.updateWeight(new Random().nextInt(10) - 5);
     } @Scheduled(cron = "@daily")
@@ -52,7 +52,7 @@ public class ScheduleService {
         peopleMapper.updateExp();
     }
 
-    @Scheduled(cron = "@monthly")
+    @Scheduled(cron = "@daily")
     public void updateArticleWeight() {
         articleMapper.updateWeight(new Random().nextInt(10) - 5);
     }

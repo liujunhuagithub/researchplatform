@@ -92,7 +92,7 @@ and gmt_delete is null
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     Integer insertDiscuss(Evaluate evaluate);
 
-    @Select('select * from `evaluate` where flag in (0,1) order by `score_item` limit 100')
+    @Select('select * from `evaluate` where flag in (0,1) order by `score_item` desc limit 100')
     List<Evaluate> rankEvaluate();
 
     @Update('update evaluate set weight+=(random()-0.3)')

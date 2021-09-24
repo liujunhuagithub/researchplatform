@@ -273,6 +273,6 @@ update `people`
     @Update('update `people` set exp=exp+rand()*300')
     boolean updateExp();
 
-    @Select('select * from `people` where auth!=2 and auth!=3 order by `exp` limit 100')
+    @Select('select * from `people` where auth!=2 and auth!=3 order by `exp` desc limit 100')
     List<People> rankPeople();
 }

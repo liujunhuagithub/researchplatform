@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
-public class CatControler {
+public class CatController {
     @Autowired
     private MaterialService materialService;
     @Autowired
