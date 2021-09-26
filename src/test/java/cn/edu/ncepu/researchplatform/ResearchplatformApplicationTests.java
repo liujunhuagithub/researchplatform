@@ -44,7 +44,17 @@ class ResearchplatformApplicationTests {
     @Test
     @Rollback(value = false)
     void contextLoads() throws JsonProcessingException {
+
+        scheduleService.deleteInvalidStar();
+        scheduleService.deleteIlleageEvaluate();
+        scheduleService.updatePeopleWeight();
+        scheduleService.updatePeopleExp();
+        scheduleService.updateArticleWeight();
+        scheduleService.updateArticleScore();
+        scheduleService.deleteArticleAboutEvaluate();
+        scheduleService.updateScoreItem();
         scheduleService.deleteExpireArticleFile();
+        scheduleService.deleteExpireMaterialFile();
     }
 
 }

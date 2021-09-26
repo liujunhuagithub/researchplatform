@@ -38,9 +38,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/cat/article/**")
-                .addResourceLocations("file:" + System.getProperty("user.home") + "\\ResearchPlatformFiles\\article\\");
+                .addResourceLocations("file:" + System.getProperty("user.home") + "/ResearchPlatformFiles/article/");
         registry.addResourceHandler("/cat/material/**")
-                .addResourceLocations("file:" + System.getProperty("user.home") + "\\ResearchPlatformFiles\\material\\");
+                .addResourceLocations("file:" + System.getProperty("user.home") + "/ResearchPlatformFiles/material");
     }
 
     @Override
